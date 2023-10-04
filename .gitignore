@@ -1,0 +1,42 @@
+# IntelliJ project files 
+*.iml
+*.iws
+*.ipr
+.idea/
+
+# VS Code workspace
+.vscode
+
+# OS
+.DS_Store
+
+# Binaries
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+*.war
+*.ear
+*.sar
+*.class
+
+# The gitignore below was pulled from the template: https://github.com/github/gitignore/blob/main/CMake.gitignore
+
+CMakeLists.txt.user
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Testing
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps
+
+# Custom to project files/folders
+build
