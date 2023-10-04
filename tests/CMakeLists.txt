@@ -10,6 +10,7 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
+add_subdirectory(parser)
 # TODO add test
 
 # add_executable(
