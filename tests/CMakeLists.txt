@@ -19,14 +19,14 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
-add_executable(
-  parser_test
-  parser_test.cpp
-)
-target_link_libraries(
-  parser_test
-  GTest::gtest_main
-)
+# Define test targets below, and link them against the google test library
+add_executable(hello_world hello_world.cpp)
+add_executable(parser_test parser_test.cpp)
 
-include(GoogleTest)
-gtest_discover_tests(parser_test)
+set(TEST_TARGETS hello_world parser_test)
+
+foreach(TEST_TARGET IN LISTS TEST_TARGETS)
+  target_link_libraries(${TEST_TARGET} PRIVATE GTest::gtest_main)
+  add_test(NAME ${TEST_TARGET} COMMAND ${TEST_TARGET})
+endforeach(TEST_TARGET IN LISTS TEST_TARGETS)
+
