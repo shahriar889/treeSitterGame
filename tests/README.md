@@ -8,4 +8,6 @@ Social-gaming by team Brawndo uses the googletest framework to run tests. Partic
    `cmake -S . -B build`
 
 2. Then, from the root directory, run
-   `cd <build-directory>/tests && ctest`
+   `cd <build-directory>/tests && make`
+
+3. Finally, run `ctest`
