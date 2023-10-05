@@ -22,6 +22,8 @@ enable_testing()
 # Define test targets below, and link them against the google test library
 add_executable(hello_world hello_world.cpp)
 add_executable(parser_test parser_test.cpp)
+add_subdirectory(parser)
+# TODO add test
 
 set(TEST_TARGETS hello_world parser_test)
 
