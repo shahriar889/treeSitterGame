@@ -1,12 +1,16 @@
 # Social Gaming - Brawndo
 
-This repository contains CMPT 373 Team Brawndo's term project for **Social-Gaming**
+This repository contains Team Brawndo's source code for CMPT 373's term project named **Social Gaming Platform**.
 
 ## Installation Steps
 
-Minimum requirements
+This project requires:
 
-- Minumum CMake 3+
-- Minimum C++17
+- C++17 or newer
+- CMake >= 3.14
+
+This project also has the dependencies included in the source code:
+
+- GoogleTest v1.14.0
 
 ## Steps to run
