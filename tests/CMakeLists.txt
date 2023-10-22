@@ -4,6 +4,9 @@ project(socialgaming-tests)
 # GoogleTest requires at least C++14
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Add test library directories
+add_subdirectory(lib)
+
 # Add test subdirectories
 add_subdirectory(parser)
 
