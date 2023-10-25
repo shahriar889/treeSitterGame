@@ -1,8 +1,10 @@
+# Define the source files for your project
 
-add_executable(server
-  server.cpp
-)
 
+
+add_executable(server server.cpp Room.cpp)
+
+target_include_directories(server PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 set_target_properties(server
                       PROPERTIES
                       LINKER_LANGUAGE CXX
