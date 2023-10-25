@@ -21,3 +21,9 @@ target_link_libraries(hello_world gtest gmock gtest_main)
 # see https://cmake.org/cmake/help/v3.10/module/GoogleTest.html for more options to pass to it
 set_target_properties(hello_world PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 gtest_discover_tests(hello_world WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+
+add_executable(parser_test)
+target_sources(parser_test PRIVATE parser_test.cpp)
+target_link_libraries(parser_test gtest gmock gtest_main parser rule)
+set_target_properties(parser_test PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+gtest_discover_tests(parser_test WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})

@@ -5,14 +5,32 @@ Parser::Parser(const std::string_view& path) {
 
     ts::Language language = tree_sitter_socialgaming();
     ts::Parser parser{language};
-    syntaxTree = parser.parseString(sourceCode);
+    this->syntaxTree = std::make_unique<ts::Tree>(parser.parseString(sourceCode));
 }
 
 Rule Parser::createRuleAbstraction() {
-    ts::Node root = this->syntaxTree.getRootNode();
+    ts::Node root = syntaxTree->getRootNode();
     ts::Cursor cursor = root.getCursor();
-
+    
     //Use depth first search
+    dfs(cursor.getCurrentNode());
+
+    return Rule{};
+}
+
+void Parser::dfs(ts::Node node) {
+    ts::Cursor cursor = node.getCursor();
+
+    do {
+        auto node = cursor.getCurrentNode();
+        //TODO: Perform some processing
+        std::cout << node.getType() << "\n";        
+        if (cursor.gotoFirstChild()) {
+            dfs(cursor.getCurrentNode());
+            auto temp = cursor.gotoParent();
+        }
+
+    } while (cursor.gotoNextSibling());
 }
 
 //Helpers
