@@ -22,5 +22,4 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/extern) # All external libraries/de
 
 
 # The executable code is here
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/web-socket-networking/lib)
 add_subdirectory(apps)

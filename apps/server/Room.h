@@ -74,7 +74,7 @@ namespace ChatRoom
         if(message.text=="exit room"){
 
             removeConnection(message.connection);
-            Message exitMessage{message.connection, "left room " + std::to_string(roomId)};
+            Message exitMessage{message.connection, "left room " + std::to_string(roomId) + "\n"};
             server.sendPrivateMsg(exitMessage);
             return;
         }

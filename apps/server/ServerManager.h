@@ -173,7 +173,7 @@ ServerManager::MessageResult ServerManager::processMessages(const std::deque<Mes
         else if (message.text.find("join") == 0)
         {
             size_t id = 1;
-            Message joinMessage{message.connection, "joined room " + std::to_string(id)};
+            Message joinMessage{message.connection, "joined room " + std::to_string(id) + "\n"};
             server.sendPrivateMsg(joinMessage);
             rooms[id - 1].addConnection(message.connection);
             ConnectionRoomMap[message.connection] = id;
