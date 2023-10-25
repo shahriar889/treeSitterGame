@@ -7,4 +7,5 @@ const std::string LOOPING_GAME = "games/looping.game";
 TEST(ParserTest, createRules)
 {
     Parser parser{LOOPING_GAME};
+    parser.createRuleAbstraction();
 }

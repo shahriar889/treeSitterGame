@@ -27,7 +27,7 @@ void Parser::dfs(ts::Node node) {
         std::cout << node.getType() << "\n";        
         if (cursor.gotoFirstChild()) {
             dfs(cursor.getCurrentNode());
-            auto temp = cursor.gotoParent();
+            cursor.gotoParent();
         }
 
     } while (cursor.gotoNextSibling());
