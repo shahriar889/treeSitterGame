@@ -1,8 +1,6 @@
 #include "parser.h"
 
-Parser::Parser(const std::string_view& path) {
-    std::string sourceCode = getSourceCode(path);
-
+Parser::Parser(const std::string_view& path) : sourceCode(getSourceCode(path)) {
     ts::Language language = tree_sitter_socialgaming();
     ts::Parser parser{language};
     this->syntaxTree = std::make_unique<ts::Tree>(parser.parseString(sourceCode));
@@ -11,7 +9,6 @@ Parser::Parser(const std::string_view& path) {
 Rule Parser::createRuleAbstraction() {
     ts::Node root = syntaxTree->getRootNode();
     ts::Node rulesNode = root.getChildByFieldName("rules");
-    //Use depth first search
     dfs(rulesNode);
 
     return Rule{};
