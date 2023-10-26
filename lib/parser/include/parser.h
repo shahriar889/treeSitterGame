@@ -16,7 +16,6 @@ class Parser {
     public:
         explicit Parser(const std::string_view&);
         Rule createRuleAbstraction();
-
     private:
         std::unique_ptr<ts::Tree> syntaxTree;
 

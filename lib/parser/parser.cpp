@@ -10,27 +10,21 @@ Parser::Parser(const std::string_view& path) {
 
 Rule Parser::createRuleAbstraction() {
     ts::Node root = syntaxTree->getRootNode();
-    ts::Cursor cursor = root.getCursor();
-    
+    ts::Node rulesNode = root.getChildByFieldName("rules");
     //Use depth first search
-    dfs(cursor.getCurrentNode());
+    dfs(rulesNode);
 
     return Rule{};
 }
 
 void Parser::dfs(ts::Node node) {
-    ts::Cursor cursor = node.getCursor();
+    auto numChildren = node.getNumNamedChildren();
 
-    do {
-        auto node = cursor.getCurrentNode();
-        //TODO: Perform some processing
-        std::cout << node.getType() << "\n";        
-        if (cursor.gotoFirstChild()) {
-            dfs(cursor.getCurrentNode());
-            cursor.gotoParent();
-        }
-
-    } while (cursor.gotoNextSibling());
+    std::cout << node.getType() << "\n";
+    for (int i = 0; i < numChildren; i++) {
+        std::cout << node.getNamedChild(i).getType() << "\n";
+        dfs(node.getNamedChild(i));
+    }
 }
 
 //Helpers
