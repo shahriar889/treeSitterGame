@@ -22,7 +22,6 @@ void Parser::dfs(ts::Node node) {
 
     std::cout << node.getType() << "\n";
     for (int i = 0; i < numChildren; i++) {
-        std::cout << node.getNamedChild(i).getType() << "\n";
         dfs(node.getNamedChild(i));
     }
 }
