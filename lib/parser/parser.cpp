@@ -9,6 +9,8 @@ Parser::Parser(const std::string_view& path) : sourceCode(getSourceCode(path)) {
 Rule Parser::createRuleAbstraction() {
     ts::Node root = syntaxTree->getRootNode();
     ts::Node rulesNode = root.getChildByFieldName("rules");
+
+    std::vector<Action> nodes;
     dfs(rulesNode);
 
     return Rule{};

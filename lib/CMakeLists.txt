@@ -1,4 +1,4 @@
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/parser) 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/rules)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/node)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/action)
 

@@ -1,7 +1,7 @@
 add_library(rule rule.cpp)
 
 target_link_libraries(rule 
-    node
+    action
 )
 
 target_include_directories(rule PUBLIC
