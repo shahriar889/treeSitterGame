@@ -7,7 +7,7 @@
 #include <string>
 #include <iostream>
 #include <memory>
-#include "rule.h"
+#include "rules.h"
 #include "action.h"
 
 extern "C" {
@@ -17,7 +17,7 @@ extern "C" {
 class Parser {
     public:
         explicit Parser(const std::string_view&);
-        Rule createRuleAbstraction();
+        Rules createRuleAbstraction();
 
     private:
         std::unique_ptr<ts::Tree> syntaxTree;

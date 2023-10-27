@@ -2,7 +2,8 @@
 
 #include <vector>
 #include "action.h"
-class Rule {
+
+class Rules {
     private:
-        std::vector<Action> rules;
+        std::vector<Action> actions;
 };

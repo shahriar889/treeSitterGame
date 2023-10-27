@@ -6,14 +6,14 @@ Parser::Parser(const std::string_view& path) : sourceCode(getSourceCode(path)) {
     this->syntaxTree = std::make_unique<ts::Tree>(parser.parseString(sourceCode));
 }
 
-Rule Parser::createRuleAbstraction() {
+Rules Parser::createRuleAbstraction() {
     ts::Node root = syntaxTree->getRootNode();
     ts::Node rulesNode = root.getChildByFieldName("rules");
 
-    std::vector<Action> nodes;
+    std::vector<Action> actions;
     dfs(rulesNode);
 
-    return Rule{};
+    return Rules{};
 }
 
 void Parser::dfs(ts::Node node) {
