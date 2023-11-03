@@ -231,10 +231,10 @@ ChatServer::printUsersAndRooms() {
     std::cout << "\n";
     std::cout << timeString();
     std::cout << "USERS "
-              << "(count=" << users.size() << ")"
+              << "(count=" << connectionDataMap.size() << ")"
               << ": {\n";
-    for (const auto& i : users) {
-        std::cout << "  " << i << "\n";
+    for (const auto& [conn, data] : connectionDataMap) {
+        std::cout << "  " << conn.id << "\n";
     }
     std::cout << "}\n";
 
