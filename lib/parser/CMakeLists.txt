@@ -3,8 +3,7 @@ add_library(parser parser.cpp)
 target_link_libraries(parser 
     cpp-tree-sitter
     tree-sitter-socialgaming
-    rules
-    action
+    rule
 )
 
 target_include_directories(parser PUBLIC

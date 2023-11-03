@@ -7,8 +7,7 @@
 #include <string>
 #include <iostream>
 #include <memory>
-#include "rules.h"
-#include "action.h"
+#include "rule.h"
 
 extern "C" {
     TSLanguage* tree_sitter_socialgaming();
@@ -17,7 +16,7 @@ extern "C" {
 class Parser {
     public:
         explicit Parser(const std::string_view&);
-        Rules createRuleAbstraction();
+        void createRuleAbstraction();
 
     private:
         std::unique_ptr<ts::Tree> syntaxTree;
