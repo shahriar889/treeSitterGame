@@ -1,10 +1,10 @@
 
-add_executable(serverdriver
+add_executable(s1-serverdriver
   chatserver.cpp
   serverdriver.cpp
 )
 
-set_target_properties(serverdriver
+set_target_properties(s1-serverdriver
                       PROPERTIES
                       LINKER_LANGUAGE CXX
                       CXX_STANDARD 17
@@ -13,16 +13,16 @@ set_target_properties(serverdriver
 
 find_package(Threads REQUIRED)
 
-target_link_libraries(serverdriver
+target_link_libraries(s1-serverdriver
   networking
   ${CMAKE_THREAD_LIBS_INIT}
 )
 
-target_link_libraries(serverdriver
+target_link_libraries(s1-serverdriver
   server_model
 )
 
-install(TARGETS serverdriver
+install(TARGETS s1-serverdriver
   RUNTIME DESTINATION bin
 )
 
