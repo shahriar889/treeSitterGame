@@ -25,7 +25,7 @@ void Room::addConnection(const Connection* c) {
 }
 
 void Room::removeConnection(const Connection* c) {
-  auto connFinder = [c] (Connection* other) -> bool {
+  auto connFinder = [c] (const Connection* other) -> bool {
     return c == other;
   };
   auto connIterator = std::remove_if(std::begin(connections), std::end(connections), connFinder);
