@@ -6,15 +6,20 @@
 /////////////////////////////////////////////////////////////////////////////
 
 /*
-Open a terminal in the folder that holds /web-socket-networking/.
+How to run client and server for branch s2-server:
+Open a terminal in the folder that holds /social-gaming/.
+
 Then run:
-mkdir networkbuild
-cd networkbuild
-cmake ../social-gaming/testserver/web-socket-networking/
+mkdir s2-server-build
+cd s2-server-build
+cmake ../social-gaming/
 make
-bin/serverdriver 8000 ../social-gaming/testserver/web-socket-networking/webchat.html
-bin/client-ncurses localhost 8000
-*/
+
+To run the server (in a terminal opened in s2-server-build):
+apps/s1-server/s1-serverdriver 8000 ../social-gaming/webchat.html
+
+To run the client:
+apps/s1-client-ncurses/s1-client-ncurses localhost 8000
 
 /*
 FIXME
