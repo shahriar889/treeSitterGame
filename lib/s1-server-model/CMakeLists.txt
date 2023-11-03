@@ -1,5 +1,4 @@
 add_library(server_model
-  src/User.cpp
   src/Room.cpp
   src/JoinCode.cpp
   src/UUIDGenerator.cpp
