@@ -20,27 +20,27 @@ boost::uuids::uuid Room::getUuid() const {
   return uuid;
 }
 
-void Room::addPlayer(User* user) {
-  players.push_back(user);
+void Room::addConnection(const Connection* c) {
+  connections.push_back(c);
 }
 
-void Room::removePlayer(User* user) {
-  auto userFinder = [user] (User* u) -> bool {
-    return (*u).getConnection() == (*user).getConnection();
+void Room::removeConnection(const Connection* c) {
+  auto connFinder = [c] (Connection* other) -> bool {
+    return c == other;
   };
-  auto userIterator = std::remove_if(std::begin(players), std::end(players), userFinder);
-  players.erase(userIterator, std::end(players));
+  auto connIterator = std::remove_if(std::begin(connections), std::end(connections), connFinder);
+  connections.erase(connIterator, std::end(connections));
 }
 
 void Room::printAll() const {
   std::cout << "  Room[uuid=" << uuid
-    << ", numPlayers=" << players.size()
+    << ", numPlayers=" << connections.size()
     << ", joinCode=" << joinCode
     // << ", name=" << name
     // <<", game=" << game
     << "]\n" ;
-  for (const auto &i : players) {
-    std::cout << "    " << *i << "\n";
+  for (const auto &c : connections) {
+    std::cout << "    " << (*c).id << "\n";
   }
 }
 

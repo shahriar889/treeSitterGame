@@ -2,7 +2,6 @@
 #define SERVER_MODEL_ROOM_H
 
 #include "../../networking/include/Server.h"
-#include "User.h"
 #include "JoinCode.h"
 
 #include <vector>
@@ -19,12 +18,9 @@ using networking::Message;
 
 namespace server_model {
 
-
-class User;
-
 class Room {
 private:
-  std::vector<User*> players;
+  std::vector<const Connection*> connections;
   boost::uuids::uuid uuid;
   JoinCode joinCode;
   std::string name;
@@ -42,8 +38,8 @@ public:
   std::string getGame() const;
   boost::uuids::uuid getUuid() const;
 
-  void addPlayer(User* user);
-  void removePlayer(User* user);
+  void addConnection(const Connection* c);
+  void removeConnection(const Connection* c);
 
   void printAll() const;
 
