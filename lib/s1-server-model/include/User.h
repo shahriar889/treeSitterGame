@@ -17,7 +17,7 @@ namespace server_model {
 
 class Room;
 
-class User {
+class UserX {
 private:
   Connection connection;
   Room* room;
