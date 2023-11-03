@@ -7,7 +7,7 @@ ChatServer::ChatServer(unsigned short port, std::string httpMessage,
         [&] (Connection c) {disconnectUser(c);})} 
     , joinCodeGen{joinCodeGen}
     , uuidGenerator{uuidGenerator}
-    , connectionUserMap{{}}
+    // , connectionUserMap{{}}
 {}
 
 void

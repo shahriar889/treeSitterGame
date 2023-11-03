@@ -18,6 +18,7 @@
 
 using networking::Server;
 using networking::Connection;
+using networking::ConnectionHash;
 using networking::Message;
 using server_model::Room;
 
@@ -40,7 +41,7 @@ struct UserData {
 class ChatServer {
 private:
     std::vector<Room> rooms;
-    std::unordered_map<Connection, UserData> connectionUserMap;
+    std::unordered_map<Connection, UserData, ConnectionHash> connectionUserMap;
     Server server;
     JoinCodeGenerator joinCodeGen;
     UUIDGenerator uuidGenerator;
