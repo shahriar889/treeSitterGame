@@ -77,15 +77,10 @@ ChatServer::createRoom(const Message& message) {
     }
 
     // Check if the User is already in a Room
-    auto userIterator = std::find_if(std::begin(users), std::end(users), User::FindByConnection(message.connection));
-    if (userIterator == std::end(users)) {
-        std::cout << "createRoom: Failed to find User based on connection\n";
-        return "Failed to create the room\n";
-    }
-    User& user = *userIterator;
-    Room* userRoomPointer = user.getRoom();
-    if (userRoomPointer) {
-        return "You must leave your current room before creating a new one\n";
+    ConnectionData data = connectionDataMap.at(message.connection);
+    Room* roomPtr = data.room;
+    if (roomPtr) {
+        return "You must leave your current room before joining a new one\n";
     }
 
     constexpr int codeLength = 6;
@@ -113,14 +108,9 @@ ChatServer::joinRoom(const Message& message) {
     }
 
     // Check if the User is already in a Room
-    auto userIterator = std::find_if(std::begin(users), std::end(users), User::FindByConnection(message.connection));
-    if (userIterator == std::end(users)) {
-        std::cout << "joinRoom: Failed to find User based on connection\n";
-        return "Failed to leave the room\n";
-    }
-    User& user = *userIterator;
-    Room* userRoomPointer = user.getRoom();
-    if (userRoomPointer) {
+    ConnectionData data = connectionDataMap.at(message.connection);
+    Room* roomPtr = data.room;
+    if (roomPtr) {
         return "You must leave your current room before joining a new one\n";
     }
 
@@ -133,8 +123,8 @@ ChatServer::joinRoom(const Message& message) {
     }
 
     Room& room = *roomIterator;
-    user.setRoom(&room);
-    room.addPlayer(&user);
+    data.room = &room;
+    room.addPlayer();
 
     msgForUser << "Joined room " << std::quoted(room.getName()) << " playing game "
                << std::quoted(room.getGame()) << "\n";
@@ -144,21 +134,16 @@ ChatServer::joinRoom(const Message& message) {
 // /leaveroom
 std::string
 ChatServer::leaveRoom(const Connection& c) {
-    auto userIterator = std::find_if(std::begin(users), std::end(users), User::FindByConnection(c));
-    if (userIterator == std::end(users)) {
-        std::cout << "leaveRoom: Failed to find User based on connection\n";
-        return "Failed to leave the room\n";
-    }
-
-    User& user = *userIterator;
-    Room* userRoomPointer = user.getRoom();
-    if (!userRoomPointer) {
+    // Check if the User is not in a Room
+    ConnectionData data = connectionDataMap.at(c);
+    Room* roomPtr = data.room;
+    if (!roomPtr) {
         return "Cannot leave room; you are not in a room\n";
     }
-    Room& usersRoom = *userRoomPointer;
-    std::string roomName = usersRoom.getName();
-    usersRoom.removePlayer(&user);
-    user.setRoom(nullptr);
+
+    std::string roomName = roomPtr->getName();
+    data.room = nullptr;
+    roomPtr->removePlayer();
 
     std::stringstream msgForUser;
     msgForUser << "Left room " << std::quoted(roomName) << "\n";
