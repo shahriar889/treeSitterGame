@@ -201,18 +201,15 @@ ChatServer::processMessages(const std::deque<Message>& incoming) {
 
 void
 ChatServer::sendUserServerMessage(Message message, const std::string& log) {
-    auto it = std::find_if(std::begin(users), std::end(users), User::FindByConnection(message.connection));
-    if (it != std::end(users)) {
-        User& user = *it;
-        user.addMessageFromServer(log);
-    }
+    ConnectionData data = connectionDataMap.at(message.connection);
+    data.messagesFromServer.push_back(log);
 }
 
 std::deque<Message>
 ChatServer::buildOutgoing(const std::string& log) {
     std::deque<Message> outgoing;
-    for (const auto& u : users) {
-        outgoing.push_back({u.getConnection(), log});
+    for (const auto& [conn, data] : connectionDataMap) {
+        outgoing.push_back({conn, log});
     }
     return outgoing;
 }
@@ -220,14 +217,11 @@ ChatServer::buildOutgoing(const std::string& log) {
 std::deque<Message>
 ChatServer::buildOutgoingPrivateServerMsg() {
     std::deque<Message> outgoing;
-    for (auto& u : users) {
-        auto messages = u.getMessagesFromServer();
-        if (!messages.empty()) {
-            for (const auto& i : messages) {
-                outgoing.push_back({u.getConnection(), i});
-            }
-            u.clearMessagesFromServer();
+    for (auto& [conn, data] : connectionDataMap) {
+        for (const auto& m : data.messagesFromServer) {
+            outgoing.push_back({conn, m});
         }
+        data.messagesFromServer.clear();
     }
     return outgoing;
 }
