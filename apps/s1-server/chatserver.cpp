@@ -7,7 +7,7 @@ ChatServer::ChatServer(unsigned short port, std::string httpMessage,
         [&] (Connection c) {disconnectUser(c);})} 
     , joinCodeGen{joinCodeGen}
     , uuidGenerator{uuidGenerator}
-    , connectionDataMap{{}}
+    , connectionUserMap{{}}
 {}
 
 void
@@ -22,9 +22,9 @@ ChatServer::connectUser(Connection c) {
         "If you want to create a private room, send \"/createroom --name ROOM_NAME --game ROOM_GAME\".\n"
         "If you want to join a private room, send \"/joinroom JOIN_CODE\".\n";
 
-    ConnectionData data;
-    data.messagesFromServer.push_back(newUserMsg);
-    bool success = connectionDataMap.insert({c, data}).second;
+    UserData user;
+    user.messagesFromServer.push_back(newUserMsg);
+    bool success = connectionUserMap.insert({c, user}).second;
     if (!success) {
         std::cout << "Failed to insert connection " << c.id << ". Key already exists\n";
     }
@@ -35,19 +35,19 @@ ChatServer::disconnectUser(Connection c) {
     std::cout << timeString();
     std::cout << "Trying to disconnect " << c.id << "\n";
 
-    // Get the connection's room. Delete them from their room.
-    ConnectionData data = connectionDataMap.at(c);
-    if (data.room) {
-        data.room->removePlayer();
+    // Get the user's room. Delete them from their room.
+    UserData user = connectionUserMap.at(c);
+    if (user.room) {
+        user.room->removePlayer();
         std::cout << "disconnectUser: removed connection\n";
     } else {
         std::cout << "disconnectUser: connection has no Room\n";
     }
     
     // Remove the connection
-    std::cout << "Num users before delete is " << connectionDataMap.size() << "\n";
-    connectionDataMap.erase(c);
-    std::cout << "Num users after delete is " << connectionDataMap.size() << "\n";
+    std::cout << "Num users before delete is " << connectionUserMap.size() << "\n";
+    connectionUserMap.erase(c);
+    std::cout << "Num users after delete is " << connectionUserMap.size() << "\n";
 
     std::cout << "Connection lost: " << c.id << "\n";
 }
@@ -77,8 +77,8 @@ ChatServer::createRoom(const Message& message) {
     }
 
     // Check if the User is already in a Room
-    ConnectionData data = connectionDataMap.at(message.connection);
-    Room* roomPtr = data.room;
+    UserData user = connectionUserMap.at(message.connection);
+    Room* roomPtr = user.room;
     if (roomPtr) {
         return "You must leave your current room before joining a new one\n";
     }
@@ -108,8 +108,8 @@ ChatServer::joinRoom(const Message& message) {
     }
 
     // Check if the User is already in a Room
-    ConnectionData data = connectionDataMap.at(message.connection);
-    Room* roomPtr = data.room;
+    UserData user = connectionUserMap.at(message.connection);
+    Room* roomPtr = user.room;
     if (roomPtr) {
         return "You must leave your current room before joining a new one\n";
     }
@@ -123,7 +123,7 @@ ChatServer::joinRoom(const Message& message) {
     }
 
     Room& room = *roomIterator;
-    data.room = &room;
+    user.room = &room;
     room.addPlayer();
 
     msgForUser << "Joined room " << std::quoted(room.getName()) << " playing game "
@@ -135,14 +135,14 @@ ChatServer::joinRoom(const Message& message) {
 std::string
 ChatServer::leaveRoom(const Connection& c) {
     // Check if the User is not in a Room
-    ConnectionData data = connectionDataMap.at(c);
-    Room* roomPtr = data.room;
+    UserData user = connectionUserMap.at(c);
+    Room* roomPtr = user.room;
     if (!roomPtr) {
         return "Cannot leave room; you are not in a room\n";
     }
 
     std::string roomName = roomPtr->getName();
-    data.room = nullptr;
+    user.room = nullptr;
     roomPtr->removePlayer();
 
     std::stringstream msgForUser;
@@ -201,14 +201,14 @@ ChatServer::processMessages(const std::deque<Message>& incoming) {
 
 void
 ChatServer::sendUserServerMessage(Message message, const std::string& log) {
-    ConnectionData data = connectionDataMap.at(message.connection);
-    data.messagesFromServer.push_back(log);
+    UserData user = connectionUserMap.at(message.connection);
+    user.messagesFromServer.push_back(log);
 }
 
 std::deque<Message>
 ChatServer::buildOutgoing(const std::string& log) {
     std::deque<Message> outgoing;
-    for (const auto& [conn, data] : connectionDataMap) {
+    for (const auto& [conn, data] : connectionUserMap) {
         outgoing.push_back({conn, log});
     }
     return outgoing;
@@ -217,7 +217,7 @@ ChatServer::buildOutgoing(const std::string& log) {
 std::deque<Message>
 ChatServer::buildOutgoingPrivateServerMsg() {
     std::deque<Message> outgoing;
-    for (auto& [conn, data] : connectionDataMap) {
+    for (auto& [conn, data] : connectionUserMap) {
         for (const auto& m : data.messagesFromServer) {
             outgoing.push_back({conn, m});
         }
@@ -231,9 +231,9 @@ ChatServer::printUsersAndRooms() {
     std::cout << "\n";
     std::cout << timeString();
     std::cout << "USERS "
-              << "(count=" << connectionDataMap.size() << ")"
+              << "(count=" << connectionUserMap.size() << ")"
               << ": {\n";
-    for (const auto& [conn, data] : connectionDataMap) {
+    for (const auto& [conn, data] : connectionUserMap) {
         std::cout << "  " << conn.id << "\n";
     }
     std::cout << "}\n";

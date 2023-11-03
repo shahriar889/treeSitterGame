@@ -32,7 +32,7 @@ struct MessageResult {
     bool shouldShutdown;
 };
 
-struct ConnectionData {
+struct UserData {
     Room* room{nullptr};
     std::vector<std::string> messagesFromServer;
 };
@@ -40,7 +40,7 @@ struct ConnectionData {
 class ChatServer {
 private:
     std::vector<Room> rooms;
-    std::unordered_map<Connection, ConnectionData> connectionDataMap;
+    std::unordered_map<Connection, UserData> connectionUserMap;
     Server server;
     JoinCodeGenerator joinCodeGen;
     UUIDGenerator uuidGenerator;
