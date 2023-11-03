@@ -7,21 +7,26 @@ ChatServer::ChatServer(unsigned short port, std::string httpMessage,
         [&] (Connection c) {disconnectUser(c);})} 
     , joinCodeGen{joinCodeGen}
     , uuidGenerator{uuidGenerator}
+    , connectionDataMap{{}}
+    , connectionRoomMap{{}}
 {}
 
 void
 ChatServer::connectUser(Connection c) {
     std::cout << timeString();
     std::cout << "New connection found: " << c.id << "\n";
-    User user{c, nullptr};
+
     // Things between < > don't show up on the HTML webpage. Using CAPS instead
     std::string newUserMsg =
         "Welcome new user!\n"
         "Feel free to chat with others in this public room.\n"
         "If you want to create a private room, send \"/createroom --name ROOM_NAME --game ROOM_GAME\".\n"
         "If you want to join a private room, send \"/joinroom JOIN_CODE\".\n";
-    user.addMessageFromServer(newUserMsg);
-    users.push_back(user);
+
+    ConnectionData data;
+    data.messagesFromServer.push_back(newUserMsg);
+    connectionDataMap[c] = data;
+    connectionRoomMap[c] = nullptr;
 }
 
 void
@@ -29,39 +34,21 @@ ChatServer::disconnectUser(Connection c) {
     std::cout << timeString();
     std::cout << "Trying to disconnect " << c.id << "\n";
 
-    // Find the User from the Connection
-    auto userFindIterator = std::find_if(std::begin(users), std::end(users), User::FindByConnection(c));
-    if (userFindIterator == std::end(users)) {
-        std::cout << "disconnectUser: find_if failed to find User from Connection " << c.id << "\n";
-        return;
-    }
-    std::cout << "disconnectUser: found a user\n";
-
-    // Get the User's room. Delete them from their room
-    User& user = *userFindIterator;
-    std::cout << "disconnectUser: User is " << user << "\n";
-    Room* userRoomPointer = user.getRoom();
-    std::cout << "User room is " << userRoomPointer << "\n";
-    if (userRoomPointer) {
-        Room& usersRoom = *userRoomPointer;
-        std::cout << "disconnectUser: user's room is " << usersRoom << "\n";
-        usersRoom.removePlayer(&user);
-        std::cout << "disconnectUser: passed removePlayer\n";
+    // Get the connection's room. Delete them from their room.
+    Room* connectionsRoom = connectionRoomMap.at(c);
+    if (connectionsRoom) {
+        usersRoom.removePlayer();
+        std::cout << "disconnectUser: removed connection\n";
     } else {
-        std::cout << "disconnectUser: User has no room.\n";
+        std::cout << "disconnectUser: connection has no Room\n";
     }
+    
+    // Remove the connection
+    std::cout << "Map size is, before delete, " << connectionDataMap.size() << "\n";
+    connectionDataMap.erase(c);
+    connectionRoomMap.erase(c);
+    std::cout << "User size is, after delete, " << connectionDataMap.size() << "\n";
 
-    // Find the User from connection again, but this is for removal instead
-    auto userRemoveIterator = std::remove_if(std::begin(users), std::end(users), User::FindByConnection(c));
-    if (userRemoveIterator == std::end(users)) {
-        std::cout << "disconnectUser: remove_if failed to find User from Connection " << c.id << "\n";
-        return;
-    }
-    std::cout << "User size is, before delete, " << users.size() << "\n";
-    users.erase(userRemoveIterator, std::end(users));
-    std::cout << "User size is, after delete, " << users.size() << "\n";
-
-    std::cout << "Successfully disconnected " << c.id << "\n";
     std::cout << "Connection lost: " << c.id << "\n";
 }
 

@@ -1,7 +1,6 @@
 
 #include "Server.h"
 #include "Room.h"
-#include "User.h"
 #include "JoinCode.h"
 #include "UUIDGenerator.h"
 
@@ -20,7 +19,6 @@
 using networking::Server;
 using networking::Connection;
 using networking::Message;
-using server_model::User;
 using server_model::Room;
 
 enum class CommandStatus {
@@ -34,10 +32,15 @@ struct MessageResult {
     bool shouldShutdown;
 };
 
+struct ConnectionData {
+    std::vector<std::string> messagesFromServer;
+};
+
 class ChatServer {
 private:
-    std::vector<User> users;
     std::vector<Room> rooms;
+    std::unordered_map<Connection, ConnectionData> connectionDataMap;
+    std::unordered_map<Connection, Room*> connectionRoomMap;
     Server server;
     JoinCodeGenerator joinCodeGen;
     UUIDGenerator uuidGenerator;
