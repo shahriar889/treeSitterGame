@@ -24,7 +24,10 @@ ChatServer::connectUser(Connection c) {
 
     ConnectionData data;
     data.messagesFromServer.push_back(newUserMsg);
-    connectionDataMap[c] = data;
+    bool success = connectionDataMap.insert({c, data}).second;
+    if (!success) {
+        std::cout << "Failed to insert connection " << c.id << ". Key already exists\n";
+    }
 }
 
 void
