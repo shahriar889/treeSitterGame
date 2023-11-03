@@ -33,6 +33,7 @@ struct MessageResult {
 };
 
 struct ConnectionData {
+    Room* room{nullptr};
     std::vector<std::string> messagesFromServer;
 };
 
@@ -40,7 +41,6 @@ class ChatServer {
 private:
     std::vector<Room> rooms;
     std::unordered_map<Connection, ConnectionData> connectionDataMap;
-    std::unordered_map<Connection, Room*> connectionRoomMap;
     Server server;
     JoinCodeGenerator joinCodeGen;
     UUIDGenerator uuidGenerator;

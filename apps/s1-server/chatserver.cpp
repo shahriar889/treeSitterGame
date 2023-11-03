@@ -8,7 +8,6 @@ ChatServer::ChatServer(unsigned short port, std::string httpMessage,
     , joinCodeGen{joinCodeGen}
     , uuidGenerator{uuidGenerator}
     , connectionDataMap{{}}
-    , connectionRoomMap{{}}
 {}
 
 void
@@ -26,7 +25,6 @@ ChatServer::connectUser(Connection c) {
     ConnectionData data;
     data.messagesFromServer.push_back(newUserMsg);
     connectionDataMap[c] = data;
-    connectionRoomMap[c] = nullptr;
 }
 
 void
@@ -35,19 +33,18 @@ ChatServer::disconnectUser(Connection c) {
     std::cout << "Trying to disconnect " << c.id << "\n";
 
     // Get the connection's room. Delete them from their room.
-    Room* connectionsRoom = connectionRoomMap.at(c);
-    if (connectionsRoom) {
-        usersRoom.removePlayer();
+    ConnectionData data = connectionDataMap.at(c);
+    if (data.room) {
+        data.room->removePlayer();
         std::cout << "disconnectUser: removed connection\n";
     } else {
         std::cout << "disconnectUser: connection has no Room\n";
     }
     
     // Remove the connection
-    std::cout << "Map size is, before delete, " << connectionDataMap.size() << "\n";
+    std::cout << "Num users before delete is " << connectionDataMap.size() << "\n";
     connectionDataMap.erase(c);
-    connectionRoomMap.erase(c);
-    std::cout << "User size is, after delete, " << connectionDataMap.size() << "\n";
+    std::cout << "Num users after delete is " << connectionDataMap.size() << "\n";
 
     std::cout << "Connection lost: " << c.id << "\n";
 }
