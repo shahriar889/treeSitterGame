@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Server.h"
+#include "ServerManager.h"
 #include <vector>
 
 
@@ -15,6 +16,7 @@ using namespace networking;
 //     }
 //   };
 // }
+class ServerManager;
 namespace ChatRoom
 {
     struct RoomParams
@@ -22,7 +24,8 @@ namespace ChatRoom
         Server &server;
         const Connection &admin_connection;
         size_t id;
-        std::unordered_map<Connection, unsigned int> &ConnectionRoomMap;
+        ServerManager &serverManager;
+        std::unordered_map<Connection, size_t> &ConnectionRoomMap;
     };
 
     class Room
@@ -30,27 +33,24 @@ namespace ChatRoom
 
     public:
         Room(RoomParams Params);
-
         void addConnection(const Connection &connection);
-
         void removeConnection(const Connection &connection);
-
+        void moveConnectionMain(const Connection &connection);
         void addMessage(const Message &message);
-
         std::string getMessage();
-
         std::vector<Connection> getConnections();
 
     private:
         Server &server;
-        const Connection &admin;
+        ServerManager &serverManager;
+        const Connection &admin; //no importance yet
         size_t roomId;
         std::vector<Connection> connections_;
-        std::unordered_map<Connection, unsigned int> &connectionRoomMap;
+        std::unordered_map<Connection, size_t> &connectionRoomMap;
         std::deque<Message> room_messages;
     };
     Room::Room(RoomParams Params)
-        : server(Params.server),admin(Params.admin_connection), roomId(Params.id), connectionRoomMap(Params.ConnectionRoomMap)
+        : server(Params.server),admin(Params.admin_connection), roomId(Params.id),serverManager(Params.serverManager),connectionRoomMap(Params.ConnectionRoomMap)
     {
         connections_.push_back(admin);
     }
@@ -61,11 +61,16 @@ namespace ChatRoom
         connectionRoomMap[connection] = roomId;
     }
 
+   
+
+    //remove the connection for the list of connection local to this room and move the connection to the global room
     void Room::removeConnection(const Connection &connection)
-    {
+    {   
         auto eraseBegin = std::remove(std::begin(connections_), std::end(connections_), connection);
         connections_.erase(eraseBegin, std::end(connections_));
-        connectionRoomMap[connection] = 0;
+        
+        // serverManager.moveConnectionMain(connection); temp fix below to move connection to global room
+        connectionRoomMap[connection] = std::numeric_limits<size_t>::max();
     }
 
     void Room::addMessage(const Message &message)
@@ -74,7 +79,8 @@ namespace ChatRoom
         if(message.text=="exit room"){
 
             removeConnection(message.connection);
-            Message exitMessage{message.connection, "left room " + std::to_string(roomId) + "\n"};
+
+            Message exitMessage{message.connection, "left room " + std::to_string(roomId) + " moved to Global Room\n"};
             server.sendPrivateMsg(exitMessage);
             return;
         }
@@ -82,6 +88,8 @@ namespace ChatRoom
         room_messages.push_back(message);
     }
 
+
+    //this is being called by server every time it refreshes, kind of like emptying the buffer of messages in the room
     std::string Room::getMessage()
     {
         std::ostringstream result;
