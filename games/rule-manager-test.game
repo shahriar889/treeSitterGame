@@ -13,5 +13,14 @@ rules {
   }
   while true {
   }
+  parallel for value in [] {
+  }
+  match [a, b] {
+    4 => {}
+    [] + [] => {}
+  }
+  discard a + b from some.list;
   extend some.list with []
+  message [] "" + "";
+  some.id <- a + b;
 }
