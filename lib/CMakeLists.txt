@@ -1,0 +1,2 @@
+add_subdirectory(TreeManager)
+add_subdirectory(GameState)

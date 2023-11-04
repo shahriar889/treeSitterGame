@@ -10,6 +10,9 @@ add_subdirectory(lib)
 # Add test subdirectories
 add_subdirectory(parser)
 
+add_subdirectory(TreeManager)
+add_subdirectory(GameState)
+
 ### DEFAULT TEST DEFINITION FORMAT
 
 # Define test targets below, and link them against the google test library
