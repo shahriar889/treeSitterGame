@@ -48,3 +48,10 @@ private:
     return std::make_unique<MessageOutputRule>();
   }
 };
+
+class AssignmentRuleFactory final : public RuleFactory {
+private:
+    std::unique_ptr<Rule> createImpl() override {
+    return std::make_unique<AssignmentRule>();
+  }
+};

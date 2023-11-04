@@ -22,3 +22,11 @@ target_link_libraries(ruleManager
 target_include_directories(ruleManager PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 )
+
+add_library(ruleTranslator ruleTranslator.cpp)
+target_link_libraries(ruleTranslator 
+    ruleFactories
+)
+target_include_directories(ruleTranslator PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+)

@@ -43,3 +43,8 @@ class MessageOutputRuleFactory final : public RuleFactory {
 private:
     std::unique_ptr<Rule> createImpl() override;
 };
+
+class AssignmentRuleFactory final : public RuleFactory {
+private:
+    std::unique_ptr<Rule> createImpl() override;
+};
