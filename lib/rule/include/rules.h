@@ -17,14 +17,8 @@ private:
     virtual void executeImpl() = 0;
 };
 
-class RuleFactory {
-public:
-    std::unique_ptr<Rule> create() {
-        return createImpl();
-    };
-private:
-    virtual std::unique_ptr<Rule> createImpl() = 0;
-};
+// Forward declaration
+class RuleFactory;
 
 class Translator {
 public:
