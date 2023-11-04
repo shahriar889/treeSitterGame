@@ -7,25 +7,11 @@ private:
     }
 };
 
-class ForEachLoopFactory final : public RuleFactory {
-private:
-    std::unique_ptr<Rule> createImpl() override {
-    return std::make_unique<ForEachLoopRule>();
-  }
-};
-
 class WhileLoopRule : public Rule {
 private:
     void executeImpl() override {
         std::cout << "Executing While loop...\n";
     }
-};
-
-class WhileLoopFactory final : public RuleFactory {
-private:
-    std::unique_ptr<Rule> createImpl() override {
-    return std::make_unique<WhileLoopRule>();
-  }
 };
 
 class ParallelForLoopRule : public Rule {
@@ -35,25 +21,12 @@ private:
     }
 };
 
-class ParallelForLoopFactory final : public RuleFactory {
-private:
-    std::unique_ptr<Rule> createImpl() override {
-    return std::make_unique<ParallelForLoopRule>();
-  }
-};
 
 class MatchLoopRule : public Rule {
 private:
     void executeImpl() override {
         std::cout << "Executing Match loop...\n";
     }
-};
-
-class MatchLoopFactory final : public RuleFactory {
-private:
-    std::unique_ptr<Rule> createImpl() override {
-    return std::make_unique<MatchLoopRule>();
-  }
 };
 
 class ExtendListRule : public Rule {
@@ -63,25 +36,11 @@ private:
     }
 };
 
-class ExtendListFactory final : public RuleFactory {
-private:
-    std::unique_ptr<Rule> createImpl() override {
-    return std::make_unique<ExtendListRule>();
-  }
-};
-
 class DiscardListRule : public Rule {
 private:
     void executeImpl() override {
         std::cout << "Executing Discard list...\n";
     }
-};
-
-class DiscardListFactory final : public RuleFactory {
-private:
-    std::unique_ptr<Rule> createImpl() override {
-    return std::make_unique<DiscardListRule>();
-  }
 };
 
 
@@ -92,12 +51,6 @@ private:
     }
 };
 
-class MessageOutputRuleFactory final : public RuleFactory {
-private:
-    std::unique_ptr<Rule> createImpl() override {
-    return std::make_unique<MessageOutputRule>();
-  }
-};
 
 class AssignmentRule : public Rule {
 private:
@@ -106,12 +59,6 @@ private:
     }
 };
 
-class AssignmentRuleFactory final : public RuleFactory {
-private:
-    std::unique_ptr<Rule> createImpl() override {
-    return std::make_unique<AssignmentRule>();
-  }
-};
 void Translator::registerFactory(std::string spelling, FactoryPointer factory) noexcept {
   canonicalizeSpelling(spelling);
   factories[spelling] = std::move(factory);

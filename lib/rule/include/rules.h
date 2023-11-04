@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <iostream>
 
+// Abstract Definition
 class Rule {
 public:
     void execute() {
@@ -17,7 +18,51 @@ private:
     virtual void executeImpl() = 0;
 };
 
-// Forward declaration
+// Rule set
+class ForEachLoopRule : public Rule{
+    private:
+        void executeImpl() override;
+};
+
+class WhileLoopRule : public Rule{
+    private:
+        void executeImpl() override;
+};
+
+
+class ParallelForLoopRule : public Rule{
+    private:
+        void executeImpl() override;
+};
+
+class MatchLoopRule : public Rule{
+    private:
+        void executeImpl() override;
+};
+
+class ExtendListRule : public Rule{
+    private:
+        void executeImpl() override;
+};
+
+class DiscardListRule : public Rule{
+    private:
+        void executeImpl() override;
+};
+
+class MessageOutputRule : public Rule{
+    private:
+        void executeImpl() override;
+};
+
+class AssignmentRule : public Rule{
+    private:
+        void executeImpl() override;
+};
+
+
+
+// Forward declaration. Definition in ruleFactory.h
 class RuleFactory;
 
 class Translator {
