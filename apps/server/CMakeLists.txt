@@ -23,6 +23,7 @@ install(TARGETS server
   RUNTIME DESTINATION bin
 )
 
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/webchat.html DESTINATION ${CMAKE_BINARY_DIR}/bin)
 set_target_properties(server 
     PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
