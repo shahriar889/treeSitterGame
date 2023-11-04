@@ -15,13 +15,17 @@ This project also has the dependencies included in the source code:
 
 ## Steps to run
 
-Running cmake in spereate directory, should build the server and the nclient ncurses in the top level directory 
+Running cmake in spereate directory, should build the server and the nclient ncurses  
 
-in the bin directory 
+in the bin directory you should find 
+.
+├── client-ncurses
+├── server
+└── webchat.html
 
 ### run server 
-
-./server 4002 ../../social-gaming/web-socket-networking/webchat.html 
+ex webchat.html copied to bin dir on build
+./server 4002 webchat.html 
 
 ### run client 
 
@@ -31,11 +35,14 @@ in the bin directory
 ### supported client cmds (error handling not implemented)
 
 #### Main menu (global room)
-- join   : will join default room with id 1 (expects room 1 has been created)
-- create : will create room with id 1 
+- join #  : join followed by number will validate id 
+- create : will create room and display id to join 
+- default cmds from server example still valid
 #### Room menu (sub room created on create)
-- exit room (non admin client will be moved back to global room)
+- exit room : any user may exit room
 ## current state
 - filtering incoming messages into buckets, passing buckets to each room to process messages related to that room
 - global room and one seperate room, messages are seperated clients in seperate room and global room see different messages 
-- .....details to elborate on in meeting
+
+## current issues
+- build issue when sepereating implementation to different classes/files , took shortcuts just to build the server executable, however it needs to be cleaned up
