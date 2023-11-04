@@ -1,11 +1,13 @@
 #include <gtest/gtest.h>
 #include "parser.h"
 
-const std::string LOOPING_GAME = "games/looping.game";
+const std::string RULE_MANAGER_TEST_GAME = "games/rule-manager-test.game";
 
 // Demonstrate some basic assertions.
 TEST(ParserTest, createRules)
 {
-    Parser parser{LOOPING_GAME};
-    parser.createRuleAbstraction();
+    Parser parser{RULE_MANAGER_TEST_GAME};
+    auto ruleManager = parser.createRuleManager();
+
+    ruleManager.start();
 }

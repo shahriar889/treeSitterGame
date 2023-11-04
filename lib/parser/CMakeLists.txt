@@ -4,6 +4,7 @@ target_link_libraries(parser
     cpp-tree-sitter
     tree-sitter-socialgaming
     rule
+    ruleManager
 )
 
 target_include_directories(parser PUBLIC

@@ -6,20 +6,27 @@ Parser::Parser(const std::string_view& path) : sourceCode(getSourceCode(path)) {
     this->syntaxTree = std::make_unique<ts::Tree>(parser.parseString(sourceCode));
 }
 
-void Parser::createRuleAbstraction() {
+RuleManager Parser::createRuleManager() {
     ts::Node root = syntaxTree->getRootNode();
     ts::Node rulesNode = root.getChildByFieldName("rules");
+    std::vector<Translator::RulePointer> rules;
+    dfs(rulesNode, rules);
 
-    dfs(rulesNode);
-
+    RuleManager ruleManager(std::move(rules));
+    return ruleManager;
 }
 
-void Parser::dfs(ts::Node node) {
+void Parser::dfs(ts::Node node, std::vector<Translator::RulePointer>& rules) {
+    Translator translator = buildTreeSitterTranslator();
     auto numChildren = node.getNumNamedChildren();
 
-    std::cout << node.getType() << "\n";
+    auto rule = translator.createOperation(std::string{node.getType()});
+    if (rule) {
+        rules.emplace_back(std::move(rule));
+    }
+
     for (int i = 0; i < numChildren; i++) {
-        dfs(node.getNamedChild(i));
+        dfs(node.getNamedChild(i), rules);
     }
 }
 

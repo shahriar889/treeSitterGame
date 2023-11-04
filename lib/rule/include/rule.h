@@ -1,10 +1,12 @@
 #pragma once
 
 #include <string>
+#include <string_view>
 #include <vector>
 #include <memory>
 #include <unordered_map>
 #include <algorithm>
+#include <iostream>
 
 class Rule {
 public:
@@ -26,16 +28,16 @@ private:
 
 class Translator {
 public:
-  using FactoryPointer = std::unique_ptr<RuleFactory>;
-  using OperationPointer = std::unique_ptr<Rule>;
+    using FactoryPointer = std::unique_ptr<RuleFactory>;
+    using RulePointer = std::unique_ptr<Rule>;
 
-  void registerFactory(std::string spelling, FactoryPointer factory) noexcept;
+    void registerFactory(std::string spelling, FactoryPointer factory) noexcept;
+    RulePointer createOperation(std::string spelling) const noexcept;
 
 private:
-  OperationPointer createOperation(const std::string& spelling) const noexcept;
-
-  std::unordered_map<std::string, FactoryPointer> factories;
+    std::unordered_map<std::string, FactoryPointer> factories;
 };
 
 //HELPER FUNCTIONS
+Translator buildTreeSitterTranslator() noexcept;
 static void canonicalizeSpelling(std::string& spelling);

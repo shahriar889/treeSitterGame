@@ -7,7 +7,7 @@
 #include <string>
 #include <iostream>
 #include <memory>
-#include "rule.h"
+#include "ruleManager.h"
 
 extern "C" {
     TSLanguage* tree_sitter_socialgaming();
@@ -16,13 +16,13 @@ extern "C" {
 class Parser {
     public:
         explicit Parser(const std::string_view&);
-        void createRuleAbstraction();
+        RuleManager createRuleManager();
 
     private:
         std::unique_ptr<ts::Tree> syntaxTree;
         std::string sourceCode;
 
         //Helpers
-        void dfs(ts::Node);
+        void dfs(ts::Node, std::vector<Translator::RulePointer>&);
         std::string getSourceCode(const std::string_view&);
 };
