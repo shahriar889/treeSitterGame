@@ -1,57 +1,41 @@
 #include "ruleFactories.h"
 
-class ForEachLoopFactory final : public RuleFactory {
-private:
-    std::unique_ptr<Rule> createImpl() override {
-    return std::make_unique<ForEachLoopRule>();
-  }
-};
+std::unique_ptr<Rule> ForEachLoopFactory::createImpl()
+{
+  return std::make_unique<ForEachLoopRule>();
+}
 
-class WhileLoopFactory final : public RuleFactory {
-private:
-    std::unique_ptr<Rule> createImpl() override {
-    return std::make_unique<WhileLoopRule>();
-  }
-};
+std::unique_ptr<Rule> WhileLoopFactory::createImpl()
+{
+  return std::make_unique<WhileLoopRule>();
+}
 
-class ParallelForLoopFactory final : public RuleFactory {
-private:
-    std::unique_ptr<Rule> createImpl() override {
-    return std::make_unique<ParallelForLoopRule>();
-  }
-};
+std::unique_ptr<Rule> ParallelForLoopFactory::createImpl()
+{
+  return std::make_unique<ParallelForLoopRule>();
+}
 
-class MatchLoopFactory final : public RuleFactory {
-private:
-    std::unique_ptr<Rule> createImpl() override {
-    return std::make_unique<MatchLoopRule>();
-  }
-};
+std::unique_ptr<Rule> MatchLoopFactory::createImpl()
+{
+  return std::make_unique<MatchLoopRule>();
+}
 
-class ExtendListFactory final : public RuleFactory {
-private:
-    std::unique_ptr<Rule> createImpl() override {
-    return std::make_unique<ExtendListRule>();
-  }
-};
+std::unique_ptr<Rule> ExtendListFactory::createImpl()
+{
+  return std::make_unique<ExtendListRule>();
+}
 
-class DiscardListFactory final : public RuleFactory {
-private:
-    std::unique_ptr<Rule> createImpl() override {
-    return std::make_unique<DiscardListRule>();
-  }
-};
+std::unique_ptr<Rule> DiscardListFactory::createImpl()
+{
+  return std::make_unique<DiscardListRule>();
+}
 
-class MessageOutputRuleFactory final : public RuleFactory {
-private:
-    std::unique_ptr<Rule> createImpl() override {
-    return std::make_unique<MessageOutputRule>();
-  }
-};
+std::unique_ptr<Rule> MessageOutputRuleFactory::createImpl()
+{
+  return std::make_unique<MessageOutputRule>();
+}
 
-class AssignmentRuleFactory final : public RuleFactory {
-private:
-    std::unique_ptr<Rule> createImpl() override {
-    return std::make_unique<AssignmentRule>();
-  }
-};
+std::unique_ptr<Rule> AssignmentRuleFactory::createImpl()
+{
+  return std::make_unique<AssignmentRule>();
+}

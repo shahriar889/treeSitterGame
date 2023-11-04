@@ -1,60 +1,40 @@
 #include "rules.h"
 
-class ForEachLoopRule : public Rule {
-private:
-    void executeImpl() override {
-        std::cout << "Executing For-Each loop...\n";
-    }
+void ForEachLoopRule::executeImpl()
+{
+    std::cout << "Executing For-Each loop...\n";
+}
+
+void WhileLoopRule::executeImpl()
+{
+    std::cout << "Executing While loop...\n";
+}
+
+void ParallelForLoopRule::executeImpl()
+{
+    std::cout << "Executing Parallel-For loop...\n";
 };
 
-class WhileLoopRule : public Rule {
-private:
-    void executeImpl() override {
-        std::cout << "Executing While loop...\n";
-    }
+void MatchLoopRule::executeImpl()
+{
+    std::cout << "Executing Match loop...\n";
+};
+void ExtendListRule::executeImpl()
+{
+    std::cout << "Executing Extend list...\n";
 };
 
-class ParallelForLoopRule : public Rule {
-private:
-    void executeImpl() override {
-        std::cout << "Executing Parallel-For loop...\n";
-    }
-};
+void DiscardListRule::executeImpl()
+{
+    std::cout << "Executing Discard list...\n";
+}
 
+void MessageOutputRule::executeImpl()
+{
+    std::cout << "Executing Message output...\n";
+}
 
-class MatchLoopRule : public Rule {
-private:
-    void executeImpl() override {
-        std::cout << "Executing Match loop...\n";
-    }
-};
-
-class ExtendListRule : public Rule {
-private:
-    void executeImpl() override {
-        std::cout << "Executing Extend list...\n";
-    }
-};
-
-class DiscardListRule : public Rule {
-private:
-    void executeImpl() override {
-        std::cout << "Executing Discard list...\n";
-    }
-};
-
-
-class MessageOutputRule : public Rule {
-private:
-    void executeImpl() override {
-        std::cout << "Executing Message output...\n";
-    }
-};
-
-
-class AssignmentRule : public Rule {
-private:
-    void executeImpl() override {
-        std::cout << "Executing Assignment...\n";
-    }
-};
+void AssignmentRule::executeImpl()
+{
+    std::cout << "Executing Assignment...\n";
+}
