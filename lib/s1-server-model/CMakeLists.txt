@@ -1,7 +1,6 @@
 add_library(server_model
   src/Room.cpp
   src/JoinCode.cpp
-  src/UUIDGenerator.cpp
 )
 
 target_include_directories(server_model
