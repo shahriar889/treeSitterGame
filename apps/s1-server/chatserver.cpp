@@ -12,6 +12,7 @@ ChatServer::ChatServer(unsigned short port, std::string httpMessage,
 
 void
 ChatServer::connectUser(Connection c) {
+    printableEvent = true;
     std::cout << timeString();
     std::cout << "New connection found: " << c.id << "\n";
 
@@ -32,6 +33,7 @@ ChatServer::connectUser(Connection c) {
 
 void
 ChatServer::disconnectUser(Connection c) {
+    printableEvent = true;
     std::cout << timeString();
     std::cout << "Trying to disconnect " << c.id << "\n";
 
@@ -182,6 +184,7 @@ ChatServer::processMessages(const std::deque<Message>& incoming) {
     bool quit = false;
     for (const auto& message : incoming) {
         if (message.text.rfind("/", 0) == 0) {
+            printableEvent = true;
             switch (handleCommand(message)) {
                 case CommandStatus::DISCONNECT:
                     server.disconnect(message.connection);
@@ -228,6 +231,10 @@ ChatServer::buildOutgoingPrivateServerMsg() {
 
 void
 ChatServer::printUsersAndRooms() {
+    if (!printableEvent) {
+        return;
+    }
+    
     std::cout << "\n";
     std::cout << timeString();
     std::cout << "USERS "
@@ -245,6 +252,8 @@ ChatServer::printUsersAndRooms() {
         i.printAll();
     }
     std::cout << "}\n";
+
+    printableEvent = false;
 }
 
 bool

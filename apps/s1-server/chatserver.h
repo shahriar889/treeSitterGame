@@ -45,6 +45,7 @@ private:
     Server server;
     JoinCodeGenerator joinCodeGen;
     UUIDGenerator uuidGenerator;
+    bool printableEvent = true;
     
     void connectUser(Connection c);
     void disconnectUser(Connection c);

@@ -79,7 +79,7 @@ int main(int argc, char* argv[]) {
             break;
         }
 
-        sleep(3);
+        sleep(1);
     }
 
     return 0;
