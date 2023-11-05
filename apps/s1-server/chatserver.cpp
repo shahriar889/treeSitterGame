@@ -29,7 +29,6 @@ ChatServer::connectUser(Connection c) {
     if (!success) {
         std::cout << "Failed to insert connection " << c.id << ". Key already exists\n";
     }
-    std::cout << "Inserted connection " << c.id << " with address " << &c << '\n';
 }
 
 void
@@ -93,7 +92,6 @@ ChatServer::createRoom(const Message& message) {
     std::string game = args[4];
     Room room{uuid, joinCode, name, game};
     rooms.push_back(room);
-    std::cout << "XX created room with address " << &room << '\n';
 
     msgForUser << "Created room " << std::quoted(args[2]) << " playing game "
                << std::quoted(args[4]) << ". Join code is " << joinCode << "\n";
@@ -127,8 +125,6 @@ ChatServer::joinRoom(const Message& message) {
     }
 
     Room& room = *roomIterator;
-    std::cout << "XX Found room has address " << room << "and address is " << &room << '\n';
-
     user.room = &room;
     room.addConnection(message.connection);
 
