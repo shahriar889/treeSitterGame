@@ -68,7 +68,7 @@ private:
     std::deque<Message> buildOutgoing(const std::string& log);
     std::deque<Message> buildOutgoingPrivateServerMsg();
 
-    void printUsersAndRooms();
+    void printUsersAndRooms(bool alwaysPrint);
 
 public:
     ChatServer(unsigned short port, std::string httpMessage, JoinCodeGenerator joinCodeGen, UUIDGenerator uuidGenerator);

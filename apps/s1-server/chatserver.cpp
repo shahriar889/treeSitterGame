@@ -234,8 +234,8 @@ ChatServer::buildOutgoingPrivateServerMsg() {
 }
 
 void
-ChatServer::printUsersAndRooms() {
-    if (!printableEvent) {
+ChatServer::printUsersAndRooms(bool alwaysPrint) {
+    if (!alwaysPrint && !printableEvent) {
         return;
     }
     
@@ -281,7 +281,7 @@ ChatServer::update() {
         return true;
     }
 
-    printUsersAndRooms();
+    printUsersAndRooms(true);
 
     return false;
 }
