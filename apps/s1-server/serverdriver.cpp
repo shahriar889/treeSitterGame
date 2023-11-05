@@ -34,10 +34,6 @@ If there are 2 User in the vector and a third one joins, 1's and 2's destructors
 Similarly, if there are 3 users and 2 types an invalid command,
     making the server send a message to them, 1's and 2's destructors run.
 
-! printUsersAndRooms should print a user's room
-! server doesn't send private messages to a Connection
-! Room doesn't print the correct Connection
-
 TODO dependency injection: separate Server out of ChatServer so you can pass in mocks
 TODO separate the update loop out of ChatServer so you can test activity with single functions
 TODO use Command pattern to parse commands
