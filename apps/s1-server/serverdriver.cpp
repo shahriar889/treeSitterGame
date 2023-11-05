@@ -53,6 +53,8 @@ TODO prevent people from connecting twice (ex. click on Connect in webchat.html 
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <chrono>
+#include <thread>
 
 #include "Server.h"
 #include "chatserver.h"
@@ -79,7 +81,7 @@ int main(int argc, char* argv[]) {
             break;
         }
 
-        sleep(1);
+        std::this_thread::sleep_for(std::chrono::milliseconds(250));
     }
 
     return 0;
