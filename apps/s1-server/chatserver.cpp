@@ -41,7 +41,7 @@ ChatServer::disconnectUser(Connection c) {
     // Get the user's room. Delete them from their room.
     UserData user = connectionUserMap.at(c);
     if (user.room) {
-        user.room->removeConnection(&c);
+        user.room->removeConnection(c);
         std::cout << "disconnectUser: removed connection\n";
     } else {
         std::cout << "disconnectUser: connection has no Room\n";
@@ -130,7 +130,7 @@ ChatServer::joinRoom(const Message& message) {
     std::cout << "XX Found room has address " << room << "and address is " << &room << '\n';
 
     user.room = &room;
-    room.addConnection(&message.connection);
+    room.addConnection(message.connection);
 
     msgForUser << "Joined room " << std::quoted(room.getName()) << " playing game "
                << std::quoted(room.getGame()) << "\n";
@@ -149,7 +149,7 @@ ChatServer::leaveRoom(const Connection& c) {
 
     std::string roomName = roomPtr->getName();
     user.room = nullptr;
-    roomPtr->removeConnection(&c);
+    roomPtr->removeConnection(c);
 
     std::stringstream msgForUser;
     msgForUser << "Left room " << std::quoted(roomName) << "\n";

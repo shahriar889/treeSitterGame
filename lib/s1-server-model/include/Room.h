@@ -20,7 +20,7 @@ namespace server_model {
 
 class Room {
 private:
-  std::vector<const Connection*> connections;
+  std::vector<Connection> connections;
   boost::uuids::uuid uuid;
   JoinCode joinCode;
   std::string name;
@@ -38,8 +38,8 @@ public:
   std::string getGame() const;
   boost::uuids::uuid getUuid() const;
 
-  void addConnection(const Connection* c);
-  void removeConnection(const Connection* c);
+  void addConnection(Connection c);
+  void removeConnection(Connection c);
 
   void printAll() const;
 

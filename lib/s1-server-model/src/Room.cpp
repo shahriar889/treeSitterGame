@@ -20,13 +20,13 @@ boost::uuids::uuid Room::getUuid() const {
   return uuid;
 }
 
-void Room::addConnection(const Connection* c) {
-  std::cout << "XX found Connection* " << c << ", has id " << (*c).id << '\n';
+void Room::addConnection(Connection c) {
+  std::cout << "XX found Connection* " << c.id << ", has address " << &c << '\n';
   connections.push_back(c);
 }
 
-void Room::removeConnection(const Connection* c) {
-  auto connFinder = [c] (const Connection* other) -> bool {
+void Room::removeConnection(Connection c) {
+  auto connFinder = [c] (Connection other) -> bool {
     return c == other;
   };
   auto connIterator = std::remove_if(std::begin(connections), std::end(connections), connFinder);
@@ -41,7 +41,7 @@ void Room::printAll() const {
     // <<", game=" << game
     << "]\n" ;
   for (const auto &c : connections) {
-    std::cout << "    " << (*c).id << "\n";
+    std::cout << "    " << c.id << "\n";
   }
 }
 
