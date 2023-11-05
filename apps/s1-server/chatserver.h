@@ -33,6 +33,13 @@ struct MessageResult {
     bool shouldShutdown;
 };
 
+/*
+    Holds the data associated with a Connection. You can view this as the data
+    that's associated with a user. Right now, this data includes the Room a user
+    is in and the private messages sent to them by the server.
+    When accessing this through connectionUserMap.at(), be sure to store the
+    result in either a regular variable or a reference as appropriate!
+*/
 struct UserData {
     Room* room{nullptr};
     std::vector<std::string> messagesFromServer;

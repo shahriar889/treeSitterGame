@@ -29,6 +29,7 @@ ChatServer::connectUser(Connection c) {
     if (!success) {
         std::cout << "Failed to insert connection " << c.id << ". Key already exists\n";
     }
+    std::cout << "Inserted connection " << c.id << " with address " << &c << '\n';
 }
 
 void
@@ -92,6 +93,7 @@ ChatServer::createRoom(const Message& message) {
     std::string game = args[4];
     Room room{uuid, joinCode, name, game};
     rooms.push_back(room);
+    std::cout << "XX created room with address " << &room << '\n';
 
     msgForUser << "Created room " << std::quoted(args[2]) << " playing game "
                << std::quoted(args[4]) << ". Join code is " << joinCode << "\n";
@@ -110,7 +112,7 @@ ChatServer::joinRoom(const Message& message) {
     }
 
     // Check if the User is already in a Room
-    UserData user = connectionUserMap.at(message.connection);
+    UserData& user = connectionUserMap.at(message.connection);
     Room* roomPtr = user.room;
     if (roomPtr) {
         return "You must leave your current room before joining a new one\n";
@@ -125,6 +127,8 @@ ChatServer::joinRoom(const Message& message) {
     }
 
     Room& room = *roomIterator;
+    std::cout << "XX Found room has address " << room << "and address is " << &room << '\n';
+
     user.room = &room;
     room.addConnection(&message.connection);
 
@@ -137,7 +141,7 @@ ChatServer::joinRoom(const Message& message) {
 std::string
 ChatServer::leaveRoom(const Connection& c) {
     // Check if the User is not in a Room
-    UserData user = connectionUserMap.at(c);
+    UserData& user = connectionUserMap.at(c);
     Room* roomPtr = user.room;
     if (!roomPtr) {
         return "Cannot leave room; you are not in a room\n";
@@ -204,7 +208,7 @@ ChatServer::processMessages(const std::deque<Message>& incoming) {
 
 void
 ChatServer::sendUserServerMessage(Message message, const std::string& log) {
-    UserData user = connectionUserMap.at(message.connection);
+    UserData& user = connectionUserMap.at(message.connection);
     user.messagesFromServer.push_back(log);
 }
 
@@ -241,7 +245,7 @@ ChatServer::printUsersAndRooms() {
               << "(count=" << connectionUserMap.size() << ")"
               << ": {\n";
     for (const auto& [conn, data] : connectionUserMap) {
-        std::cout << "  " << conn.id << "\n";
+        std::cout << "  " << conn.id << " " << (data.room ? data.room->getJoinCode().code : "") << "\n";
     }
     std::cout << "}\n";
 

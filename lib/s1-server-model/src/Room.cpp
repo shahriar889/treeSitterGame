@@ -21,6 +21,7 @@ boost::uuids::uuid Room::getUuid() const {
 }
 
 void Room::addConnection(const Connection* c) {
+  std::cout << "XX found Connection* " << c << ", has id " << (*c).id << '\n';
   connections.push_back(c);
 }
 
