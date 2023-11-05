@@ -7,3 +7,6 @@ target_link_libraries(GameState PUBLIC
     TreeManager
 )
 add_subdirectory(ConfigurationState)
+add_subdirectory(ConstantState)
+add_subdirectory(VariableState)
+add_subdirectory(PerPlayerState)

@@ -2,10 +2,11 @@
 #include "gameState.h"
 #include <vector>
 #include <functional>
+using namespace GS;
 
-class ConfigurationState : public GS::GameState {
+class VariableState : public GS::GameState {
     public:
-        ConfigurationState() = default;
-        ~ConfigurationState() = default;
+        VariableState() = default;
+        ~VariableState() = default;
         void configure(TM::TreeManager& treeManager) override;
 };

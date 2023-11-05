@@ -1,7 +1,6 @@
 add_library(ConfigurationState configurationState.cpp)
 
 target_link_libraries(ConfigurationState
-TreeManager
 GameState
 )
 

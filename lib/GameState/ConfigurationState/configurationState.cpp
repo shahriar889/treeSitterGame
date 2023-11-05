@@ -1,4 +1,6 @@
 #include "configurationState.h"
+#include <functional>
+
 
 using namespace GS;
 using FunctionType = std::function<void(const ts::Symbol&, TM::TreeManager&, ConfigurationState&)>;
