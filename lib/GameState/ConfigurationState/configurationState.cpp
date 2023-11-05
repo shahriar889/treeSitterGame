@@ -31,6 +31,7 @@ void playerRange(const ts::Symbol& symb, TM::TreeManager& treeManager, Configura
     ts::Node valueNode = playerRangeNode.getNextSibling();
     std::tuple<int, int> playerRange = treeManager.getNumberRange(valueNode);
     setDataValueInt(conf, "playerRangeMin", std::get<0>(playerRange));
+    setDataValueInt(conf, "playerRangeCur", std::get<0>(playerRange));
     setDataValueInt(conf, "playerRangeMax", std::get<1>(playerRange));
 }
 
@@ -75,6 +76,10 @@ std::map<std::string, GS::DataValuePtr> parseIntegerKind(TM::TreeManager& treeMa
 
     DataValue dataMax;
     dataMax.setIntValue(std::get<1>(range));
+    DataValue dataCur;
+    dataCur.setIntValue(std::get<0>(range));
+    GS::DataValuePtr tempPtr3 = std::make_shared<DataValue>(dataCur);
+    tempMap["rangeCur"] = tempPtr3;
 
     GS::DataValuePtr tempPtr2 = std::make_shared<DataValue>(dataMax);
     tempMap["rangeMax"] = tempPtr2;

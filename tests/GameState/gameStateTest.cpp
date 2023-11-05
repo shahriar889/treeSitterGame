@@ -19,10 +19,12 @@ TEST(ConfigurationStateTest, testWithRockPaperScissors){
     EXPECT_EQ(conf.getValue("name").getStringValue(), "Rock, Paper, Scissors");
     EXPECT_EQ(conf.getValue("playerRangeMin").getIntValue(), 2);
     EXPECT_EQ(conf.getValue("playerRangeMax").getIntValue(), 4);
+    EXPECT_EQ(conf.getValue("playerRangeCur").getIntValue(), 2);
     EXPECT_EQ(conf.getValue("hasAudience").getBoolValue(), false);
     std::map<std::string, GS::DataValuePtr> mapValue = conf.getValue("rounds").getMapValue();
     EXPECT_EQ(mapValue["prompt"]->getStringValue(), "The number of rounds to play");
     EXPECT_EQ(mapValue["rangeMin"]->getIntValue(), 1);
+    EXPECT_EQ(mapValue["rangeCur"]->getIntValue(), 1);
     EXPECT_EQ(mapValue["rangeMax"]->getIntValue(), 20);
 }
     
