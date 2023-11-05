@@ -1,9 +1,8 @@
-
 #include "Server.h"
 #include "Room.h"
 #include "JoinCode.h"
-#include "UUIDGenerator.h"
 
+#include <unistd.h>
 #include <iostream>
 #include <iomanip>
 #include <fstream>
@@ -51,7 +50,7 @@ private:
     std::unordered_map<Connection, UserData, ConnectionHash> connectionUserMap;
     Server server;
     JoinCodeGenerator joinCodeGen;
-    UUIDGenerator uuidGenerator;
+    int roomsGenerated = 0;
     bool printableEvent = true;
     
     void connectUser(Connection c);
@@ -71,7 +70,7 @@ private:
     void printUsersAndRooms(bool alwaysPrint);
 
 public:
-    ChatServer(unsigned short port, std::string httpMessage, JoinCodeGenerator joinCodeGen, UUIDGenerator uuidGenerator);
+    ChatServer(unsigned short port, std::string httpMessage, JoinCodeGenerator joinCodeGen);
     bool update();
     static std::string getHTTPMessage(const char* htmlLocation);
     static std::string timeString();

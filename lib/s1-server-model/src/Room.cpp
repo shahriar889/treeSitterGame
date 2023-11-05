@@ -16,8 +16,8 @@ std::string Room::getName() const {
 std::string Room::getGame() const {
   return game;
 }
-boost::uuids::uuid Room::getUuid() const {
-  return uuid;
+RoomId Room::getId() const {
+  return id;
 }
 
 void Room::addConnection(Connection c) {
@@ -33,7 +33,7 @@ void Room::removeConnection(Connection c) {
 }
 
 void Room::printAll() const {
-  std::cout << "  Room[uuid=" << uuid
+  std::cout << "  Room[id=" << id
     << ", numPlayers=" << connections.size()
     << ", joinCode=" << joinCode
     // << ", name=" << name
@@ -45,7 +45,7 @@ void Room::printAll() const {
 }
 
 std::ostream& operator<<(std::ostream &os, const Room &r) { 
-    return os << "Room[uuid=" << r.uuid << "]";
+    return os << "Room[uuid=" << r.id << "]";
 }
 
 

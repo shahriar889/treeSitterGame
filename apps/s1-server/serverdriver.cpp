@@ -67,9 +67,8 @@ int main(int argc, char* argv[]) {
     }
 
     JoinCodeGenerator joinCodeGen{100};
-    UUIDGenerator uuidGen{100};
     const unsigned short port = std::stoi(argv[1]);
-    ChatServer chatServer{port, ChatServer::getHTTPMessage(argv[2]), joinCodeGen, uuidGen};
+    ChatServer chatServer{port, ChatServer::getHTTPMessage(argv[2]), joinCodeGen};
 
     while (true) {
         bool stop = chatServer.update();

@@ -1,12 +1,11 @@
 #include "chatserver.h"
 
 ChatServer::ChatServer(unsigned short port, std::string httpMessage,
-                       JoinCodeGenerator joinCodeGen, UUIDGenerator uuidGenerator)
+                       JoinCodeGenerator joinCodeGen)
     : server{Server(port, httpMessage,
         [&] (Connection c) {connectUser(c);},
         [&] (Connection c) {disconnectUser(c);})} 
     , joinCodeGen{joinCodeGen}
-    , uuidGenerator{uuidGenerator}
     // , connectionUserMap{{}}
 {}
 
@@ -86,12 +85,13 @@ ChatServer::createRoom(const Message& message) {
     }
 
     constexpr int codeLength = 6;
-    auto uuid = uuidGenerator.makeUUID();
+    RoomId roomId = roomsGenerated;
     JoinCode joinCode{joinCodeGen.makeJoinCode(codeLength)};
     std::string name = args[2];
     std::string game = args[4];
-    Room room{uuid, joinCode, name, game};
+    Room room{roomId, joinCode, name, game};
     rooms.push_back(room);
+    roomsGenerated++;
 
     msgForUser << "Created room " << std::quoted(args[2]) << " playing game "
                << std::quoted(args[4]) << ". Join code is " << joinCode << "\n";

@@ -7,36 +7,34 @@
 #include <vector>
 #include <string>
 #include <iostream>
-#include <boost/uuid/uuid.hpp>            // uuid class
-#include <boost/uuid/uuid_generators.hpp> // generators
-#include <boost/uuid/uuid_io.hpp>         // streaming operators etc.
 
 using networking::Server;
 using networking::Connection;
 using networking::Message;
 
+using RoomId = int;
 
 namespace server_model {
 
 class Room {
 private:
   std::vector<Connection> connections;
-  boost::uuids::uuid uuid;
+  RoomId id;
   JoinCode joinCode;
   std::string name;
   std::string game;
 
 public:
-  Room(boost::uuids::uuid uuid, JoinCode joinCode, std::string name, std::string game) 
-    : uuid{uuid}, joinCode{joinCode}, name{name}, game{game}
+  Room(RoomId id, JoinCode joinCode, std::string name, std::string game) 
+    : id{id}, joinCode{joinCode}, name{name}, game{game}
   {
-    std::cout << "Room() ran. Making new room " << uuid << "\n";
+    std::cout << "Room() ran. Making new room with id " << id << "\n";
   }
 
   JoinCode getJoinCode() const;
   std::string getName() const;
   std::string getGame() const;
-  boost::uuids::uuid getUuid() const;
+  RoomId getId() const;
 
   void addConnection(Connection c);
   void removeConnection(Connection c);
