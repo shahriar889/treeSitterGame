@@ -2,7 +2,8 @@
 
 #include "ServerManager.h"
 
-//remove should not know about any server/Server.h details 
+//room should not know about any server/Server.h details 
+// should know about creating game and game api
 class Room {
 
     public:
