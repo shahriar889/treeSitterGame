@@ -9,5 +9,6 @@ public:
     ServerManager(/* args */);
     ~ServerManager();
     bool ping();
+    void roomPing();
 };
 

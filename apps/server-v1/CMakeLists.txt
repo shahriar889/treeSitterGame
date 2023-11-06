@@ -1,7 +1,10 @@
 project(server-v1)
 add_executable(${PROJECT_NAME} main.cpp)
 add_subdirectory(ServerManager)
-target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+add_subdirectory(Room)
+add_subdirectory(User)
+
+# target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 target_link_libraries(${PROJECT_NAME} 
     PUBLIC
