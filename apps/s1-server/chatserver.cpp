@@ -135,9 +135,9 @@ ChatServer::joinRoom(const Message& message) {
 
 // /leaveroom
 std::string
-ChatServer::leaveRoom(const Connection& c) {
+ChatServer::leaveRoom(const Message& message) {
     // Check if the User is not in a Room
-    UserData& user = connectionUserMap.at(c);
+    UserData& user = connectionUserMap.at(message.connection);
     Room* roomPtr = user.room;
     if (!roomPtr) {
         return "Cannot leave room; you are not in a room\n";
@@ -145,7 +145,7 @@ ChatServer::leaveRoom(const Connection& c) {
 
     std::string roomName = roomPtr->getName();
     user.room = nullptr;
-    roomPtr->removeConnection(c);
+    roomPtr->removeConnection(message.connection);
 
     std::stringstream msgForUser;
     msgForUser << "Left room " << std::quoted(roomName) << "\n";
@@ -171,7 +171,7 @@ ChatServer::handleCommand(const Message& message) {
         auto result = joinRoom(message);
         msgForUser << result;
     } else if (message.text == "/leaveroom") {
-        auto result = leaveRoom(message.connection);
+        auto result = leaveRoom(message);
         msgForUser << result;
     } else {
         msgForUser << "Command " << std::quoted(message.text, '\'') << " is not recognized.\n";

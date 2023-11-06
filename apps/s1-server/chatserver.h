@@ -59,7 +59,7 @@ private:
     std::vector<std::string> splitString(const std::string& text);
     std::string createRoom(const Message& message);
     std::string joinRoom(const Message& message);
-    std::string leaveRoom(const Connection& c);
+    std::string leaveRoom(const Message& message);
     CommandStatus handleCommand(const Message& message);
     MessageResult processMessages(const std::deque<Message>& incoming);
 
