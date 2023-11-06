@@ -9,7 +9,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR/lib}")
 
 # Build tests along with the project by default
 # Build project with flag "-DPACKAGE_TESTS=OFF" to disable building test directory
-option(PACKAGE_TESTS "Build the tests" OFF)
+option(PACKAGE_TESTS "Build the tests" ON)
 if(PACKAGE_TESTS)
     enable_testing()
     include(GoogleTest)

@@ -1,0 +1,6 @@
+add_executable(server_manager_test)
+target_sources(server_manager_test PRIVATE server_manager_test.cpp)
+
+target_link_libraries(server_manager_test gtest gmock gtest_main ServerManager)
+
+gtest_discover_tests(server_manager_test WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
