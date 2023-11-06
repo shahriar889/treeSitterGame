@@ -226,13 +226,8 @@ ChatServer::buildOutgoingNullRoom() {
             outgoing.push_back({conn, messagesForNullRoom.str()});
         }
     }
-    resetMessagesForNullRoom();
+    resetOStringStream(messagesForNullRoom);
     return outgoing;
-}
-
-void ChatServer::resetMessagesForNullRoom() {
-    messagesForNullRoom.str({});
-    messagesForNullRoom.clear();
 }
 
 std::deque<Message>
@@ -260,11 +255,15 @@ ChatServer::buildOutgoingRooms() {
                 outgoing.push_back({c, i.second.str()});     
             }
         }
-        i.second.str({});
-        i.second.clear();
+        resetOStringStream(i.second);
     }
     
     return outgoing;
+}
+
+void ChatServer::resetOStringStream(std::ostringstream& ss) {
+    ss.str({});
+    ss.clear();
 }
 
 void

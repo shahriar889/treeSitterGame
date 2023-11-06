@@ -68,9 +68,9 @@ private:
 
     void sendUserServerMessage(Message message, const std::string& log);
     std::deque<Message> buildOutgoingNullRoom();
-    void resetMessagesForNullRoom();
     std::deque<Message> buildOutgoingPrivateServerMsg();
     std::deque<Message> buildOutgoingRooms();
+    void resetOStringStream(std::ostringstream& ss);
 
     void printUsersAndRooms(bool alwaysPrint);
 
