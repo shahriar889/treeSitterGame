@@ -10,6 +10,12 @@ per-player {}
 per-audience {}
 rules {
   for value in [] {
+    for value in [] {
+      for value in [] {
+        for value in [] {
+        }
+      }
+    }
   }
   while true {
   }
