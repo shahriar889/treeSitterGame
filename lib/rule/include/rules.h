@@ -25,8 +25,14 @@ class PrimitiveRule : public Rule {
 
 class NestedRule: public Rule {
 public:
-private:
+    void addRule(std::unique_ptr<Rule> rule) noexcept {
+        rules.emplace_back(std::move(rule));
+    }
+    
+protected:
     std::vector<std::unique_ptr<Rule>> rules;
+    
+private:
     void executeImpl() override = 0;
 };
 

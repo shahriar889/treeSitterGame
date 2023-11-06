@@ -3,6 +3,8 @@
 void ForEachLoopRule::executeImpl()
 {
     std::cout << "Executing For-Each loop...\n";
+
+    std::for_each(rules.begin(), rules.end(), [](std::unique_ptr<Rule> &rule){ rule.get()->execute(); });
 }
 
 void WhileLoopRule::executeImpl()
