@@ -10,52 +10,62 @@
 
 // Abstract Definition
 class Rule {
+    public:
+        void execute() {
+            executeImpl();
+        }
+    private: 
+        virtual void executeImpl() = 0;
+};
+
+class PrimitiveRule : public Rule {
+    private:
+        void executeImpl() override = 0;
+};
+
+class NestedRule: public Rule {
 public:
-    void execute() {
-        executeImpl();
-    }
 private:
-    virtual void executeImpl() = 0;
+    std::vector<std::unique_ptr<Rule>> rules;
+    void executeImpl() override = 0;
 };
 
-// Rule set
-class ForEachLoopRule : public Rule{
+// Nested Rule set
+class ForEachLoopRule final: public NestedRule{
+    void executeImpl() override;
+};
+
+class WhileLoopRule final: public NestedRule{
+    void executeImpl() override;
+};
+
+
+class ParallelForLoopRule final: public NestedRule{
+    void executeImpl() override;
+};
+
+class MatchLoopRule final: public PrimitiveRule{
     private:
         void executeImpl() override;
 };
 
-class WhileLoopRule : public Rule{
+// Primitive Rule set
+class ExtendListRule final: public PrimitiveRule{
     private:
         void executeImpl() override;
 };
 
-
-class ParallelForLoopRule : public Rule{
+class DiscardListRule final: public PrimitiveRule{
     private:
         void executeImpl() override;
 };
 
-class MatchLoopRule : public Rule{
+class MessageOutputRule final: public PrimitiveRule{
     private:
         void executeImpl() override;
 };
 
-class ExtendListRule : public Rule{
-    private:
-        void executeImpl() override;
-};
-
-class DiscardListRule : public Rule{
-    private:
-        void executeImpl() override;
-};
-
-class MessageOutputRule : public Rule{
-    private:
-        void executeImpl() override;
-};
-
-class AssignmentRule : public Rule{
+class AssignmentRule final: public PrimitiveRule{
     private:
         void executeImpl() override;
 };

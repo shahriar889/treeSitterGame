@@ -9,17 +9,35 @@ private:
     virtual std::unique_ptr<Rule> createImpl() = 0;
 };
 
-class ForEachLoopFactory final : public RuleFactory {
+class NestedRuleFactory : public RuleFactory {
+    public:
+        std::unique_ptr<Rule> create() {
+            return createImpl();
+        }
+        private:
+        virtual std::unique_ptr<Rule> createImpl() = 0;
+};
+
+class PrimitiveRuleFactory : public RuleFactory{
+    public:
+        std::unique_ptr<Rule> create() {
+            return createImpl();
+        }
+        private:
+        virtual std::unique_ptr<Rule> createImpl() = 0;
+};
+
+class ForEachLoopFactory final : public NestedRuleFactory {
 private:
     std::unique_ptr<Rule> createImpl() override;
 };
 
-class WhileLoopFactory final : public RuleFactory {
+class WhileLoopFactory final : public NestedRuleFactory {
 private:
     std::unique_ptr<Rule> createImpl() override;
 };
 
-class ParallelForLoopFactory final : public RuleFactory {
+class ParallelForLoopFactory final : public NestedRuleFactory {
 private:
     std::unique_ptr<Rule> createImpl() override;
 };
