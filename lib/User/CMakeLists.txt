@@ -18,7 +18,7 @@ target_include_directories(User
 target_link_libraries(User networking)
 # Set the output directory for the library
 set_target_properties(User PROPERTIES
-    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib/server-v1"
+    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib/User"
 )
 
 # Install the target and its public headers

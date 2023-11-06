@@ -1,9 +1,9 @@
 project(server-v1)
 add_executable(${PROJECT_NAME} main.cpp)
-add_subdirectory(ServerManager)
-add_subdirectory(Room)
-add_subdirectory(User)
-add_subdirectory(StringHandling)
+# add_subdirectory(ServerManager)
+# add_subdirectory(Room)
+# add_subdirectory(User)
+# add_subdirectory(StringHandling)
 
 # target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 

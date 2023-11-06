@@ -18,7 +18,7 @@ target_include_directories(Room
 target_link_libraries(Room ServerManager)
 # Set the output directory for the library
 set_target_properties(Room PROPERTIES
-    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib/server-v1"
+    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib/Room"
 )
 
 # Install the target and its public headers

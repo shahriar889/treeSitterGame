@@ -17,7 +17,7 @@ target_include_directories(StringHandling
 
 # Set the output directory for the library
 set_target_properties(StringHandling PROPERTIES
-    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib/server-v1"
+    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib/StringHandling"
 )
 
 # Install the target and its public headers

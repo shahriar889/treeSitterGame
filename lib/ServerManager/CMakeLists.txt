@@ -18,7 +18,7 @@ target_include_directories(ServerManager
 target_link_libraries(ServerManager Room)
 # Set the output directory for the library
 set_target_properties(ServerManager PROPERTIES
-    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib/server-v1"
+    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib/ServerManager"
 )
 
 # Install the target and its public headers
