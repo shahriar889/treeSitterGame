@@ -42,6 +42,8 @@ struct CommandResult {
 struct UserData {
     Room* room{nullptr};
     std::vector<std::string> messagesFromServer;
+    bool hasName{false};
+    std::string name;
 };
 
 class ChatServer {
@@ -63,7 +65,9 @@ private:
     std::string createRoom(const Message& message);
     std::string joinRoom(const Message& message);
     std::string leaveRoom(const Message& message);
+    std::string setName(const Message& message);
     CommandResult handleCommand(const Message& message);
+    std::string getNameFromUser(Connection c);
     bool processMessages(const std::deque<Message>& incoming);
 
     void sendUserServerMessage(Message message, const std::string& log);

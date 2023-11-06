@@ -153,6 +153,30 @@ ChatServer::leaveRoom(const Message& message) {
     return msgForUser.str();
 }
 
+std::string
+ChatServer::setName(const Message& message) {
+    // Check arguments
+    auto args = splitString(message.text);
+    std::stringstream msgForUser;
+    if (args.size() > 2) {
+        msgForUser << "Command " << std::quoted("/setname", '\'') << " has wrong syntax.\n";
+        return msgForUser.str();
+    }
+
+    UserData& user = connectionUserMap.at(message.connection);
+    if (args.size() == 2 && !args[1].empty()) {
+        user.name = args[1];
+        user.hasName = true;
+        msgForUser << "Successfully set username to " << std::quoted(args[1]) << '\n';
+    } else {
+        user.name = "";
+        user.hasName = false;
+        msgForUser << "Successfully reset username\n";
+    }
+    
+    return msgForUser.str();
+}
+
 CommandResult
 ChatServer::handleCommand(const Message& message) {
     CommandEffect status = CommandEffect::NOTHING;
@@ -174,11 +198,23 @@ ChatServer::handleCommand(const Message& message) {
     } else if (message.text == "/leaveroom") {
         auto result = leaveRoom(message);
         msgForUser << result;
-    } else {
+    } else if (message.text.rfind("/setname", 0) == 0) {
+        auto result = setName(message);
+        msgForUser << result;
+    }
+    else {
         msgForUser << "Command " << std::quoted(message.text, '\'') << " is not recognized.\n";
     }
 
     return {status, msgForUser.str()};
+}
+
+std::string ChatServer::getNameFromUser(Connection c) {
+    UserData& user = connectionUserMap.at(c);
+    if (user.hasName) {
+        return user.name;
+    }     
+    return std::to_string(c.id);
 }
 
 bool
@@ -201,10 +237,11 @@ ChatServer::processMessages(const std::deque<Message>& incoming) {
             }
         } else {
             Room* room = connectionUserMap.at(message.connection).room;
+            std::string name = getNameFromUser(message.connection);
             if (room) {
-                messagesForRooms.at(room->getId()) << message.connection.id << "> " << message.text << "\n";
+                messagesForRooms.at(room->getId()) << name << "> " << message.text << "\n";
             } else {
-                messagesForNullRoom << message.connection.id << "> " << message.text << "\n";
+                messagesForNullRoom << name << "> " << message.text << "\n";
             }
         }
     }
