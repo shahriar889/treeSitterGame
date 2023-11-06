@@ -27,6 +27,11 @@ enum class CommandStatus {
     NOTHING
 };
 
+struct CommandResult {
+    CommandStatus status;
+    std::string message;
+};
+
 /*
     Holds the data associated with a Connection. You can view this as the data
     that's associated with a user. Right now, this data includes the Room a user
@@ -57,7 +62,7 @@ private:
     std::string createRoom(const Message& message);
     std::string joinRoom(const Message& message);
     std::string leaveRoom(const Message& message);
-    CommandStatus handleCommand(const Message& message);
+    CommandResult handleCommand(const Message& message);
     bool processMessages(const std::deque<Message>& incoming);
 
     void sendUserServerMessage(Message message, const std::string& log);

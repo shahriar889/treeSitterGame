@@ -152,7 +152,7 @@ ChatServer::leaveRoom(const Message& message) {
     return msgForUser.str();
 }
 
-CommandStatus
+CommandResult
 ChatServer::handleCommand(const Message& message) {
     CommandStatus status = CommandStatus::NOTHING;
     std::ostringstream msgForUser;
@@ -177,8 +177,7 @@ ChatServer::handleCommand(const Message& message) {
         msgForUser << "Command " << std::quoted(message.text, '\'') << " is not recognized.\n";
     }
 
-    sendUserServerMessage(message, msgForUser.str());
-    return status;
+    return {status, msgForUser.str()};
 }
 
 bool
@@ -187,7 +186,9 @@ ChatServer::processMessages(const std::deque<Message>& incoming) {
     for (const auto& message : incoming) {
         if (message.text.rfind("/", 0) == 0) {
             printableEvent = true;
-            switch (handleCommand(message)) {
+            const auto [status, commandMsg] = handleCommand(message);
+            sendUserServerMessage(message, commandMsg);
+            switch (status) {
                 case CommandStatus::DISCONNECT:
                     server.disconnect(message.connection);
                     break;
