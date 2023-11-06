@@ -252,8 +252,7 @@ ChatServer::buildOutgoingRooms() {
     std::deque<Message> outgoing;
     for (auto& i : messagesForRooms) {
         RoomId roomId = i.first;
-        auto roomFinder = [roomId] (Room other) -> bool { return roomId == other.getId(); };
-        auto roomIterator = std::find_if(std::begin(rooms), std::end(rooms), roomFinder);
+        auto roomIterator = std::find_if(std::begin(rooms), std::end(rooms), Room::FindById(roomId));
         if (roomIterator != std::end(rooms)) {
             Room& room = *roomIterator;
             auto roomConnections = room.getConnections();

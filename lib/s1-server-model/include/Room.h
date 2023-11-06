@@ -50,6 +50,12 @@ public:
   private:
     const JoinCode& lhs;
   };
+  struct FindById {
+    FindById(RoomId lhs) : lhs(lhs) {}
+    bool operator()(const Room& otherRoom) const {return lhs == otherRoom.getId();}  
+  private:
+    RoomId lhs;
+  };
 };
 
 
