@@ -199,7 +199,7 @@ ChatServer::processMessages(const std::deque<Message>& incoming) {
                     break;
             }
         } else {
-            result << message.connection.id << "> " << message.text << "\n";
+            messagesForNullRoom << message.connection.id << "> " << message.text << "\n";
         }
     }
     return MessageResult{result.str(), quit};
@@ -212,12 +212,18 @@ ChatServer::sendUserServerMessage(Message message, const std::string& log) {
 }
 
 std::deque<Message>
-ChatServer::buildOutgoing(const std::string& log) {
+ChatServer::buildOutgoingNullRoom() {
     std::deque<Message> outgoing;
     for (const auto& [conn, data] : connectionUserMap) {
-        outgoing.push_back({conn, log});
+        outgoing.push_back({conn, messagesForNullRoom.str()});
     }
+    resetMessagesForNullRoom();
     return outgoing;
+}
+
+void ChatServer::resetMessagesForNullRoom() {
+    messagesForNullRoom.str({});
+    messagesForNullRoom.clear();
 }
 
 std::deque<Message>
@@ -272,7 +278,7 @@ ChatServer::update() {
 
     const auto incoming = server.receive();
     const auto [log, shouldQuit] = processMessages(incoming);
-    const auto outgoing = buildOutgoing(log);
+    const auto outgoing = buildOutgoingNullRoom();
     server.send(outgoing);
     const auto outgoingFromServer = buildOutgoingPrivateServerMsg();
     server.send(outgoingFromServer);

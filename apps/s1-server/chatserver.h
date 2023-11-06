@@ -52,6 +52,8 @@ private:
     JoinCodeGenerator joinCodeGen;
     int roomsGenerated = 0;
     bool printableEvent = true;
+
+    std::ostringstream messagesForNullRoom;
     
     void connectUser(Connection c);
     void disconnectUser(Connection c);
@@ -64,7 +66,8 @@ private:
     MessageResult processMessages(const std::deque<Message>& incoming);
 
     void sendUserServerMessage(Message message, const std::string& log);
-    std::deque<Message> buildOutgoing(const std::string& log);
+    std::deque<Message> buildOutgoingNullRoom();
+    void resetMessagesForNullRoom();
     std::deque<Message> buildOutgoingPrivateServerMsg();
 
     void printUsersAndRooms(bool alwaysPrint);
