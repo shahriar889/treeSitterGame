@@ -6,7 +6,9 @@ using networking::Message;
 
 namespace server_model {
   
-
+std::vector<Connection> Room::getConnections() const {
+  return connections;
+}
 JoinCode Room::getJoinCode() const {
   return joinCode;
 }

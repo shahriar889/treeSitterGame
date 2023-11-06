@@ -91,6 +91,7 @@ ChatServer::createRoom(const Message& message) {
     std::string game = args[4];
     Room room{roomId, joinCode, name, game};
     rooms.push_back(room);
+    messagesForRooms.emplace(roomId, "");
     roomsGenerated++;
 
     msgForUser << "Created room " << std::quoted(args[2]) << " playing game "
@@ -199,7 +200,12 @@ ChatServer::processMessages(const std::deque<Message>& incoming) {
                     break;
             }
         } else {
-            messagesForNullRoom << message.connection.id << "> " << message.text << "\n";
+            Room* room = connectionUserMap.at(message.connection).room;
+            if (room) {
+                messagesForRooms.at(room->getId()) << message.connection.id << "> " << message.text << "\n";
+            } else {
+                messagesForNullRoom << message.connection.id << "> " << message.text << "\n";
+            }
         }
     }
     return quit;
@@ -215,7 +221,10 @@ std::deque<Message>
 ChatServer::buildOutgoingNullRoom() {
     std::deque<Message> outgoing;
     for (const auto& [conn, data] : connectionUserMap) {
-        outgoing.push_back({conn, messagesForNullRoom.str()});
+        Room* room = connectionUserMap.at(conn).room;
+        if (!room) {
+            outgoing.push_back({conn, messagesForNullRoom.str()});
+        }
     }
     resetMessagesForNullRoom();
     return outgoing;
@@ -235,6 +244,27 @@ ChatServer::buildOutgoingPrivateServerMsg() {
         }
         data.messagesFromServer.clear();
     }
+    return outgoing;
+}
+
+std::deque<Message>
+ChatServer::buildOutgoingRooms() {
+    std::deque<Message> outgoing;
+    for (auto& i : messagesForRooms) {
+        RoomId roomId = i.first;
+        auto roomFinder = [roomId] (Room other) -> bool { return roomId == other.getId(); };
+        auto roomIterator = std::find_if(std::begin(rooms), std::end(rooms), roomFinder);
+        if (roomIterator != std::end(rooms)) {
+            Room& room = *roomIterator;
+            auto roomConnections = room.getConnections();
+            for (const auto& c : roomConnections) {
+                outgoing.push_back({c, i.second.str()});     
+            }
+        }
+        i.second.str({});
+        i.second.clear();
+    }
+    
     return outgoing;
 }
 
@@ -278,10 +308,12 @@ ChatServer::update() {
 
     const auto incoming = server.receive();
     const auto shouldQuit = processMessages(incoming);
-    const auto outgoing = buildOutgoingNullRoom();
-    server.send(outgoing);
+    const auto outgoingForNullRoom = buildOutgoingNullRoom();
+    server.send(outgoingForNullRoom);
     const auto outgoingFromServer = buildOutgoingPrivateServerMsg();
     server.send(outgoingFromServer);
+    const auto outgoingForRooms = buildOutgoingRooms();
+    server.send(outgoingForRooms);
     if (shouldQuit || errorWhileUpdating) {
         return true;
     }

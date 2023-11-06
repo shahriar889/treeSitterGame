@@ -31,6 +31,7 @@ public:
     std::cout << "Room() ran. Making new room with id " << id << "\n";
   }
 
+  std::vector<Connection> getConnections() const;
   JoinCode getJoinCode() const;
   std::string getName() const;
   std::string getGame() const;

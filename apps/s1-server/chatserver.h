@@ -54,6 +54,7 @@ private:
     bool printableEvent = true;
 
     std::ostringstream messagesForNullRoom;
+    std::unordered_map<RoomId, std::ostringstream> messagesForRooms;
     
     void connectUser(Connection c);
     void disconnectUser(Connection c);
@@ -69,6 +70,7 @@ private:
     std::deque<Message> buildOutgoingNullRoom();
     void resetMessagesForNullRoom();
     std::deque<Message> buildOutgoingPrivateServerMsg();
+    std::deque<Message> buildOutgoingRooms();
 
     void printUsersAndRooms(bool alwaysPrint);
 
