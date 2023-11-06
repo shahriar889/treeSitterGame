@@ -21,14 +21,14 @@ using networking::ConnectionHash;
 using networking::Message;
 using server_model::Room;
 
-enum class CommandStatus {
+enum class CommandEffect {
     DISCONNECT,
     SHUTDOWN,
     NOTHING
 };
 
 struct CommandResult {
-    CommandStatus status;
+    CommandEffect status;
     std::string message;
 };
 

@@ -154,16 +154,16 @@ ChatServer::leaveRoom(const Message& message) {
 
 CommandResult
 ChatServer::handleCommand(const Message& message) {
-    CommandStatus status = CommandStatus::NOTHING;
+    CommandEffect status = CommandEffect::NOTHING;
     std::ostringstream msgForUser;
 
     if (message.text == "/quit" || message.text == "/exit") {
         msgForUser << "Disconnecting from the server...";
-        status = CommandStatus::DISCONNECT;
+        status = CommandEffect::DISCONNECT;
     } else if (message.text == "/shutdown") {
         msgForUser << "Shutting the server down...";
         std::cout << "Shutting down.\n";
-        status = CommandStatus::SHUTDOWN;
+        status = CommandEffect::SHUTDOWN;
     } else if (message.text.rfind("/createroom", 0) == 0) {
         auto result = createRoom(message);
         msgForUser << result;
@@ -189,10 +189,10 @@ ChatServer::processMessages(const std::deque<Message>& incoming) {
             const auto [status, commandMsg] = handleCommand(message);
             sendUserServerMessage(message, commandMsg);
             switch (status) {
-                case CommandStatus::DISCONNECT:
+                case CommandEffect::DISCONNECT:
                     server.disconnect(message.connection);
                     break;
-                case CommandStatus::SHUTDOWN:
+                case CommandEffect::SHUTDOWN:
                     quit = true;
                     break;
                 default:
