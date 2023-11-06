@@ -34,10 +34,13 @@ If there are 2 User in the vector and a third one joins, 1's and 2's destructors
 Similarly, if there are 3 users and 2 types an invalid command,
     making the server send a message to them, 1's and 2's destructors run.
 
+! /leaveroom gives empty string for its name if you pass the room name ROOM_NAME
+
 TODO dependency injection: separate Server out of ChatServer so you can pass in mocks
 TODO separate the update loop out of ChatServer so you can test activity with single functions
-TODO use Command pattern to parse commands
-TODO Room isolation: you're in a room, you can only interact with users in that room.
+TODO use Command pattern to parse commands (kind of hard!)
+    TODO instead, use a map to store command spelling + function https://stackoverflow.com/a/53337149
+    TODO make /quit message be sent to user. Right now, user disconnects before it's sent. Or maybe just have it give empty string.
 TODO The creator of the room is an admin. The admin can delete room, kick players, etc.
 TODO /roominfo to see who's the admin of the room, room's joincode, etc.
 
