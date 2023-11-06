@@ -181,9 +181,8 @@ ChatServer::handleCommand(const Message& message) {
     return status;
 }
 
-MessageResult
+bool
 ChatServer::processMessages(const std::deque<Message>& incoming) {
-    std::ostringstream result;
     bool quit = false;
     for (const auto& message : incoming) {
         if (message.text.rfind("/", 0) == 0) {
@@ -202,7 +201,7 @@ ChatServer::processMessages(const std::deque<Message>& incoming) {
             messagesForNullRoom << message.connection.id << "> " << message.text << "\n";
         }
     }
-    return MessageResult{result.str(), quit};
+    return quit;
 }
 
 void
@@ -277,7 +276,7 @@ ChatServer::update() {
     }
 
     const auto incoming = server.receive();
-    const auto [log, shouldQuit] = processMessages(incoming);
+    const auto shouldQuit = processMessages(incoming);
     const auto outgoing = buildOutgoingNullRoom();
     server.send(outgoing);
     const auto outgoingFromServer = buildOutgoingPrivateServerMsg();
