@@ -1,9 +1,9 @@
 # apps
 
-"""
+
 This directory contains the following components:
 
-- `build1_client`: This is the original implementation of the client, created by the professor.
+- `client-ncurses-prof`: This is the original implementation of the client, created by the professor.
 - `(san|jar)server-prototype's`: These are two server protoype implmenation 
 
 
