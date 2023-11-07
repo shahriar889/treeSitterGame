@@ -2,10 +2,10 @@
 
 
 
-add_executable(server server.cpp Room.cpp)
+add_executable(server-san-prototype server.cpp Room.cpp)
 
-target_include_directories(server PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-set_target_properties(server
+target_include_directories(server-san-prototype PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+set_target_properties(server-san-prototype
                       PROPERTIES
                       LINKER_LANGUAGE CXX
                       CXX_STANDARD 17
@@ -14,16 +14,16 @@ set_target_properties(server
 
 find_package(Threads REQUIRED)
 
-target_link_libraries(server
+target_link_libraries(server-san-prototype 
   networking
   ${CMAKE_THREAD_LIBS_INIT}
 )
 
-install(TARGETS server
+install(TARGETS server-san-prototype
   RUNTIME DESTINATION bin
 )
 
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/webchat.html DESTINATION ${CMAKE_BINARY_DIR}/bin)
-set_target_properties(server 
+set_target_properties(server-san-prototype 
     PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
