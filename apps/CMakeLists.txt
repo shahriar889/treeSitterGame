@@ -1,5 +1,4 @@
-# add_subdirectory(server)
-add_subdirectory(client)
-add_subdirectory(s1-server)
-add_subdirectory(s1-client-ncurses)
+add_subdirectory(server-san-prototype)
+add_subdirectory(server-jar-prototype)
+add_subdirectory(client-ncurses-prof)
 add_subdirectory(server-v1)
