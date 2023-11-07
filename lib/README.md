@@ -1,3 +1,4 @@
+# lib
 This directory contains the following libraries for the social gaming application realted to server:
 
 - `User`: This class represents a user.

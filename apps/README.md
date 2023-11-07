@@ -1,10 +1,10 @@
-# FILEPATH: /path/to/directory
+# apps
 
 """
 This directory contains the following components:
 
 - `build1_client`: This is the original implementation of the client, created by the professor.
-- `(san|jar)server-prototype's`: These are protoype implmenation 
+- `(san|jar)server-prototype's`: These are two server protoype implmenation 
 
 
 # Moving forward the main executabale will be the server-v1, it will depend on the following components 
