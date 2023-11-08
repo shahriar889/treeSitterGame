@@ -10,6 +10,9 @@
 # OS
 .DS_Store
 
+# gitlab
+.gitlab
+
 # Binaries
 *.7z
 *.dmg
@@ -40,3 +43,7 @@ _deps
 
 # Custom to project files/folders
 build
+
+
+#gitlab ignore
+.gitlab

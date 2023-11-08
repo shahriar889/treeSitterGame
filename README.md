@@ -13,4 +13,3 @@ This project also has the dependencies included in the source code:
 
 - GoogleTest v1.14.0
 
-## Steps to run

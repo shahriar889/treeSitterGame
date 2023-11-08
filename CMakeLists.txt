@@ -19,3 +19,7 @@ endif()
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/lib)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/extern) # All external libraries/deps to be built
+
+
+# The executable code is here
+add_subdirectory(apps)
