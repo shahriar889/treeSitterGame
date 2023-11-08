@@ -24,10 +24,17 @@ void Parser::dfs(ts::Node node, std::vector<Translator::RulePointer>& rules) {
     //if nested, pass this vector instead
     std::vector<Translator::RulePointer> nestedRules;
     for (int i = 0; i < numChildren; i++) {
+        if (rule && rule->isNested()) {
+            dfs(node.getNamedChild(i), nestedRules);
+        }
         dfs(node.getNamedChild(i), rules);
     }
 
     if (rule) {
+        if (rule->isNested()) {
+            dynamic_cast<NestedRule*>(rule.get())->setRules(std::move(nestedRules));
+        }
+        
         rules.emplace_back(std::move(rule));
     }
 }

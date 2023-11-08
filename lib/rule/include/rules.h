@@ -37,7 +37,7 @@ public:
         rules = std::move(rules);
     }
     bool isNestedImpl() override {
-        return false;
+        return true;
     }
     
 protected:
