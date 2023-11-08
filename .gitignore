@@ -43,3 +43,7 @@ _deps
 
 # Custom to project files/folders
 build
+
+
+#gitlab ignore
+.gitlab

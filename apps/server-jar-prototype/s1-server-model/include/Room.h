@@ -1,7 +1,7 @@
 #ifndef SERVER_MODEL_ROOM_H
 #define SERVER_MODEL_ROOM_H
 
-#include "../../networking/include/Server.h"
+#include "Server.h"
 #include "JoinCode.h"
 
 #include <vector>

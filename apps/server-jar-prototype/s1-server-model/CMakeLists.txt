@@ -11,6 +11,8 @@ target_include_directories(server_model
     ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
+target_link_libraries(server_model networking)
+
 set_target_properties(server_model
                       PROPERTIES
                       LINKER_LANGUAGE CXX

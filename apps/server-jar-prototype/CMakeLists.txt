@@ -1,4 +1,4 @@
-
+add_subdirectory(s1-server-model)
 add_executable(server-jar-prototype
   chatserver.cpp
   serverdriver.cpp
