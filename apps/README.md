@@ -1,11 +1,16 @@
 # apps
 
-
 This directory contains the following components:
 
 - `client-ncurses-prof`: This is the original implementation of the client, created by the professor.
 - `(san|jar)server-prototype's`: These are two server protoype implmenation 
 
+# dependencies
+
+- `sudo apt install libboost-all-dev`: boost for linux
+-  `brew install boost`: boost for macOS via homebrew
+
+cmake will automatically find these and build the apps
 
 # Moving forward the main executabale will be the server-v1, it will depend on the following components 
 
