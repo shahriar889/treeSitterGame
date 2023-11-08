@@ -21,14 +21,17 @@ void Parser::dfs(ts::Node node, std::vector<Translator::RulePointer>& rules) {
     auto numChildren = node.getNumNamedChildren();
 
     auto rule = translator.createOperation(std::string{node.getType()});
-    if (rule) {
-        rules.emplace_back(std::move(rule));
-    }
-
+    //if nested, pass this vector instead
+    std::vector<Translator::RulePointer> nestedRules;
     for (int i = 0; i < numChildren; i++) {
         dfs(node.getNamedChild(i), rules);
     }
+
+    if (rule) {
+        rules.emplace_back(std::move(rule));
+    }
 }
+
 
 //Helpers
 std::string Parser::getSourceCode(const std::string_view& path) {

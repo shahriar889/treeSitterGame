@@ -14,19 +14,30 @@ class Rule {
         void execute() {
             executeImpl();
         }
+        bool isNested() {
+            return isNestedImpl();
+        }
     private: 
         virtual void executeImpl() = 0;
+        virtual bool isNestedImpl() = 0;
 };
 
 class PrimitiveRule : public Rule {
+    public:
+        bool isNestedImpl() override {
+            return false;
+        }
     private:
         void executeImpl() override = 0;
 };
 
 class NestedRule: public Rule {
 public:
-    void addRule(std::unique_ptr<Rule> rule) noexcept {
-        rules.emplace_back(std::move(rule));
+    void setRules(std::vector<std::unique_ptr<Rule>> rules) noexcept {
+        rules = std::move(rules);
+    }
+    bool isNestedImpl() override {
+        return false;
     }
     
 protected:

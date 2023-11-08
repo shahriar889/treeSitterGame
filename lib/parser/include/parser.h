@@ -7,6 +7,8 @@
 #include <string>
 #include <iostream>
 #include <memory>
+#include <typeinfo>
+#include "rules.h"
 #include "ruleManager.h"
 #include "ruleTranslator.h"
 

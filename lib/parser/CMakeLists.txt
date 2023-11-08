@@ -5,6 +5,7 @@ target_link_libraries(parser
     tree-sitter-socialgaming
     ruleManager
     ruleTranslator
+    rules
 )
 
 target_include_directories(parser PUBLIC
