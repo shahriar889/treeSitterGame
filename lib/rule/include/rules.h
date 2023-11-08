@@ -33,8 +33,8 @@ class PrimitiveRule : public Rule {
 
 class NestedRule: public Rule {
 public:
-    void setRules(std::vector<std::unique_ptr<Rule>> rules) noexcept {
-        rules = std::move(rules);
+    void setRules(std::vector<std::unique_ptr<Rule>> newRules) noexcept {
+        rules = std::move(newRules);
     }
     bool isNestedImpl() override {
         return true;

@@ -2,11 +2,20 @@
 #include "parser.h"
 
 const std::string RULE_MANAGER_TEST_GAME = "games/rule-manager-test.game";
+const std::string NESTING_TEST_GAME = "games/nesting-test.game";
 
 // Demonstrate some basic assertions.
 TEST(ParserTest, createRules)
 {
     Parser parser{RULE_MANAGER_TEST_GAME};
+    auto ruleManager = parser.createRuleManager();
+
+    ruleManager.start();
+}
+
+TEST(ParserTest, createNestingRules)
+{
+    Parser parser{NESTING_TEST_GAME};
     auto ruleManager = parser.createRuleManager();
 
     ruleManager.start();
