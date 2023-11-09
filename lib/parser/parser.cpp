@@ -45,7 +45,7 @@ void Parser::dfs(ts::Node node, std::vector<Translator::RulePointer>& rules) {
 
 //Helpers
 std::string Parser::getSourceCode(const std::string_view& path) {
-    std::filesystem::path projectDirectory = std::filesystem::current_path().parent_path();
+    std::filesystem::path projectDirectory = std::filesystem::current_path();
     std::filesystem::path absolutePath = projectDirectory / path;
     std::ifstream input_file(absolutePath.string());
 
