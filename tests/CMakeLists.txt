@@ -9,6 +9,7 @@ add_subdirectory(lib)
 
 # Add test subdirectories
 add_subdirectory(parser)
+add_subdirectory(server-v1)
 
 ### DEFAULT TEST DEFINITION FORMAT
 
