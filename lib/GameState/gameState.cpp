@@ -1,6 +1,7 @@
 #include "gameState.h"
 using namespace GS;
 
+
 DataValue GameState::getValue(const std::string& name) const {
     auto it = values.find(name);
     if (it != values.end()) {
@@ -10,12 +11,13 @@ DataValue GameState::getValue(const std::string& name) const {
     return DataValue(); // Default-constructed std::variant, which is empty. 
 }
 
+
 void GameState::setValue(const std::string& name, const DataValue& value) {
     values[name] = value;
 }
 
-GameState::GameState() {
-    values = std::map<std::string, DataValue>();
+
+GameState::GameState(): values(std::map<std::string, GS::DataValue>()) {
     this->functionMap[ts::Symbol(84)] = [this](const ts::Node& root,const ts::Symbol& symb, TM::TreeManager& treeManager) -> DataValue { return this->getQuotedString(root,symb,treeManager); };
     this->functionMap[ts::Symbol(81)] = [this](const ts::Node& root,const ts::Symbol& symb, TM::TreeManager& treeManager) -> DataValue { return this->getNumber(root,symb,treeManager); };
     this->functionMap[ts::Symbol(123)] = [this](const ts::Node& root,const ts::Symbol& symb, TM::TreeManager& treeManager) -> DataValue { return this->getBoolean(root,symb,treeManager); };
@@ -25,7 +27,7 @@ GameState::GameState() {
 DataValue GameState::getQuotedString(const ts::Node& root,const ts::Symbol& symb, TM::TreeManager& treeManager) noexcept{
     printf("getQuotedString\n");
     DataValue data;
-    data.setStringValue(treeManager.getSourceRange(root));
+    data.setValue(treeManager.getSourceRange(root));
     return data;
 }
 
@@ -33,7 +35,16 @@ DataValue GameState::getNumber(const ts::Node& root,const ts::Symbol& symb, TM::
     printf("getNumber\n");
     DataValue data;
     std::string number = treeManager.getSourceRange(root);
-    data.setIntValue(std::stoi(number));
+    try {
+        data.setValue(std::stoi(number));
+    } catch (const std::invalid_argument& e) {
+        // Handle invalid argument error
+        std::cerr << "Error: Invalid argument in getNumber: " << e.what() << std::endl;
+    } catch (const std::out_of_range& e) {
+        // Handle out-of-range error
+        std::cerr << "Error: Out of range in getNumber: " << e.what() << std::endl;
+    }
+
     return data;
 }
 
@@ -41,7 +52,7 @@ DataValue GameState::getBoolean(const ts::Node& root,const ts::Symbol& symb, TM:
     printf("getBoolean\n");
     DataValue data;
     std::string boolean = treeManager.getSourceRange(root);
-    data.setBoolValue(boolean == "true");
+    data.setValue(boolean == "true");
     return data;
 }
 
@@ -61,20 +72,22 @@ DataValue GameState::getListValue(const ts::Node& root,const ts::Symbol& symb, T
     std::tuple<int, ts::Node> listTuple = treeManager.findNodeBySymbol(root, ts::Symbol(125));
     ts::Node expressionListNode = std::get<1>(listTuple);
     DataValue data;
+    std::vector<DataValue> list;
     for(uint32_t i = 0; i < expressionListNode.getNumChildren();i++){
         ts::Node expressionNode = expressionListNode.getChild(i);
         if(expressionNode.getSymbol() == ts::Symbol(120)){
             DataValue value = getExpression(expressionNode,expressionNode.getSymbol(), treeManager);
-            data.setListValue(value);
+            list.push_back(value);
         }
     }
+    data.setValue(list);
     return data;
 }
 
-DataValue GameState::getMapValue(const ts::Node& root,const ts::Symbol& symb, TM::TreeManager& treeManager)noexcept{
+DataValue GameState::getMapValue(const ts::Node& root,const ts::Symbol& symb, TM::TreeManager& treeManager) noexcept{
     printf("getMapValue\n");
     DataValue data;
-    std::map<std::string, DataValuePtr> map;
+    std::map<std::string, DataValue> map;
     for(u_int32_t i = 0; i < root.getNumChildren();i++){
         ts::Node mapEntryNode = root.getChild(i);
         if(mapEntryNode.getSymbol() == ts::Symbol(127)){
@@ -82,11 +95,10 @@ DataValue GameState::getMapValue(const ts::Node& root,const ts::Symbol& symb, TM
             std::string key = treeManager.getSourceRange(keyNode);
             ts::Node expressionNode = mapEntryNode.getChild(2);
             DataValue value = getExpression(expressionNode,expressionNode.getSymbol(), treeManager);
-            DataValuePtr valuePtr = std::make_shared<DataValue>(value);
-            map[key] = valuePtr;
+            map[key] = value;
         }
     }
-    data.setMapValue(map);
+    data.setValue(map);
     return data;
 }
 

@@ -1,21 +1,21 @@
 #include "configurationState.h"
-#include <functional>
 
 
 using namespace GS;
+using GS::DataValueVariant;
 using FunctionType = std::function<void(const ts::Symbol&, TM::TreeManager&, ConfigurationState&)>;
 
 // Helper function to set a string value
 void setDataValueString(ConfigurationState& conf, const std::string& name, const std::string& value) {
     DataValue data;
-    data.setStringValue(value);
+    data.setValue(value);
     conf.setValue(name, data);
 }
 
 // Helper function to set an integer value
-void setDataValueInt(ConfigurationState& conf, const std::string& name, int value) {
+void setDataValueInt(ConfigurationState& conf, const std::string& name,const int& value) {
     DataValue data;
-    data.setIntValue(value);
+    data.setValue(value);
     conf.setValue(name, data);
 }
 
@@ -41,7 +41,7 @@ void playerRange(const ts::Symbol& symb, TM::TreeManager& treeManager, Configura
 // Helper function to set a boolean value
 void setDataValueBool(ConfigurationState& conf, const std::string& name, bool value) {
     DataValue data;
-    data.setBoolValue(value);
+    data.setValue(value);
     conf.setValue(name, data);
 }
 
@@ -55,36 +55,32 @@ void hasAudience(const ts::Symbol& symb, TM::TreeManager& treeManager, Configura
     setDataValueBool(conf, "hasAudience", (hasAudience == "true"));
 }
 
-std::map<std::string, GS::DataValuePtr> parseIntegerKind(TM::TreeManager& treeManager, const ts::Symbol& symb) {
+std::map<std::string, GS::DataValue> parseIntegerKind(TM::TreeManager& treeManager, const ts::Symbol& symb) {
     ts::Node root = treeManager.getRoot();
     ts::Node promptNode = std::get<1>(treeManager.findNodeBySymbol(root, symb));
     ts::Node temp = promptNode.getNextSibling();
     std::string prompt = treeManager.getSourceRange(temp);
 
     DataValue dataString;
-    dataString.setStringValue(prompt);
+    dataString.setValue(prompt);
 
-    std::map<std::string, GS::DataValuePtr> tempMap;
-    tempMap["prompt"] = std::make_shared<DataValue>(dataString);
+    std::map<std::string, GS::DataValue> tempMap;
+    tempMap["prompt"] = dataString;
 
     ts::Node rangeNode = temp.getNextSibling();
     std::tuple<int, int> range = treeManager.getNumberRange(rangeNode.getNextSibling());
 
     DataValue dataMin;
-    dataMin.setIntValue(std::get<0>(range));
+    dataMin.setValue(std::get<0>(range));
 
-    GS::DataValuePtr tempPtr1 = std::make_shared<DataValue>(dataMin);
-    tempMap["rangeMin"] = tempPtr1;
+    tempMap["rangeMin"] = dataMin;
 
     DataValue dataMax;
-    dataMax.setIntValue(std::get<1>(range));
+    dataMax.setValue(std::get<1>(range));
     DataValue dataCur;
-    dataCur.setIntValue(std::get<0>(range));
-    GS::DataValuePtr tempPtr3 = std::make_shared<DataValue>(dataCur);
-    tempMap["rangeCur"] = tempPtr3;
-
-    GS::DataValuePtr tempPtr2 = std::make_shared<DataValue>(dataMax);
-    tempMap["rangeMax"] = tempPtr2;
+    dataCur.setValue(std::get<0>(range));
+    tempMap["rangeCur"] = dataCur;
+    tempMap["rangeMax"] = dataMax;
 
     return tempMap;
 }
@@ -108,9 +104,9 @@ void setUpRule(const ts::Symbol& symb, TM::TreeManager& treeManager, Configurati
         std::string kindName = treeManager.getSourceRange(kind[i]);
 
         if (kindName == "integer") {
-            std::map<std::string, GS::DataValuePtr> tempMap = parseIntegerKind(treeManager, kind[i].getNextSibling().getSymbol());
+            std::map<std::string, GS::DataValue> tempMap = parseIntegerKind(treeManager, kind[i].getNextSibling().getSymbol());
             DataValue data;
-            data.setMapValue(tempMap);
+            data.setValue(tempMap);
             conf.setValue(idenName, data);
         }
     }
