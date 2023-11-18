@@ -1,5 +1,5 @@
 #include "configurationState.h"
-#include "ConstantState.h"
+#include "constantState.h"
 #include "variableState.h"
 #include "perPlayerState.h"
 #include "gtest/gtest.h"
