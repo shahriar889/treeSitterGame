@@ -128,3 +128,66 @@ TEST(PerPlayerStateTest, testWithRockPaperScissors){
     wins = std::get<int>(mapValue["wins"].getValueVariant());
     EXPECT_EQ(wins, 1);
 }
+
+TEST(DataValueTest, IntValueTest) {
+    GS::DataValue dataValue;
+
+    // Positive int value
+    dataValue.setValue(420);
+    EXPECT_EQ(std::get<int>(dataValue.getValueVariant()), 420);
+
+    // Zero int value
+    dataValue.setValue(0);
+    EXPECT_EQ(std::get<int>(dataValue.getValueVariant()), 0);
+
+    // Negative int value
+    dataValue.setValue(-420);
+    EXPECT_EQ(std::get<int>(dataValue.getValueVariant()), -420);
+}
+
+TEST(DataValueTest, BooleanValueTest) {
+    GS::DataValue dataValue;
+
+    dataValue.setValue(true);
+    EXPECT_EQ(std::get<bool>(dataValue.getValueVariant()), true);
+
+    dataValue.setValue(false);
+    EXPECT_EQ(std::get<bool>(dataValue.getValueVariant()), false);
+}
+
+TEST(DataValueTest, StringValueTest) {
+    GS::DataValue dataValue;
+
+    // Normal string
+    dataValue.setValue(std::string("Hello, World!"));
+    EXPECT_EQ(std::get<std::string>(dataValue.getValueVariant()), "Hello, World!");
+
+    // Empty string
+    dataValue.setValue(std::string(""));
+    EXPECT_EQ(std::get<std::string>(dataValue.getValueVariant()), "");
+
+    // Test string with special characters
+    std::string specialCharsString = "!@#$%^&*()_+{}[]|;:,.<>?";
+    dataValue.setValue(specialCharsString);
+    EXPECT_EQ(std::get<std::string>(dataValue.getValueVariant()), specialCharsString);
+
+    // Test string with numbers
+    std::string numericString = "12345";
+    dataValue.setValue(numericString);
+    EXPECT_EQ(std::get<std::string>(dataValue.getValueVariant()), numericString);
+
+    // Test string with spaces
+    std::string stringWithSpaces = "   This is a test   ";
+    dataValue.setValue(stringWithSpaces);
+    EXPECT_EQ(std::get<std::string>(dataValue.getValueVariant()), stringWithSpaces);
+
+    // Test long string
+    std::string longString(100000, 'a');
+    dataValue.setValue(longString);
+    EXPECT_EQ(std::get<std::string>(dataValue.getValueVariant()), longString);
+
+    // Test string with newline characters
+    std::string stringWithNewlines = "Line 1\nLine 2\nLine 3";
+    dataValue.setValue(stringWithNewlines);
+    EXPECT_EQ(std::get<std::string>(dataValue.getValueVariant()), stringWithNewlines);
+}
