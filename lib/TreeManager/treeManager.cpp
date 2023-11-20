@@ -58,8 +58,8 @@ std::tuple<int, ts::Node> TM::TreeManager::findNodeBySymbol (const ts::Node& nod
 }
 
 std::string TM::TreeManager::getSourceRange(const ts::Node& node) noexcept {
-    ts::Extent<uint32_t> sourceRange = node.getByteRange();
-    std::string sourceRangeContent = sourceCode.substr(sourceRange.start, sourceRange.end - sourceRange.start);
+    std::string_view x = node.getSourceRange(sourceCode);
+    std::string sourceRangeContent = std::string(x);
     if (sourceRangeContent.size() >= 2 && sourceRangeContent.front() == '"' && sourceRangeContent.back() == '"') {
         sourceRangeContent = sourceRangeContent.substr(1, sourceRangeContent.size() - 2);
     }
