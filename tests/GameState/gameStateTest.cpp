@@ -280,7 +280,7 @@ TEST(DataValueTest, VectorValueTest){
 
     //Stress testing ability to hold large number of value in DataValue vector
 
-    // //The vector already have 3 values in it
+    //The vector already have 3 values in it
     int startingEntry = 3;
     for (int i = 0; i < 10000; i++) {
         GS::DataValue currentIntValue;
