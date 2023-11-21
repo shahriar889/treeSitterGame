@@ -7,6 +7,7 @@
 #include <string>
 
 using GS::DataValue;
+
 TEST(DataValueTest, IntValueTest) {
     GS::DataValue dataValue;
 
