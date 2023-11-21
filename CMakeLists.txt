@@ -16,6 +16,7 @@ if(PACKAGE_TESTS)
     add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/tests)
 endif()
 
+file(COPY ${CMAKE_SOURCE_DIR}/games DESTINATION ${CMAKE_BINARY_DIR})
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/lib)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/extern) # All external libraries/deps to be built

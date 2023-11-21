@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+
 extern "C" {
     TSLanguage* tree_sitter_socialgaming();
 }
@@ -95,3 +96,40 @@ std::tuple<int, int> TM::TreeManager::getNumberRange(const ts::Node& node) noexc
     }
     return range;        
 }
+
+RuleManager TM::TreeManager::createRuleManager() {
+    ts::Node root = syntaxTree.getRootNode();
+    ts::Node rulesNode = root.getChildByFieldName("rules");
+    std::vector<Translator::RulePointer> rules;
+    dfs(rulesNode, rules);
+
+    RuleManager ruleManager(std::move(rules));
+    return ruleManager;
+}
+
+void TM::TreeManager::dfs(ts::Node node, std::vector<Translator::RulePointer>& rules) {
+    Translator translator = buildTreeSitterTranslator();
+    auto numChildren = node.getNumNamedChildren();
+
+    auto rule = translator.createOperation(std::string{node.getType()});
+    //if nested, pass this vector instead
+    std::vector<Translator::RulePointer> nestedRules;
+    if (rule && rule->isNested()) {
+        for (int i = 0; i < numChildren; i++) {
+             dfs(node.getNamedChild(i), nestedRules);
+        }
+    }
+    else {
+        for (int i = 0; i < numChildren; i++) {
+            dfs(node.getNamedChild(i), rules);
+        }
+    }
+
+    if (rule) {
+        if (rule->isNested()) {
+            dynamic_cast<NestedRule*>(rule.get())->setRules(std::move(nestedRules));
+        }
+        rules.emplace_back(std::move(rule));
+    }
+}
+
