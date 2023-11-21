@@ -293,3 +293,31 @@ TEST(DataValueTest, VectorValueTest){
     }
     EXPECT_EQ(retrievedVector.size(), 10003);
 }
+
+//Test for Parameterized Constructor
+TEST(DataValueTest, ConstructorTest){
+
+    //Test constructor with passed in int value
+    DataValue intValue { 420 };
+    EXPECT_EQ(std::get<int>(intValue.getValueVariant()), 420);
+
+    //Test constructor with passed in String value
+    DataValue stringValue { std::string{"Hello World!"} };
+    EXPECT_EQ(std::get<std::string>(stringValue.getValueVariant()), "Hello World!");
+
+    //Test constructor with passed in boolean value
+    DataValue boolValue { true };
+    EXPECT_EQ(std::get<bool>(boolValue.getValueVariant()), true);
+
+    //Test constructor with passed in vector 
+    std::vector<DataValue> sampleVector = { };
+    DataValue vectorValue { sampleVector };
+    auto retrievedVector = std::get<std::vector<DataValue>>(vectorValue.getValueVariant());
+    EXPECT_EQ(retrievedVector.size(), 0);
+
+    //Test constructor with passed in map 
+    std::map<std::string, GS::DataValue> sampleMap = { };
+    DataValue mapValue { sampleMap };
+    auto emptyMap = std::get<std::map<std::string, GS::DataValue>>(mapValue.getValueVariant());
+    EXPECT_TRUE(emptyMap.empty());
+}
