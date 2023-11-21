@@ -8,8 +8,36 @@
 
 using GS::DataValue;
 
+//Test for Parameterized Constructor
+TEST(DataValueTest, ConstructorTest){
+
+    //Test constructor with passed in int value
+    DataValue intValue { 420 };
+    EXPECT_EQ(std::get<int>(intValue.getValueVariant()), 420);
+
+    //Test constructor with passed in String value
+    DataValue stringValue { std::string{"Hello World!"} };
+    EXPECT_EQ(std::get<std::string>(stringValue.getValueVariant()), "Hello World!");
+
+    //Test constructor with passed in boolean value
+    DataValue boolValue { true };
+    EXPECT_EQ(std::get<bool>(boolValue.getValueVariant()), true);
+
+    //Test constructor with passed in vector 
+    std::vector<DataValue> sampleVector = { };
+    DataValue vectorValue { sampleVector };
+    auto retrievedVector = std::get<std::vector<DataValue>>(vectorValue.getValueVariant());
+    EXPECT_EQ(retrievedVector.size(), 0);
+
+    //Test constructor with passed in map 
+    std::map<std::string, DataValue> sampleMap = { };
+    DataValue mapValue { sampleMap };
+    auto emptyMap = std::get<std::map<std::string, DataValue>>(mapValue.getValueVariant());
+    EXPECT_TRUE(emptyMap.empty());
+}
+
 TEST(DataValueTest, IntValueTest) {
-    GS::DataValue dataValue;
+    DataValue dataValue;
 
     // Positive int value
     dataValue.setValue(420);
@@ -32,7 +60,7 @@ TEST(DataValueTest, IntValueTest) {
 }
 
 TEST(DataValueTest, BooleanValueTest) {
-    GS::DataValue dataValue;
+    DataValue dataValue;
 
     dataValue.setValue(true);
     EXPECT_EQ(std::get<bool>(dataValue.getValueVariant()), true);
@@ -42,11 +70,11 @@ TEST(DataValueTest, BooleanValueTest) {
 }
 
 TEST(DataValueTest, StringValueTest) {
-    GS::DataValue dataValue;
+    DataValue dataValue;
 
     // Normal string
-    dataValue.setValue(std::string("Hello, World!"));
-    EXPECT_EQ(std::get<std::string>(dataValue.getValueVariant()), "Hello, World!");
+    dataValue.setValue(std::string("Hello World!"));
+    EXPECT_EQ(std::get<std::string>(dataValue.getValueVariant()), "Hello World!");
 
     // Empty string
     dataValue.setValue(std::string(""));
@@ -79,33 +107,33 @@ TEST(DataValueTest, StringValueTest) {
 }
 
 TEST(DataValueTest, MapValueTest) {
-    GS::DataValue dataValue;
+    DataValue dataValue;
 
     // Test an empty map
-    dataValue.setValue(std::map<std::string, GS::DataValue>{});
-    auto emptyMap = std::get<std::map<std::string, GS::DataValue>>(dataValue.getValueVariant());
+    dataValue.setValue(std::map<std::string, DataValue>{});
+    auto emptyMap = std::get<std::map<std::string, DataValue>>(dataValue.getValueVariant());
     EXPECT_TRUE(emptyMap.empty());
 
     //Test map with one entry
-    GS::DataValue intValue;
+    DataValue intValue;
     intValue.setValue(1);
-    std::map<std::string, GS::DataValue> sampleMap = {{"Hello World!", intValue}};
+    std::map<std::string, DataValue> sampleMap = {{"Hello World!", intValue}};
     dataValue.setValue(sampleMap);
-    auto retrievedMap = std::get<std::map<std::string, GS::DataValue>>(dataValue.getValueVariant());
+    auto retrievedMap = std::get<std::map<std::string, DataValue>>(dataValue.getValueVariant());
 
     EXPECT_EQ(retrievedMap.size(), 1);
 
     //Test map with two entries
-    GS::DataValue firstValue;
+    DataValue firstValue;
     firstValue.setValue(1);
 
-    GS::DataValue secondValue;
+    DataValue secondValue;
     secondValue.setValue(2);
 
-    sampleMap = {{"Hello World!", firstValue},
-                {"This is a test", secondValue}};
+    sampleMap = {{ "Hello World!", firstValue },
+                { "This is a test", secondValue }};
     dataValue.setValue(sampleMap);
-    retrievedMap = std::get<std::map<std::string, GS::DataValue>>(dataValue.getValueVariant());
+    retrievedMap = std::get<std::map<std::string, DataValue>>(dataValue.getValueVariant());
 
     EXPECT_EQ(retrievedMap.size(), 2);
 
@@ -117,17 +145,58 @@ TEST(DataValueTest, MapValueTest) {
     EXPECT_TRUE(retrievedMap.find("NotInMap") == retrievedMap.end());
 }
 
-TEST(DataValueTest, VectorValueTest){
-    GS::DataValue dataValue;
-
-    //Test an empty vector
+TEST(DataValueTest, IntVectorValueTest){
+    DataValue dataValue;
     std::vector<DataValue> valueVector = {};
+
+    valueVector.emplace_back(DataValue{ 420 });
     dataValue.setValue(valueVector);
     auto retrievedVector = std::get<std::vector<DataValue>>(dataValue.getValueVariant());
+
+    EXPECT_EQ(retrievedVector.size(), 1);
+    EXPECT_EQ(std::get<int>(retrievedVector.at(0).getValueVariant()), std::get<int>(valueVector.at(0).getValueVariant()));
+}
+
+TEST(DataValueTest, BoolVectorValueTest){
+    DataValue dataValue;
+    std::vector<DataValue> valueVector = {};
+
+    valueVector.emplace_back(DataValue{ true });
+    dataValue.setValue(valueVector);
+    auto retrievedVector = std::get<std::vector<DataValue>>(dataValue.getValueVariant());
+
+    EXPECT_EQ(retrievedVector.size(), 1);
+    EXPECT_EQ(std::get<bool>(retrievedVector.at(0).getValueVariant()), std::get<bool>(valueVector.at(0).getValueVariant()));
+}
+
+TEST(DataValueTest, StringVectorValueTest){
+    DataValue dataValue;
+    std::vector<DataValue> valueVector = {};
+
+    valueVector.emplace_back(DataValue{ std::string{ "Hello World!" }});
+    dataValue.setValue(valueVector);
+    auto retrievedVector = std::get<std::vector<DataValue>>(dataValue.getValueVariant());
+
+    EXPECT_EQ(retrievedVector.size(), 1);
+    EXPECT_EQ(std::get<std::string>(retrievedVector.at(0).getValueVariant()), std::get<std::string>(valueVector.at(0).getValueVariant()));
+}
+
+TEST(DataValueTest, MixedVectorValueTest){
+    DataValue dataValue;
+    DataValue intValue;
+    DataValue boolValue;
+    DataValue stringValue;
+    std::vector<DataValue> valueVector = {};
+    std::vector<DataValue> retrievedVector = {};
+
+    //Test an empty vector
+    dataValue.setValue(valueVector);
+    
+    retrievedVector = std::get<std::vector<DataValue>>(dataValue.getValueVariant());
+
     EXPECT_EQ(retrievedVector.size(), 0);
 
     //Adding one int entry to vector
-    GS::DataValue intValue;
     intValue.setValue(1);
     valueVector.emplace_back(intValue);
     dataValue.setValue(valueVector);
@@ -137,7 +206,6 @@ TEST(DataValueTest, VectorValueTest){
     EXPECT_EQ(std::get<int>(retrievedVector.at(0).getValueVariant()), std::get<int>(valueVector.at(0).getValueVariant()));
 
     //Adding one boolean entry to vector
-    GS::DataValue boolValue;
     boolValue.setValue(true);
     valueVector.emplace_back(boolValue);
     dataValue.setValue(valueVector);
@@ -146,42 +214,12 @@ TEST(DataValueTest, VectorValueTest){
     EXPECT_EQ(retrievedVector.size(), 2);
     EXPECT_EQ(std::get<bool>(retrievedVector.at(1).getValueVariant()), std::get<bool>(valueVector.at(1).getValueVariant()));
 
-     //Adding one string entry to vector
-    GS::DataValue stringValue;
-    std::string newString = "Hello World!";
-    stringValue.setValue(newString);
+    //Adding one string entry to vector
+    stringValue.setValue(std::string{ "Hello World!" });
     valueVector.emplace_back(stringValue);
     dataValue.setValue(valueVector);
     retrievedVector = std::get<std::vector<DataValue>>(dataValue.getValueVariant());
 
     EXPECT_EQ(retrievedVector.size(), 3);
     EXPECT_EQ(std::get<std::string>(retrievedVector.at(2).getValueVariant()), std::get<std::string>(valueVector.at(2).getValueVariant()));
-}
-
-//Test for Parameterized Constructor
-TEST(DataValueTest, ConstructorTest){
-
-    //Test constructor with passed in int value
-    DataValue intValue { 420 };
-    EXPECT_EQ(std::get<int>(intValue.getValueVariant()), 420);
-
-    //Test constructor with passed in String value
-    DataValue stringValue { std::string{"Hello World!"} };
-    EXPECT_EQ(std::get<std::string>(stringValue.getValueVariant()), "Hello World!");
-
-    //Test constructor with passed in boolean value
-    DataValue boolValue { true };
-    EXPECT_EQ(std::get<bool>(boolValue.getValueVariant()), true);
-
-    //Test constructor with passed in vector 
-    std::vector<DataValue> sampleVector = { };
-    DataValue vectorValue { sampleVector };
-    auto retrievedVector = std::get<std::vector<DataValue>>(vectorValue.getValueVariant());
-    EXPECT_EQ(retrievedVector.size(), 0);
-
-    //Test constructor with passed in map 
-    std::map<std::string, GS::DataValue> sampleMap = { };
-    DataValue mapValue { sampleMap };
-    auto emptyMap = std::get<std::map<std::string, GS::DataValue>>(mapValue.getValueVariant());
-    EXPECT_TRUE(emptyMap.empty());
 }
