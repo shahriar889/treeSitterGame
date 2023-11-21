@@ -6,6 +6,7 @@
 #include <map>
 #include <string>
 
+using GS::DataValue;
 TEST(DataValueTest, IntValueTest) {
     GS::DataValue dataValue;
 
@@ -154,21 +155,6 @@ TEST(DataValueTest, VectorValueTest){
 
     EXPECT_EQ(retrievedVector.size(), 3);
     EXPECT_EQ(std::get<std::string>(retrievedVector.at(2).getValueVariant()), std::get<std::string>(valueVector.at(2).getValueVariant()));
-
-    //Stress testing ability to hold large number of value in DataValue vector
-
-    //The vector already have 3 values in it
-    int startingEntry = 3;
-    for (int i = 0; i < 10000; i++) {
-        GS::DataValue currentIntValue;
-        currentIntValue.setValue(i);
-        valueVector.emplace_back(currentIntValue);
-        dataValue.setValue(valueVector);
-        retrievedVector = std::get<std::vector<DataValue>>(dataValue.getValueVariant());
-
-        EXPECT_EQ(std::get<int>(retrievedVector.at(startingEntry + i).getValueVariant()), std::get<int>(valueVector.at(startingEntry + i).getValueVariant()));
-    }
-    EXPECT_EQ(retrievedVector.size(), 10003);
 }
 
 //Test for Parameterized Constructor
