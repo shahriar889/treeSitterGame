@@ -18,6 +18,7 @@ using networking::Server;
 #include <string>
 #include <unistd.h>
 #include <vector>
+#include <limits>
 
 // additons
 #include <string_view>
