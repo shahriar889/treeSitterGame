@@ -5,6 +5,8 @@ public:
     std::unique_ptr<Rule> create() {
         return createImpl();
     };
+
+    virtual ~RuleFactory() = default;
 private:
     virtual std::unique_ptr<Rule> createImpl() = 0;
 };

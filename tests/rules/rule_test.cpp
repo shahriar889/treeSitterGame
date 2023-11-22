@@ -19,6 +19,7 @@ TEST(ParserTest, createRules)
     auto ruleManager = parser.createRuleManager();
 
     ruleManager.start();
+    EXPECT_EQ(1, 1);
 }
 
 TEST(ParserTest, createNestingRules)
@@ -27,4 +28,5 @@ TEST(ParserTest, createNestingRules)
     auto ruleManager = parser.createRuleManager();
 
     ruleManager.start();
+    EXPECT_EQ(1, 1);
 }

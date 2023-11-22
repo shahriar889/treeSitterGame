@@ -17,6 +17,7 @@ class Rule {
         bool isNested() {
             return isNestedImpl();
         }
+        virtual ~Rule() = default;  
     private: 
         virtual void executeImpl() = 0;
         virtual bool isNestedImpl() = 0;
