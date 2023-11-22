@@ -1,8 +1,11 @@
 add_library(TreeManager treeManager.cpp)
 
 target_link_libraries(TreeManager
-cpp-tree-sitter
-tree-sitter-socialgaming
+    cpp-tree-sitter
+    tree-sitter-socialgaming
+    ruleManager
+    ruleTranslator
+    rules
 )
 
 target_include_directories(TreeManager PUBLIC

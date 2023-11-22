@@ -1,0 +1,26 @@
+configuration {
+  name: ""
+  player range: (0, 0)
+  audience: false
+  setup: {}
+}
+constants {}
+variables {}
+per-player {}
+per-audience {}
+rules {
+  for value in [] {
+  }
+  while true {
+  }
+  parallel for value in [] {
+  }
+  match [a, b] {
+    4 => {}
+    [] + [] => {}
+  }
+  discard a + b from some.list;
+  extend some.list with []
+  message [] "" + "";
+  some.id <- a + b;
+}

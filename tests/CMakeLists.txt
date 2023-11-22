@@ -10,7 +10,7 @@ add_subdirectory(lib)
 # Add test subdirectories
 add_subdirectory(parser)
 add_subdirectory(server-v1)
-
+add_subdirectory(rules)
 add_subdirectory(TreeManager)
 add_subdirectory(GameState)
 
