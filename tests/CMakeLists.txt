@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.14)
 project(socialgaming-tests)
 
 # GoogleTest requires at least C++14
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_STANDARD 17)
 
 # Add test library directories
 add_subdirectory(lib)
