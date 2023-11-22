@@ -16,10 +16,7 @@ target_include_directories(Game
 )
 
 target_link_libraries(Game TreeManager ConfigurationState ConstantState PerPlayerState VariableState )
-# Set the output directory for the library
-set_target_properties(StringHandling PROPERTIES
-    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib/StringHandling"
-)
+
 
 # Install the target and its public headers
 install(TARGETS Game
