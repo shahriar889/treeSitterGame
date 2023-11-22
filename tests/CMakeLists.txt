@@ -13,6 +13,7 @@ add_subdirectory(server-v1)
 add_subdirectory(rules)
 add_subdirectory(TreeManager)
 add_subdirectory(GameState)
+add_subdirectory(Game)
 
 ### DEFAULT TEST DEFINITION FORMAT
 
