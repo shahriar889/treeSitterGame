@@ -20,13 +20,13 @@ namespace GS {
     public:
         DataValue() = default;
 
-        DataValue(std::variant<int, bool, std::string, std::map<std::string, DataValue>, std::vector<DataValue>> data) {
+        DataValue(DataValueVariant data) {
             this->data = data;
         }
 
         // Setter method for the value, map, or list
-        void setValue(std::variant<int, bool, std::string, std::map<std::string, DataValue>, std::vector<DataValue>> value){
-            data = value;
+        void setValue(DataValueVariant data){
+            this->data = data;
         }
         
         // Getter method for the value, map, or list
