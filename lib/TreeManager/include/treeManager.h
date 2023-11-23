@@ -7,14 +7,13 @@
 #include <sstream>
 #include <assert.h>
 #include "rules.h"
-#include "ruleManager.h"
 #include "ruleTranslator.h"
 
 namespace TM {
     class TreeManager {
         public:
             explicit TreeManager(const std::string& filePath) noexcept;
-            RuleManager createRuleManager();
+            std::vector<Translator::RulePointer> createRuleManager();
             ts::Node getRoot() noexcept;
             std::tuple<int, ts::Node> findNodeBySymbol(const ts::Node& node,const ts::Symbol& targetSymbol) noexcept;
             std::string getSourceRange(const ts::Node& node) noexcept;

@@ -14,10 +14,10 @@ target_include_directories(ruleFactories PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 )
 
-
 add_library(ruleManager ruleManager.cpp)
 target_link_libraries(ruleManager
-    rules
+    rules 
+    StateManager
 )
 target_include_directories(ruleManager PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>

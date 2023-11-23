@@ -97,14 +97,13 @@ std::tuple<int, int> TM::TreeManager::getNumberRange(const ts::Node& node) noexc
     return range;        
 }
 
-RuleManager TM::TreeManager::createRuleManager() {
+std::vector<Translator::RulePointer> TM::TreeManager::createRuleManager() {
     ts::Node root = syntaxTree.getRootNode();
     ts::Node rulesNode = root.getChildByFieldName("rules");
     std::vector<Translator::RulePointer> rules;
     dfs(rulesNode, rules);
 
-    RuleManager ruleManager(std::move(rules));
-    return ruleManager;
+    return std::move(rules);
 }
 
 void TM::TreeManager::dfs(ts::Node node, std::vector<Translator::RulePointer>& rules) {

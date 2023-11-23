@@ -5,7 +5,6 @@
 #include "perPlayerState.h"
 #include "ruleManager.h"
 
-
 class Game{
 
 

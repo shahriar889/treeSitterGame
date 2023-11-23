@@ -15,7 +15,7 @@ target_include_directories(Game
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 )
 
-target_link_libraries(Game TreeManager ConfigurationState ConstantState PerPlayerState VariableState )
+target_link_libraries(Game TreeManager ConfigurationState ConstantState PerPlayerState VariableState StateManager ruleManager)
 
 
 # Install the target and its public headers

@@ -6,7 +6,7 @@ target_sources(game_test
 )
 
 target_link_libraries(game_test
-   gtest gmock gtest_main TreeManager ruleManager ruleTranslator GameState Game
+   gtest gmock gtest_main TreeManager StateManager ruleManager ruleTranslator GameState Game
 )
 
 set_target_properties(game_test 

@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <filesystem>
 #include "treeManager.h"
-
+#include "ruleManager.h"
 const std::string RULE_MANAGER_TEST_GAME = "games/rule-manager-test.game";
 const std::string NESTING_TEST_GAME = "games/nesting-test.game";
 
@@ -16,7 +16,7 @@ std::string getAbsolutePath(const std::string_view& path) {
 TEST(ParserTest, createRules)
 {
     TM::TreeManager parser{getAbsolutePath(RULE_MANAGER_TEST_GAME)};
-    auto ruleManager = parser.createRuleManager();
+    auto ruleManager = RuleManager{parser.createRuleManager()};
 
     ruleManager.start();
     EXPECT_EQ(1, 1);
@@ -25,7 +25,7 @@ TEST(ParserTest, createRules)
 TEST(ParserTest, createNestingRules)
 {
     TM::TreeManager parser{getAbsolutePath(NESTING_TEST_GAME)};
-    auto ruleManager = parser.createRuleManager();
+    auto ruleManager = RuleManager{parser.createRuleManager()};
 
     ruleManager.start();
     EXPECT_EQ(1, 1);
