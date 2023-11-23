@@ -17,6 +17,8 @@ target_include_directories(ruleFactories PUBLIC
 add_library(ruleManager ruleManager.cpp)
 target_link_libraries(ruleManager
     rules 
+    TreeManager
+    ruleTranslator
     StateManager
 )
 target_include_directories(ruleManager PUBLIC
