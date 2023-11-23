@@ -1,5 +1,7 @@
 add_library(rules rules.cpp)
 target_link_libraries(rules
+    StateManager
+
 )
 
 target_include_directories(rules PUBLIC
@@ -19,7 +21,6 @@ target_link_libraries(ruleManager
     rules 
     TreeManager
     ruleTranslator
-    StateManager
 )
 target_include_directories(ruleManager PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>

@@ -1,41 +1,41 @@
 #include "rules.h"
 
-void ForEachLoopRule::executeImpl()
+void ForEachLoopRule::executeImpl(std::shared_ptr<StateManager> states)
 {
     std::cout << "Executing For-Each loop...\n";
-    std::for_each(rules.begin(), rules.end(), [](std::unique_ptr<Rule> &rule){ rule.get()->execute(); });
+    std::for_each(rules.begin(), rules.end(), [&states](std::unique_ptr<Rule> &rule){ rule.get()->execute(states); });
 }
 
-void WhileLoopRule::executeImpl()
+void WhileLoopRule::executeImpl(std::shared_ptr<StateManager>)
 {
     std::cout << "Executing While loop...\n";
 }
 
-void ParallelForLoopRule::executeImpl()
+void ParallelForLoopRule::executeImpl(std::shared_ptr<StateManager>)
 {
     std::cout << "Executing Parallel-For loop...\n";
 };
 
-void MatchLoopRule::executeImpl()
+void MatchLoopRule::executeImpl(std::shared_ptr<StateManager>)
 {
     std::cout << "Executing Match loop...\n";
 };
-void ExtendListRule::executeImpl()
+void ExtendListRule::executeImpl(std::shared_ptr<StateManager>)
 {
     std::cout << "Executing Extend list...\n";
 };
 
-void DiscardListRule::executeImpl()
+void DiscardListRule::executeImpl(std::shared_ptr<StateManager>)
 {
     std::cout << "Executing Discard list...\n";
 }
 
-void MessageOutputRule::executeImpl()
+void MessageOutputRule::executeImpl(std::shared_ptr<StateManager>)
 {
     std::cout << "Executing Message output...\n";
 }
 
-void AssignmentRule::executeImpl()
+void AssignmentRule::executeImpl(std::shared_ptr<StateManager>)
 {
     std::cout << "Executing Assignment...\n";
 }

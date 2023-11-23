@@ -2,6 +2,7 @@
 #include <filesystem>
 #include "treeManager.h"
 #include "ruleManager.h"
+
 const std::string RULE_MANAGER_TEST_GAME = "games/rule-manager-test.game";
 const std::string NESTING_TEST_GAME = "games/nesting-test.game";
 
