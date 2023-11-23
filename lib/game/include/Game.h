@@ -3,7 +3,7 @@
 #include "constantState.h"
 #include "variableState.h"
 #include "perPlayerState.h"
-
+#include "ruleManager.h"
 
 
 class Game{

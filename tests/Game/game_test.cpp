@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <filesystem>
 #include "Game.h"
 
 const std::string RULE_MANAGER_TEST_GAME = "games/rule-manager-test.game";

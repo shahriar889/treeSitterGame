@@ -1,6 +1,13 @@
 #include "Game.h"
 
+struct StateManager {
+    StateManager(VariableState vs, ConstantState cs, ConfigurationState cf) :
+        variables{vs}, constants(cs), configuration(cf) {};
 
+    VariableState variables;
+    ConstantState constants;
+    ConfigurationState configuration;
+};
 
 Game::Game(std::string path){
     TM::TreeManager treeManager(path);
@@ -37,7 +44,8 @@ Game::Game(std::string path){
     std::map<std::string, GS::DataValue> mapValue3 = std::get<std::map<std::string, GS::DataValue>>(data4.getValueVariant());
     GS::DataValue data5 = mapValue3["weapons"];
 
-    RuleManager ruleManager = treeManager.createRuleManager();
+    StateManager stateManager = StateManager{variableState, constantState, conf};
+    RuleManager ruleManager = treeManager.createRuleManager();//&stateManager);
 
     //based on number of player created create player states reuquire user input
     //PerPlayerState perPlayerState = PerPlayerState();
