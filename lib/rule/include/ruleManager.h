@@ -18,6 +18,7 @@ protected:
 
 private:
     void dfs(ts::Node node, std::vector<Translator::RulePointer>&);
+    std::vector<Expression> getExpressions(ts::Node);
     std::vector<RulePointer> rules;
 };
 

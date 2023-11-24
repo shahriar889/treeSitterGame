@@ -28,13 +28,13 @@ Translator buildTreeSitterTranslator() noexcept {
 }
 
 Translator::RulePointer
-Translator::createOperation(std::string spelling) const noexcept {
+Translator::createOperation(std::string spelling, std::vector<Expression> expressions) const noexcept {
   auto factory = factories.find(spelling);
   if (factory == factories.end()) {
     return {};
   }
 
-  return factory->second->create();
+  return factory->second->create(expressions);
 }
 
 static void canonicalizeSpelling(std:: string& spelling) {

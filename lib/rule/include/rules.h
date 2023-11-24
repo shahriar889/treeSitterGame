@@ -10,6 +10,11 @@
 #include "stateManager.h"
 
 // Abstract Definition
+
+struct Expression {
+    std::string value;
+};
+
 class Rule {
     public:
         void execute(std::shared_ptr<StateManager> states) {
@@ -19,9 +24,11 @@ class Rule {
             return isNestedImpl();
         }
         virtual ~Rule() = default;  
+
     private: 
         virtual void executeImpl(std::shared_ptr<StateManager>) = 0;
         virtual bool isNestedImpl() = 0;
+        std::vector<Expression> expressions;
 };
 
 class PrimitiveRule : public Rule {
@@ -51,39 +58,74 @@ private:
 
 // Nested Rule set
 class ForEachLoopRule final: public NestedRule{
-    void executeImpl(std::shared_ptr<StateManager>) override;
+    public:
+        ForEachLoopRule(std::vector<Expression> e) : expressions(e) { }   
+
+    private:
+        void executeImpl(std::shared_ptr<StateManager>) override;
+        std::vector<Expression> expressions;
 };
 
 class WhileLoopRule final: public NestedRule{
-    void executeImpl(std::shared_ptr<StateManager>) override;
+    public:
+        WhileLoopRule(std::vector<Expression> e) : expressions(e) { }   
+
+    private:
+        void executeImpl(std::shared_ptr<StateManager>) override;
+        std::vector<Expression> expressions;
 };
 
 class ParallelForLoopRule final: public NestedRule{
-    void executeImpl(std::shared_ptr<StateManager>) override;
+    public:
+        ParallelForLoopRule(std::vector<Expression> e) : expressions(e) { }   
+
+    private:
+        void executeImpl(std::shared_ptr<StateManager>) override;
+        std::vector<Expression> expressions;
 };
 
 class MatchLoopRule final: public PrimitiveRule{
+    public:
+        MatchLoopRule(std::vector<Expression> e) : expressions(e) { }   
+
     private:
         void executeImpl(std::shared_ptr<StateManager>) override;
+        std::vector<Expression> expressions;
 };
 
 // Primitive Rule set
 class ExtendListRule final: public PrimitiveRule{
+    public:
+        ExtendListRule(std::vector<Expression> e) : expressions(e) { }   
+
     private:
         void executeImpl(std::shared_ptr<StateManager>) override;
+        std::vector<Expression> expressions;
 };
 
 class DiscardListRule final: public PrimitiveRule{
+    public:
+        DiscardListRule(std::vector<Expression> e) : expressions(e) { }   
+
     private:
         void executeImpl(std::shared_ptr<StateManager>) override;
+        std::vector<Expression> expressions;
 };
 
 class MessageOutputRule final: public PrimitiveRule{
+    public:
+        MessageOutputRule(std::vector<Expression> e) : expressions(e) { }   
+
     private:
         void executeImpl(std::shared_ptr<StateManager>) override;
+        std::vector<Expression> expressions;
 };
 
 class AssignmentRule final: public PrimitiveRule{
+    public:
+        AssignmentRule(std::vector<Expression> e) : expressions(e) { }   
+
     private:
         void executeImpl(std::shared_ptr<StateManager>) override;
+        std::vector<Expression> expressions;
 };

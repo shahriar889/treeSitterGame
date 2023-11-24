@@ -20,18 +20,17 @@ void RuleManager::configure(TM::TreeManager& tm) {
 
 void RuleManager::dfs(ts::Node node, std::vector<Translator::RulePointer>& rules) {
     Translator translator = buildTreeSitterTranslator();
-    auto numChildren = node.getNumNamedChildren();
-
-    auto rule = translator.createOperation(std::string{node.getType()});
+    std::vector<Expression> expressions;
+    auto rule = translator.createOperation(std::string{node.getType()}, expressions);
 
     std::vector<Translator::RulePointer> nestedRules;
     if (rule && rule->isNested()) {
-        for (int i = 0; i < numChildren; i++) {
+        for (int i = 0; i < node.getNumNamedChildren(); i++) {
              dfs(node.getNamedChild(i), nestedRules);
         }
     }
     else {
-        for (int i = 0; i < numChildren; i++) {
+        for (int i = 0; i < node.getNumNamedChildren(); i++) {
             dfs(node.getNamedChild(i), rules);
         }
     }
@@ -42,4 +41,16 @@ void RuleManager::dfs(ts::Node node, std::vector<Translator::RulePointer>& rules
         }
         rules.emplace_back(std::move(rule));
     }
+}
+
+std::vector<Expression> RuleManager::getExpressions(ts::Node node) {
+    std::vector<Expression> expressions;
+    for (int i = 0; i < node.getNumChildren(); i++) {
+        ts::Node child = node.getNamedChild(i);
+        if (child.getType() == "expression") {
+            //expressions.emplace_back();
+        }
+    }
+
+    return expressions;
 }
