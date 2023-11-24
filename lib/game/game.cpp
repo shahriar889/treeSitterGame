@@ -36,8 +36,7 @@ Game::Game(std::string path){
     GS::DataValue data5 = mapValue3["weapons"];
 
     auto stateManager = std::make_shared<StateManager>(variableState, constantState, conf);
-    RuleManager ruleManager = RuleManager();
-    ruleManager.configure(treeManager);
+    RuleManager ruleManager = RuleParser::createRuleManager(treeManager);
 
     //based on number of player created create player states reuquire user input
     //PerPlayerState perPlayerState = PerPlayerState();

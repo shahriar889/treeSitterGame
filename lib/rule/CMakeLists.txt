@@ -18,8 +18,6 @@ target_include_directories(ruleFactories PUBLIC
 add_library(ruleManager ruleManager.cpp)
 target_link_libraries(ruleManager
     rules 
-    TreeManager
-    ruleTranslator
 )
 
 target_include_directories(ruleManager PUBLIC
@@ -32,5 +30,16 @@ target_link_libraries(ruleTranslator
 )
 
 target_include_directories(ruleTranslator PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+)
+
+add_library(ruleParser ruleParser.cpp)
+target_link_libraries(ruleParser 
+    ruleManager
+    ruleTranslator
+    TreeManager
+)
+
+target_include_directories(ruleParser PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 )

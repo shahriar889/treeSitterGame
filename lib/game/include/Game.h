@@ -4,7 +4,7 @@
 #include "variableState.h"
 #include "perPlayerState.h"
 #include "ruleManager.h"
-
+#include "ruleParser.h"
 class Game{
 
 
