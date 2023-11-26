@@ -19,5 +19,8 @@ TEST(GameTest, createGame)
 {
     Game game{getAbsolutePath(FOR_EACH_RPS_GAME)};
     game.start();
+
+    //Should not execute rules another time
+    game.start();
     EXPECT_EQ(1, 1);
 }

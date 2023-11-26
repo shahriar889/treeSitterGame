@@ -5,7 +5,9 @@ RuleManager::RuleManager(std::vector<RulePointer> r) :
 
 void RuleManager::start() {
     std::for_each(rules.begin(), rules.end(), [this](const RulePointer& rp) {
-        rp->execute(this->globalState);
+        if (!rp->isDone()) {
+            rp->execute(this->globalState);
+        }
     });
 }
 

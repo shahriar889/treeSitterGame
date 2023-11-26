@@ -24,12 +24,18 @@ class Rule {
         bool isNested() {
             return isNestedImpl();
         }
+        bool isDone() {
+            return done;
+        }
+        void setDone() {
+            done = true;
+        }
         virtual ~Rule() = default;  
 
     private: 
         virtual void executeImpl(std::shared_ptr<StateManager>) = 0;
         virtual bool isNestedImpl() = 0;
-        std::vector<Expression> expressions;
+        bool done = false;
 };
 
 class PrimitiveRule : public Rule {

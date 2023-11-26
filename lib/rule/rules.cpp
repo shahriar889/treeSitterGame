@@ -7,6 +7,8 @@ void ForEachLoopRule::executeImpl(std::shared_ptr<StateManager> states)
         std::cout << expressions[i].value << "\n";
     }
     std::for_each(rules.begin(), rules.end(), [&states](std::unique_ptr<Rule> &rule){ rule.get()->execute(states); });
+    this->setDone();
+
 }
 
 void WhileLoopRule::executeImpl(std::shared_ptr<StateManager>)
