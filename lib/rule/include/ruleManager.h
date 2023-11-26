@@ -6,9 +6,10 @@
 class RuleManager {
 public:
     using RulePointer = std::unique_ptr<Rule>;
+    RuleManager() = default;
     RuleManager(std::vector<RulePointer>);
-    RuleManager(std::shared_ptr<StateManager>);
     void start();
+    void setGlobalState(std::shared_ptr<StateManager>);
 
 protected:
     std::shared_ptr<StateManager> globalState;

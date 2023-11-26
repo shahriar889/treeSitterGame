@@ -6,11 +6,10 @@
 #include "ruleManager.h"
 #include "ruleParser.h"
 class Game{
-
-
     public:
         Game(std::string path);
-
-
+        void start();
+    private:
+        RuleManager ruleManager;
 };
 

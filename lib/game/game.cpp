@@ -1,6 +1,6 @@
 #include "Game.h"
 
-Game::Game(std::string path){
+Game::Game(std::string path) {
     TM::TreeManager treeManager(path);
 
     ConfigurationState conf;
@@ -36,10 +36,14 @@ Game::Game(std::string path){
     GS::DataValue data5 = mapValue3["weapons"];
 
     auto stateManager = std::make_shared<StateManager>(variableState, constantState, conf);
-    RuleManager ruleManager = RuleParser::createRuleManager(treeManager);
+    ruleManager = RuleParser::createRuleManager(treeManager);
+    ruleManager.setGlobalState(stateManager);
 
     //based on number of player created create player states reuquire user input
     //PerPlayerState perPlayerState = PerPlayerState();
     //perPlayerState.configure(treeManager);
+}
 
+void Game::start() {
+    ruleManager.start();
 }

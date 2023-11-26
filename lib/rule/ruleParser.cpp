@@ -5,26 +5,26 @@ RuleManager RuleParser::createRuleManager(TM::TreeManager& tm) {
     ts::Node rulesNode = root.getChildByFieldName("rules");
     std::vector<Translator::RulePointer> rules;
     
-    dfs(rulesNode, rules);
+    dfs(tm, rulesNode, rules);
     RuleManager ruleManager = RuleManager(std::move(rules));
 
     return std::move(ruleManager);
 }
 
-void RuleParser::dfs(ts::Node node, std::vector<Translator::RulePointer>& rules) {
+void RuleParser::dfs(TM::TreeManager& tm, ts::Node node, std::vector<Translator::RulePointer>& rules) {
     Translator translator = buildTreeSitterTranslator();
-    std::vector<Expression> expressions;
+    std::vector<Expression> expressions = getExpressions(tm, node);
     auto rule = translator.createOperation(std::string{node.getType()}, expressions);
 
     std::vector<Translator::RulePointer> nestedRules;
     if (rule && rule->isNested()) {
         for (int i = 0; i < node.getNumNamedChildren(); i++) {
-             dfs(node.getNamedChild(i), nestedRules);
+             dfs(tm, node.getNamedChild(i), nestedRules);
         }
     }
     else {
         for (int i = 0; i < node.getNumNamedChildren(); i++) {
-            dfs(node.getNamedChild(i), rules);
+            dfs(tm, node.getNamedChild(i), rules);
         }
     }
 
@@ -36,14 +36,14 @@ void RuleParser::dfs(ts::Node node, std::vector<Translator::RulePointer>& rules)
     }
 }
 
-std::vector<Expression> RuleParser::getExpressions(ts::Node node, TM::TreeManager& tm) {
+std::vector<Expression> RuleParser::getExpressions(TM::TreeManager& tm, ts::Node node) {
     std::vector<Expression> expressions;
-    for (int i = 0; i < node.getNumChildren(); i++) {
+    for (int i = 0; i < node.getNumNamedChildren(); i++) {
         ts::Node child = node.getNamedChild(i);
-        if (child.getType() == "expression") {
-            //expressions.emplace_back();
+        if (child.getType() != "body") {
+            auto e = Expression{tm.getSourceRange(child)};
+            expressions.push_back(e);
         }
     }
-
     return expressions;
 }

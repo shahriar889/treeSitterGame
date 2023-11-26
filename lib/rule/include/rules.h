@@ -12,6 +12,7 @@
 // Abstract Definition
 
 struct Expression {
+    Expression(std::string v) : value(v) {}
     std::string value;
 };
 

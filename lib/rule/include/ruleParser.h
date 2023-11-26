@@ -10,6 +10,6 @@ public:
     static RuleManager createRuleManager(TM::TreeManager& tm);
 
 private:
-    static void dfs(ts::Node node, std::vector<Translator::RulePointer>&);
-    static std::vector<Expression> getExpressions(ts::Node, TM::TreeManager& tm);
+    static void dfs(TM::TreeManager&, ts::Node, std::vector<Translator::RulePointer>&);
+    static std::vector<Expression> getExpressions(TM::TreeManager&, ts::Node);
 };

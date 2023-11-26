@@ -5,6 +5,7 @@
 const std::string RULE_MANAGER_TEST_GAME = "games/rule-manager-test.game";
 const std::string NESTING_TEST_GAME = "games/nesting-test.game";
 const std::string ROCK_PAPER_SCISSORS_GAME = "games/rock-paper-scissors.game";
+const std::string FOR_EACH_RPS_GAME = "games/for-each-rps.game";
 
 std::string getAbsolutePath(const std::string_view& path) {
     std::filesystem::path projectDirectory = std::filesystem::current_path();
@@ -16,8 +17,7 @@ std::string getAbsolutePath(const std::string_view& path) {
 // Demonstrate some basic assertions.
 TEST(GameTest, createGame)
 {
-
-    Game game{getAbsolutePath(ROCK_PAPER_SCISSORS_GAME)};
+    Game game{getAbsolutePath(FOR_EACH_RPS_GAME)};
+    game.start();
     EXPECT_EQ(1, 1);
-    
 }
