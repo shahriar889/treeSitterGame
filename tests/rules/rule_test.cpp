@@ -7,6 +7,7 @@
 
 const std::string RULE_MANAGER_TEST_GAME = "games/rule-manager-test.game";
 const std::string NESTING_TEST_GAME = "games/nesting-test.game";
+const std::string PARALLEL_FOR_RPS_GAME = "games/parallel-for-rps.game";
 
 std::string getAbsolutePath(const std::string_view& path) {
     std::filesystem::path projectDirectory = std::filesystem::current_path();
@@ -38,6 +39,16 @@ TEST(RuleTest, createRules)
 TEST(RuleTest, createNestingRules)
 {
     TM::TreeManager tree{getAbsolutePath(NESTING_TEST_GAME)};
+    RuleParser parser = RuleParser{};
+    auto ruleManager = parser.createRuleManager(tree);
+    ruleManager.setGlobalState(getStates(tree));
+    ruleManager.start();
+    EXPECT_EQ(1, 1);
+}
+
+TEST(RuleTest, createParallelRule)
+{
+    TM::TreeManager tree{getAbsolutePath(PARALLEL_FOR_RPS_GAME)};
     RuleParser parser = RuleParser{};
     auto ruleManager = parser.createRuleManager(tree);
     ruleManager.setGlobalState(getStates(tree));

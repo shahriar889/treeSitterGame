@@ -24,6 +24,9 @@ Translator buildTreeSitterTranslator() noexcept {
     //Assignment Operations
     translator.registerFactory("assignment", std::make_unique<AssignmentRuleFactory>());
 
+    //Input Operations
+    translator.registerFactory("input_choice", std::make_unique<InputChoiceRuleFactory>());
+
     return translator;
 }
 

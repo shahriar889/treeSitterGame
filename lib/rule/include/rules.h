@@ -65,7 +65,7 @@ private:
 };
 
 // Nested Rule set
-class ForEachLoopRule final: public NestedRule{
+class ForEachLoopRule final: public NestedRule {
 public:
     ForEachLoopRule(std::vector<Expression> e) : expressions(e) { }   
 
@@ -74,7 +74,7 @@ private:
     std::vector<Expression> expressions;
 };
 
-class WhileLoopRule final: public NestedRule{
+class WhileLoopRule final: public NestedRule {
 public:
     WhileLoopRule(std::vector<Expression> e) : expressions(e) { }   
 
@@ -83,7 +83,7 @@ private:
     std::vector<Expression> expressions;
 };
 
-class ParallelForLoopRule final: public NestedRule{
+class ParallelForLoopRule final: public NestedRule {
 public:
     ParallelForLoopRule(std::vector<Expression> e) : expressions(e) { }   
 
@@ -92,7 +92,7 @@ private:
     std::vector<Expression> expressions;
 };
 
-class MatchLoopRule final: public PrimitiveRule{
+class MatchLoopRule final: public PrimitiveRule {
 public:
     MatchLoopRule(std::vector<Expression> e) : expressions(e) { }   
 
@@ -102,7 +102,7 @@ private:
 };
 
 // Primitive Rule set
-class ExtendListRule final: public PrimitiveRule{
+class ExtendListRule final: public PrimitiveRule {
 public:
     ExtendListRule(std::vector<Expression> e) : expressions(e) { }   
 
@@ -111,7 +111,7 @@ private:
     std::vector<Expression> expressions;
 };
 
-class DiscardListRule final: public PrimitiveRule{
+class DiscardListRule final: public PrimitiveRule {
 public:
     DiscardListRule(std::vector<Expression> e) : expressions(e) { }   
 
@@ -120,7 +120,7 @@ private:
     std::vector<Expression> expressions;
 };
 
-class MessageOutputRule final: public PrimitiveRule{
+class MessageOutputRule final: public PrimitiveRule {
 public:
     MessageOutputRule(std::vector<Expression> e) : expressions(e) { }   
 
@@ -129,9 +129,18 @@ private:
     std::vector<Expression> expressions;
 };
 
-class AssignmentRule final: public PrimitiveRule{
+class AssignmentRule final: public PrimitiveRule {
 public:
     AssignmentRule(std::vector<Expression> e) : expressions(e) { }   
+
+private:
+    void executeImpl(std::shared_ptr<StateManager>) override;
+    std::vector<Expression> expressions;
+};
+
+class InputChoiceRule final: public PrimitiveRule {
+public:
+    InputChoiceRule(std::vector<Expression> e) : expressions(e) { }   
 
 private:
     void executeImpl(std::shared_ptr<StateManager>) override;

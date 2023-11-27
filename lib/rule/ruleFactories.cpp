@@ -39,3 +39,8 @@ std::unique_ptr<Rule> AssignmentRuleFactory::createImpl(std::vector<Expression> 
 {
   return std::make_unique<AssignmentRule>(expressions);
 }
+
+std::unique_ptr<Rule> InputChoiceRuleFactory::createImpl(std::vector<Expression> expressions)
+{
+  return std::make_unique<InputChoiceRule>(expressions);
+}

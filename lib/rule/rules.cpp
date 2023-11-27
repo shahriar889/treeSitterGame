@@ -16,12 +16,14 @@ std::vector<std::string> tokenizeExpression(Expression input) {
 void ForEachLoopRule::executeImpl(std::shared_ptr<StateManager> states)
 {
     std::cout << "Executing For-Each loop...\n";
+
     std::for_each(expressions.begin(), expressions.end(), [](Expression e) {
-        std::cout << "Expression: " << e.value << "\n";
+        std::cout << "For-each Expression: " << e.value << "\n";
     });
 
     auto tokens = tokenizeExpression(expressions[1].value);
     //auto val = states->configuration.getValue(tokens[1]);
+    
     std::for_each(rules.begin(), rules.end(), [&states](std::unique_ptr<Rule> &rule){ rule.get()->execute(states); });
     this->setDone();
 }
@@ -59,4 +61,9 @@ void MessageOutputRule::executeImpl(std::shared_ptr<StateManager>)
 void AssignmentRule::executeImpl(std::shared_ptr<StateManager>)
 {
     std::cout << "Executing Assignment...\n";
+}
+
+void InputChoiceRule::executeImpl(std::shared_ptr<StateManager>)
+{
+    std::cout << "Executing Input Choice...\n";
 }

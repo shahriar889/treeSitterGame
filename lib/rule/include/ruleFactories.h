@@ -67,3 +67,8 @@ class AssignmentRuleFactory final : public RuleFactory {
 private:
     std::unique_ptr<Rule> createImpl(std::vector<Expression>) override;
 };
+
+class InputChoiceRuleFactory final : public RuleFactory {
+private:
+    std::unique_ptr<Rule> createImpl(std::vector<Expression>) override;
+};
