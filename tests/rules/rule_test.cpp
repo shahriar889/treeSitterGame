@@ -41,13 +41,6 @@ public:
     MOCK_METHOD(std::unique_ptr<Rule>, createImpl, (std::vector<Expression>), (override));
 };
 
-Translator buildMockTranslator() noexcept {
-    Translator translator = Translator{};
-
-    translator.registerFactory("for", std::make_unique<MockRuleFactory>());
-
-    return translator;
-}
 
 TEST(RuleTest, MockFactoryTest)
 {
@@ -60,6 +53,19 @@ TEST(RuleTest, MockFactoryTest)
     std::unique_ptr<Rule> rule1 = factory->createImpl(expressions);
     std::unique_ptr<Rule> rule2 = factory->createImpl(expressions);
     std::unique_ptr<Rule> rule3 = factory->createImpl(expressions);
+}
+
+TEST(RuleTest, MockRuleTest)
+{
+    auto rule = std::make_unique<MockRule>();
+
+    EXPECT_CALL(*rule, executeImpl(_))
+        .Times(3);
+
+    std::shared_ptr<StateManager> states;
+    rule->executeImpl(states);
+    rule->executeImpl(states);
+    rule->executeImpl(states);
 }
 
 TEST(RuleTest, createRules)
