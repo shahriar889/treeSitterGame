@@ -3,6 +3,7 @@
 #include "variableState.h"
 
 struct StateManager {
+    StateManager() = default;
     StateManager(VariableState vs, ConstantState cs, ConfigurationState cf) :
         variables{vs}, constants(cs), configuration(cf) {};
 

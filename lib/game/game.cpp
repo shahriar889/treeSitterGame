@@ -32,7 +32,7 @@ Game::Game(std::string path) {
     GS::DataValue data5 = mapValue3["weapons"];
 
     auto stateManager = std::make_shared<StateManager>(variableState, constantState, conf);
-    ruleManager = RuleParser::createRuleManager(treeManager);
+    ruleManager = RuleParser::createRuleManager(treeManager, buildTreeSitterTranslator());
     ruleManager.setGlobalState(stateManager);
 }
 

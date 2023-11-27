@@ -1,30 +1,30 @@
 #include "ruleParser.h"
 
-RuleManager RuleParser::createRuleManager(TM::TreeManager& tm) {
+RuleManager RuleParser::createRuleManager(TM::TreeManager& tm, const Translator& translator) {
     ts::Node root = tm.getRoot();
     ts::Node rulesNode = root.getChildByFieldName("rules");
     std::vector<Translator::RulePointer> rules;
-    
-    dfs(tm, rulesNode, rules);
+
+    dfs(tm, rulesNode, rules, translator);
     RuleManager ruleManager = RuleManager(std::move(rules));
 
     return std::move(ruleManager);
 }
 
-void RuleParser::dfs(TM::TreeManager& tm, ts::Node node, std::vector<Translator::RulePointer>& rules) {
-    Translator translator = buildTreeSitterTranslator();
+void RuleParser::dfs(TM::TreeManager& tm, ts::Node node, std::vector<Translator::RulePointer>& rules, 
+                    const Translator& translator) {
     std::vector<Expression> expressions = getExpressions(tm, node);
     auto rule = translator.createOperation(std::string{node.getType()}, expressions);
 
     std::vector<Translator::RulePointer> nestedRules;
     if (rule && rule->isNested()) {
         for (int i = 0; i < node.getNumNamedChildren(); i++) {
-             dfs(tm, node.getNamedChild(i), nestedRules);
+             dfs(tm, node.getNamedChild(i), nestedRules, translator);
         }
     }
     else {
         for (int i = 0; i < node.getNumNamedChildren(); i++) {
-            dfs(tm, node.getNamedChild(i), rules);
+            dfs(tm, node.getNamedChild(i), rules, translator);
         }
     }
 
