@@ -1,41 +1,46 @@
 #include "ruleFactories.h"
 
-std::unique_ptr<Rule> ForEachLoopFactory::createImpl()
+std::unique_ptr<Rule> ForEachLoopFactory::createImpl(std::vector<Expression> expressions)
 {
-  return std::make_unique<ForEachLoopRule>();
+  return std::make_unique<ForEachLoopRule>(expressions);
 }
 
-std::unique_ptr<Rule> WhileLoopFactory::createImpl()
+std::unique_ptr<Rule> WhileLoopFactory::createImpl(std::vector<Expression> expressions)
 {
-  return std::make_unique<WhileLoopRule>();
+  return std::make_unique<WhileLoopRule>(expressions);
 }
 
-std::unique_ptr<Rule> ParallelForLoopFactory::createImpl()
+std::unique_ptr<Rule> ParallelForLoopFactory::createImpl(std::vector<Expression> expressions)
 {
-  return std::make_unique<ParallelForLoopRule>();
+  return std::make_unique<ParallelForLoopRule>(expressions);
 }
 
-std::unique_ptr<Rule> MatchLoopFactory::createImpl()
+std::unique_ptr<Rule> MatchLoopFactory::createImpl(std::vector<Expression> expressions)
 {
-  return std::make_unique<MatchLoopRule>();
+  return std::make_unique<MatchLoopRule>(expressions);
 }
 
-std::unique_ptr<Rule> ExtendListFactory::createImpl()
+std::unique_ptr<Rule> ExtendListFactory::createImpl(std::vector<Expression> expressions)
 {
-  return std::make_unique<ExtendListRule>();
+  return std::make_unique<ExtendListRule>(expressions);
 }
 
-std::unique_ptr<Rule> DiscardListFactory::createImpl()
+std::unique_ptr<Rule> DiscardListFactory::createImpl(std::vector<Expression> expressions)
 {
-  return std::make_unique<DiscardListRule>();
+  return std::make_unique<DiscardListRule>(expressions);
 }
 
-std::unique_ptr<Rule> MessageOutputRuleFactory::createImpl()
+std::unique_ptr<Rule> MessageOutputRuleFactory::createImpl(std::vector<Expression> expressions)
 {
-  return std::make_unique<MessageOutputRule>();
+  return std::make_unique<MessageOutputRule>(expressions);
 }
 
-std::unique_ptr<Rule> AssignmentRuleFactory::createImpl()
+std::unique_ptr<Rule> AssignmentRuleFactory::createImpl(std::vector<Expression> expressions)
 {
-  return std::make_unique<AssignmentRule>();
+  return std::make_unique<AssignmentRule>(expressions);
+}
+
+std::unique_ptr<Rule> InputChoiceRuleFactory::createImpl(std::vector<Expression> expressions)
+{
+  return std::make_unique<InputChoiceRule>(expressions);
 }

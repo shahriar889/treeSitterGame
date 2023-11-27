@@ -24,17 +24,20 @@ Translator buildTreeSitterTranslator() noexcept {
     //Assignment Operations
     translator.registerFactory("assignment", std::make_unique<AssignmentRuleFactory>());
 
+    //Input Operations
+    translator.registerFactory("input_choice", std::make_unique<InputChoiceRuleFactory>());
+
     return translator;
 }
 
 Translator::RulePointer
-Translator::createOperation(std::string spelling) const noexcept {
+Translator::createOperation(std::string spelling, std::vector<Expression> expressions) const noexcept {
   auto factory = factories.find(spelling);
   if (factory == factories.end()) {
     return {};
   }
 
-  return factory->second->create();
+  return factory->second->create(expressions);
 }
 
 static void canonicalizeSpelling(std:: string& spelling) {

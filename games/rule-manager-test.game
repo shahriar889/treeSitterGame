@@ -23,4 +23,10 @@ rules {
   extend some.list with []
   message [] "" + "";
   some.id <- a + b;
+  input choice to player {
+    prompt: "{player.name}, choose your weapon!"
+    choices: weapons.name
+    target: player.name
+    timeout: 10
+  }
 }

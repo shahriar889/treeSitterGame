@@ -6,7 +6,7 @@ target_sources(rule_test
 )
 
 target_link_libraries(rule_test
-   gtest gmock gtest_main TreeManager ruleManager ruleTranslator
+   gtest gmock gtest_main TreeManager ruleManager ruleTranslator ruleParser
 )
 
 set_target_properties(rule_test 

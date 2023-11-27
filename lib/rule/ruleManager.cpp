@@ -1,10 +1,16 @@
 #include "ruleManager.h"
 
-RuleManager::RuleManager(std::vector<RulePointer> rp) :
-    rules{std::move(rp)} {};
+RuleManager::RuleManager(std::vector<RulePointer> r) :
+    rules{std::move(r)} {};
 
 void RuleManager::start() {
-    std::for_each(rules.begin(), rules.end(), [](const RulePointer& rp) {
-        rp->execute();
+    std::for_each(rules.begin(), rules.end(), [this](const RulePointer& rp) {
+        if (!rp->isDone()) {
+            rp->execute(this->globalState);
+        }
     });
+}
+
+void RuleManager::setGlobalState(std::shared_ptr<StateManager> states) {
+    globalState = states;
 }

@@ -4,7 +4,6 @@ using namespace GS;
 
 
 void ConstantState::configure(TM::TreeManager& treeManager) {
-    printf("ConstantState::configure\n");
     ts::Node root = treeManager.getRoot();
     ts::Node constantNode = std::get<1>(treeManager.findNodeBySymbol(root, ts::Symbol(94)));
     for(uint32_t i = 0; i < constantNode.getNumChildren(); i++){

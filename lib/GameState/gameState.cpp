@@ -25,14 +25,14 @@ GameState::GameState(): values(std::map<std::string, GS::DataValue>()) {
     this->functionMap[ts::Symbol(126)] = [this](const ts::Node& root,const ts::Symbol& symb, TM::TreeManager& treeManager) -> DataValue { return this->getListValue(root,symb,treeManager); };
 }
 DataValue GameState::getQuotedString(const ts::Node& root,const ts::Symbol& symb, TM::TreeManager& treeManager) noexcept{
-    printf("getQuotedString\n");
+    //printf("getQuotedString\n");
     DataValue data;
     data.setValue(treeManager.getSourceRange(root));
     return data;
 }
 
 DataValue GameState::getNumber(const ts::Node& root,const ts::Symbol& symb, TM::TreeManager& treeManager) noexcept{
-    printf("getNumber\n");
+    //printf("getNumber\n");
     DataValue data;
     std::string number = treeManager.getSourceRange(root);
     try {
@@ -49,7 +49,7 @@ DataValue GameState::getNumber(const ts::Node& root,const ts::Symbol& symb, TM::
 }
 
 DataValue GameState::getBoolean(const ts::Node& root,const ts::Symbol& symb, TM::TreeManager& treeManager) noexcept{
-    printf("getBoolean\n");
+    //printf("getBoolean\n");
     DataValue data;
     std::string boolean = treeManager.getSourceRange(root);
     data.setValue(boolean == "true");
@@ -57,7 +57,7 @@ DataValue GameState::getBoolean(const ts::Node& root,const ts::Symbol& symb, TM:
 }
 
 DataValue GameState::getExpression(const ts::Node& root,const ts::Symbol& symb, TM::TreeManager& treeManager) noexcept{
-    printf("getExpression\n");
+    //printf("getExpression\n");
     ts::Node temp = root.getChild(0);
     DataValue data;
     if (functionMap.find(temp.getSymbol()) != functionMap.end()) {
@@ -68,7 +68,7 @@ DataValue GameState::getExpression(const ts::Node& root,const ts::Symbol& symb, 
 }
 
 DataValue GameState::getListValue(const ts::Node& root,const ts::Symbol& symb, TM::TreeManager& treeManager) noexcept{
-    printf("getListValue\n");
+    //printf("getListValue\n");
     std::tuple<int, ts::Node> listTuple = treeManager.findNodeBySymbol(root, ts::Symbol(125));
     ts::Node expressionListNode = std::get<1>(listTuple);
     DataValue data;
@@ -85,7 +85,7 @@ DataValue GameState::getListValue(const ts::Node& root,const ts::Symbol& symb, T
 }
 
 DataValue GameState::getMapValue(const ts::Node& root,const ts::Symbol& symb, TM::TreeManager& treeManager) noexcept{
-    printf("getMapValue\n");
+    //printf("getMapValue\n");
     DataValue data;
     std::map<std::string, DataValue> map;
     for(u_int32_t i = 0; i < root.getNumChildren();i++){
