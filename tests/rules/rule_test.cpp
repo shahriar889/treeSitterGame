@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <filesystem>
+#include <memory>
 #include "treeManager.h"
 #include "ruleManager.h"
 #include "ruleParser.h"
@@ -14,20 +15,32 @@ std::string getAbsolutePath(const std::string_view& path) {
     return absolutePath.string();
 }
 
-// Demonstrate some basic assertions.
-TEST(ParserTest, createRules)
+std::shared_ptr<StateManager> getStates(TM::TreeManager& tm) {
+    ConfigurationState conf;
+    conf.configure(tm);
+    ConstantState constantState = ConstantState();
+    constantState.configure(tm);
+    VariableState variableState = VariableState();
+    variableState.configure(tm);
+
+    return std::make_shared<StateManager>(variableState, constantState, conf);
+}
+
+TEST(RuleTest, createRules)
 {
     TM::TreeManager tree{getAbsolutePath(RULE_MANAGER_TEST_GAME)};
     auto ruleManager = RuleParser::createRuleManager(tree);
+    ruleManager.setGlobalState(getStates(tree));
     ruleManager.start();
     EXPECT_EQ(1, 1);
 }
 
-TEST(ParserTest, createNestingRules)
+TEST(RuleTest, createNestingRules)
 {
     TM::TreeManager tree{getAbsolutePath(NESTING_TEST_GAME)};
     RuleParser parser = RuleParser{};
     auto ruleManager = parser.createRuleManager(tree);
+    ruleManager.setGlobalState(getStates(tree));
     ruleManager.start();
     EXPECT_EQ(1, 1);
 }

@@ -3,7 +3,6 @@
 #include "ruleManager.h"
 #include "ruleTranslator.h"
 
-// Receives a vector of rules from Parser, and iterates over them to construct a game's rules
 class RuleParser {
 public:
     using RulePointer = std::unique_ptr<Rule>;

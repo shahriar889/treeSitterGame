@@ -2,31 +2,30 @@
 
 class RuleFactory {
 public:
+    virtual ~RuleFactory() = default;
     std::unique_ptr<Rule> create(std::vector<Expression> expressions) {
         return createImpl(expressions);
     };
-
-    virtual ~RuleFactory() = default;
 private:
     virtual std::unique_ptr<Rule> createImpl(std::vector<Expression>) = 0;
 };
 
 class NestedRuleFactory : public RuleFactory {
-    public:
-        std::unique_ptr<Rule> create(std::vector<Expression> expressions) {
-            return createImpl(expressions);
-        }
-        private:
-        virtual std::unique_ptr<Rule> createImpl(std::vector<Expression>) = 0;
+public:
+    std::unique_ptr<Rule> create(std::vector<Expression> expressions) {
+        return createImpl(expressions);
+    }
+private:
+    virtual std::unique_ptr<Rule> createImpl(std::vector<Expression>) = 0;
 };
 
 class PrimitiveRuleFactory : public RuleFactory{
-    public:
-        std::unique_ptr<Rule> create(std::vector<Expression> expressions) {
-            return createImpl(expressions);
-        }
-        private:
-        virtual std::unique_ptr<Rule> createImpl(std::vector<Expression>) = 0;
+public:
+    std::unique_ptr<Rule> create(std::vector<Expression> expressions) {
+        return createImpl(expressions);
+    }
+private:
+    virtual std::unique_ptr<Rule> createImpl(std::vector<Expression>) = 0;
 };
 
 class ForEachLoopFactory final : public NestedRuleFactory {

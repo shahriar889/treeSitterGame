@@ -14,7 +14,6 @@ std::string getAbsolutePath(const std::string_view& path) {
     return absolutePath.string();
 }
 
-// Demonstrate some basic assertions.
 TEST(GameTest, createGame)
 {
     Game game{getAbsolutePath(FOR_EACH_RPS_GAME)};
@@ -22,5 +21,6 @@ TEST(GameTest, createGame)
 
     //Should not execute rules another time
     game.start();
+    
     EXPECT_EQ(1, 1);
 }

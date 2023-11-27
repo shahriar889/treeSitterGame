@@ -38,6 +38,7 @@ target_link_libraries(ruleParser
     ruleManager
     ruleTranslator
     TreeManager
+    StateManager
 )
 
 target_include_directories(ruleParser PUBLIC

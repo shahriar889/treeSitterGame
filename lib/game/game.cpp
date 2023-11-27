@@ -2,11 +2,8 @@
 
 Game::Game(std::string path) {
     TM::TreeManager treeManager(path);
-
-    ConfigurationState conf;
-
     
-
+    ConfigurationState conf;
     conf.configure(treeManager);
     ConstantState constantState = ConstantState();
     constantState.configure(treeManager);
@@ -26,7 +23,6 @@ Game::Game(std::string path) {
     int rangeCur = std::get<int>(mapValue["rangeCur"].getValueVariant());
     int rangeMax = std::get<int>(mapValue["rangeMax"].getValueVariant());
 
-
     GS::DataValue data2 = constantState.getValue("constant1");
     std::map<std::string, GS::DataValue> mapValue2 = std::get<std::map<std::string, GS::DataValue>>(data2.getValueVariant());
     GS::DataValue data3 = mapValue2["weapons"];
@@ -38,10 +34,6 @@ Game::Game(std::string path) {
     auto stateManager = std::make_shared<StateManager>(variableState, constantState, conf);
     ruleManager = RuleParser::createRuleManager(treeManager);
     ruleManager.setGlobalState(stateManager);
-
-    //based on number of player created create player states reuquire user input
-    //PerPlayerState perPlayerState = PerPlayerState();
-    //perPlayerState.configure(treeManager);
 }
 
 void Game::start() {
