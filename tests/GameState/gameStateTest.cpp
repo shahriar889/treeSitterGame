@@ -7,6 +7,9 @@
 #include <string>
 #include <filesystem>
 
+using namespace DV;
+using namespace GS;
+
 TEST(ConfigurationStateTest, testWithRockPaperScissors){
     // Get the project directory path
     std::filesystem::path projectDirectory = std::filesystem::current_path();
@@ -19,27 +22,52 @@ TEST(ConfigurationStateTest, testWithRockPaperScissors){
     TM::TreeManager treeManager(absolutePath);
     ConfigurationState conf;
     conf.configure(treeManager);
-    std::string gameName = std::get<std::string>(conf.getValue("name").getValueVariant());
+    DataValue RHS;
+    DataValue LHS;
 
-    EXPECT_EQ(gameName, "Rock, Paper, Scissors");
-    int pLRangeMin = std::get<int>(conf.getValue("playerRangeMin").getValueVariant());
-    EXPECT_EQ(pLRangeMin, 2);
-    int pLRangeMax = std::get<int>(conf.getValue("playerRangeMax").getValueVariant());
-    EXPECT_EQ(pLRangeMax, 4);
-    int pLRangeCur = std::get<int>(conf.getValue("playerRangeCur").getValueVariant());
-    EXPECT_EQ(pLRangeCur, 2);
-    bool hasAudience = std::get<bool>(conf.getValue("hasAudience").getValueVariant());
-    EXPECT_EQ(hasAudience, false);
-    GS::DataValue data = conf.getValue("rounds");
-    std::map<std::string, GS::DataValue> mapValue = std::get<std::map<std::string, GS::DataValue>>(data.getValueVariant());
-    std::string prompt = std::get<std::string>(mapValue["prompt"].getValueVariant());
-    EXPECT_EQ(prompt, "The number of rounds to play");
-    int rangeMin = std::get<int>(mapValue["rangeMin"].getValueVariant());
-    EXPECT_EQ(rangeMin, 1);
-    int rangeCur = std::get<int>(mapValue["rangeCur"].getValueVariant());
-    EXPECT_EQ(rangeCur, 1);
-    int rangeMax = std::get<int>(mapValue["rangeMax"].getValueVariant());
-    EXPECT_EQ(rangeMax, 20);
+    bool check;
+
+    LHS = conf.getValue("name");
+    check = LHS.getType() == DataType::STRING;
+    EXPECT_EQ(check, true);
+    RHS.setValue("Rock, Paper, Scissors");
+    EXPECT_EQ(LHS, RHS);
+    
+
+    LHS  = conf.getValue("playerRangeMin");
+    check = LHS.getType() == DataType::INT;
+    EXPECT_EQ(check, true);
+    RHS.setValue(2);
+    EXPECT_EQ(LHS, RHS);
+
+    LHS  = conf.getValue("playerRangeMax");
+    check = LHS.getType() == DataType::INT;
+    EXPECT_EQ(check, true);
+    RHS.setValue(4);
+    EXPECT_EQ(LHS, RHS);
+
+    LHS  = conf.getValue("playerRangeCur");
+    check = LHS.getType() == DataType::INT;
+    EXPECT_EQ(check, true);
+    RHS.setValue(2);
+    EXPECT_EQ(LHS, RHS);
+
+    LHS  = conf.getValue("hasAudience");
+    check = LHS.getType() == DataType::BOOL;
+    EXPECT_EQ(check, true);
+    RHS.setValue(false);
+    EXPECT_EQ(LHS, RHS);
+
+    LHS  = conf.getValue("rounds");
+    check = LHS.getType() == DataType::MAP;
+    EXPECT_EQ(check, true);
+    std::map<std::string, DataValue> map;
+    map["prompt"] = DataValue{"The number of rounds to play"};
+    map["rangeMin"] = DataValue{1};
+    map["rangeCur"] = DataValue{1};
+    map["rangeMax"] = DataValue{20};
+    RHS.setValue(map);
+    EXPECT_EQ(LHS, RHS);
 }
 
 TEST(ConstantStateTest, testWithRockPaperScissors){
@@ -54,27 +82,31 @@ TEST(ConstantStateTest, testWithRockPaperScissors){
     TM::TreeManager treeManager(absolutePath);
     ConstantState constantState = ConstantState();
     constantState.configure(treeManager);
-    GS::DataValue data = constantState.getValue("constant1");
-    std::map<std::string, GS::DataValue> mapValue = std::get<std::map<std::string, GS::DataValue>>(data.getValueVariant());
-    GS::DataValue data2 = mapValue["weapons"];
-    std::vector<GS::DataValue> listValue = std::get<std::vector<GS::DataValue>>(data2.getValueVariant());
-    std::map<std::string, GS::DataValue> mapValue2 = std::get<std::map<std::string, GS::DataValue>>(listValue[0].getValueVariant());
-    std::string hitter; std::string victim;
-    hitter = std::get<std::string>(mapValue2["name"].getValueVariant());
-    victim = std::get<std::string>(mapValue2["beats"].getValueVariant());
 
-    EXPECT_EQ(hitter, "Rock");
-    EXPECT_EQ(victim, "Scissors");
-    mapValue2 = std::get<std::map<std::string, GS::DataValue>>(listValue[1].getValueVariant());
-    hitter = std::get<std::string>(mapValue2["name"].getValueVariant());
-    victim = std::get<std::string>(mapValue2["beats"].getValueVariant());
-    EXPECT_EQ(hitter, "Paper");
-    EXPECT_EQ(victim, "Rock");
-    mapValue2 = std::get<std::map<std::string, GS::DataValue>>(listValue[2].getValueVariant());
-    hitter = std::get<std::string>(mapValue2["name"].getValueVariant());
-    victim = std::get<std::string>(mapValue2["beats"].getValueVariant());
-    EXPECT_EQ(hitter, "Scissors");
-    EXPECT_EQ(victim, "Paper");
+    DataValue LHS;
+    DataValue RHS;
+    bool check;
+
+    LHS = constantState.getValue("constant1");
+    check = LHS.getType() == DataType::MAP;
+    EXPECT_EQ(check, true);
+    std::vector<DataValue> list;
+    std::map<std::string, DataValue> map1;
+    std::map<std::string, DataValue> map2;
+    std::map<std::string, DataValue> map3;
+    map1["name"] = DataValue{"Rock"};
+    map1["beats"] = DataValue{"Scissors"};
+    map2["name"] = DataValue{"Paper"};
+    map2["beats"] = DataValue{"Rock"};
+    map3["name"] = DataValue{"Scissors"};
+    map3["beats"] = DataValue{"Paper"};
+    list.push_back(DataValue{map1});
+    list.push_back(DataValue{map2});
+    list.push_back(DataValue{map3});
+    std::map<std::string, DataValue> map;
+    map["weapons"] = DataValue{list};
+    RHS.setValue(map);
+    EXPECT_EQ(LHS, RHS);
     
 
 }
@@ -91,19 +123,33 @@ TEST(VariableStateTest, testWithRockPaperScissors){
     TM::TreeManager treeManager(absolutePath);
     VariableState variableState = VariableState();
     variableState.configure(treeManager);
-    GS::DataValue data = variableState.getValue("variable1");
-    std::map<std::string, GS::DataValue> mapValue = std::get<std::map<std::string, GS::DataValue>>(data.getValueVariant());
-    GS::DataValue data2 = mapValue["winners"];
-    std::vector<GS::DataValue> listValue = std::get<std::vector<GS::DataValue>>(data2.getValueVariant());
-    EXPECT_EQ(listValue.size(), 0);
+
+    DataValue LHS;
+    DataValue RHS;
+    bool check;
+
+    LHS = variableState.getValue("variable1");
+    check = LHS.getType() == DataType::MAP;
+    EXPECT_EQ(check, true);
+    auto winners = LHS.get_map_item("winners");
+    check = winners.getType() == DataType::LIST;
+    EXPECT_EQ(check, true);
+    size_t size = winners.size();
+    EXPECT_EQ(size, 0);
     std::string pl = "Player1";
     DataValue data3; data3.setValue(pl);
-    listValue.push_back(data3);
-    EXPECT_EQ(listValue.size(), 1);
-    DataValue data4 = listValue[0];
-    std::string value = std::get<std::string>(data4.getValueVariant());
-    EXPECT_EQ(value,"Player1");
-
+    winners.push_back_list(data3);
+    size = winners.size();
+    EXPECT_EQ(size, 1);
+    DataValue data4 = winners.get_list(0);
+    check = data4.getType() == DataType::STRING;
+    EXPECT_EQ(check, true);
+    EXPECT_EQ(data4, data3);
+    std::optional<DataValue> data5 = winners.remove_from_list(0);
+    check = data5.has_value();
+    EXPECT_EQ(check, true);
+    size = data5.value().size();
+    EXPECT_EQ(size, 0);
 
 }
 
@@ -119,12 +165,20 @@ TEST(PerPlayerStateTest, testWithRockPaperScissors){
     TM::TreeManager treeManager(absolutePath);
     PerPlayerState perPlayerState = PerPlayerState(1);
     perPlayerState.configure(treeManager);
-    GS::DataValue data = perPlayerState.getValue("perPlayer1");
-    EXPECT_EQ(perPlayerState.getPlayerID(), 1);
-    std::map<std::string, GS::DataValue> mapValue = std::get<std::map<std::string, GS::DataValue>>(data.getValueVariant());
-    int wins = std::get<int>(mapValue["wins"].getValueVariant());
-    EXPECT_EQ(wins, 0);
-    mapValue["wins"].setValue(1);
-    wins = std::get<int>(mapValue["wins"].getValueVariant());
-    EXPECT_EQ(wins, 1);
+
+    DataValue LHS;
+    DataValue RHS;
+    bool check;
+
+    LHS = perPlayerState.getValue("perPlayer1");
+    check = LHS.getType() == DataType::MAP;
+    EXPECT_EQ(check, true);
+    auto wins = LHS.get_map_item("wins");
+    check = wins.getType() == DataType::INT;
+    EXPECT_EQ(check, true);
+    DataValue data1; data1.setValue(0);
+    EXPECT_EQ(wins, data1);
+    wins.setValue(1);
+    data1.setValue(1);
+    EXPECT_EQ(wins, data1);
 }

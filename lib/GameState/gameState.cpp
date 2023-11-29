@@ -1,5 +1,6 @@
 #include "gameState.h"
 using namespace GS;
+using namespace DV;
 
 
 DataValue GameState::getValue(const std::string& name) const {
@@ -17,7 +18,7 @@ void GameState::setValue(const std::string& name, const DataValue& value) {
 }
 
 
-GameState::GameState(): values(std::map<std::string, GS::DataValue>()) {
+GameState::GameState(): values(std::map<std::string, DataValue>()) {
     this->functionMap[ts::Symbol(84)] = [this](const ts::Node& root,const ts::Symbol& symb, TM::TreeManager& treeManager) -> DataValue { return this->getQuotedString(root,symb,treeManager); };
     this->functionMap[ts::Symbol(81)] = [this](const ts::Node& root,const ts::Symbol& symb, TM::TreeManager& treeManager) -> DataValue { return this->getNumber(root,symb,treeManager); };
     this->functionMap[ts::Symbol(123)] = [this](const ts::Node& root,const ts::Symbol& symb, TM::TreeManager& treeManager) -> DataValue { return this->getBoolean(root,symb,treeManager); };

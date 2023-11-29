@@ -5,9 +5,11 @@ target_include_directories(GameState PUBLIC
 )
 target_link_libraries(GameState PUBLIC
     TreeManager
+    DataValue
 )
 add_subdirectory(ConfigurationState)
 add_subdirectory(ConstantState)
 add_subdirectory(VariableState)
 add_subdirectory(PerPlayerState)
 add_subdirectory(StateManager)
+add_subdirectory(DataValue)

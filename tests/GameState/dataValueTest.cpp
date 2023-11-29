@@ -6,7 +6,7 @@
 #include <map>
 #include <string>
 
-using GS::DataValue;
+using DV::DataValue;
 
 //Test for Parameterized Constructor
 TEST(DataValueTest, ConstructorTest){

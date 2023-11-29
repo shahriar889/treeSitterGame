@@ -1,6 +1,7 @@
 #include "perPlayerState.h"
 
 using namespace GS;
+using namespace DV;
 
 
 void PerPlayerState::configure(TM::TreeManager& treeManager) {

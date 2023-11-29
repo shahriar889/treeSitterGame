@@ -15,21 +15,21 @@ Game::Game(std::string path) {
     int pLRangeMax = std::get<int>(conf.getValue("playerRangeMax").getValueVariant());
     int pLRangeCur = std::get<int>(conf.getValue("playerRangeCur").getValueVariant());
     bool hasAudience = std::get<bool>(conf.getValue("hasAudience").getValueVariant());
-    GS::DataValue data = conf.getValue("rounds");
+    DV::DataValue data = conf.getValue("rounds");
 
-    std::map<std::string, GS::DataValue> mapValue = std::get<std::map<std::string, GS::DataValue>>(data.getValueVariant());
+    std::map<std::string, DV::DataValue> mapValue = std::get<std::map<std::string, DV::DataValue>>(data.getValueVariant());
     std::string prompt = std::get<std::string>(mapValue["prompt"].getValueVariant());
     int rangeMin = std::get<int>(mapValue["rangeMin"].getValueVariant());
     int rangeCur = std::get<int>(mapValue["rangeCur"].getValueVariant());
     int rangeMax = std::get<int>(mapValue["rangeMax"].getValueVariant());
 
-    GS::DataValue data2 = constantState.getValue("constant1");
-    std::map<std::string, GS::DataValue> mapValue2 = std::get<std::map<std::string, GS::DataValue>>(data2.getValueVariant());
-    GS::DataValue data3 = mapValue2["weapons"];
-    std::vector<GS::DataValue> listValue = std::get<std::vector<GS::DataValue>>(data3.getValueVariant());
-    GS::DataValue data4 = variableState.getValue("variable1");
-    std::map<std::string, GS::DataValue> mapValue3 = std::get<std::map<std::string, GS::DataValue>>(data4.getValueVariant());
-    GS::DataValue data5 = mapValue3["weapons"];
+    DV::DataValue data2 = constantState.getValue("constant1");
+    std::map<std::string, DV::DataValue> mapValue2 = std::get<std::map<std::string, DV::DataValue>>(data2.getValueVariant());
+    DV::DataValue data3 = mapValue2["weapons"];
+    std::vector<DV::DataValue> listValue = std::get<std::vector<DV::DataValue>>(data3.getValueVariant());
+    DV::DataValue data4 = variableState.getValue("variable1");
+    std::map<std::string, DV::DataValue> mapValue3 = std::get<std::map<std::string, DV::DataValue>>(data4.getValueVariant());
+    DV::DataValue data5 = mapValue3["weapons"];
 
     auto stateManager = std::make_shared<StateManager>(variableState, constantState, conf);
     ruleManager = RuleParser::createRuleManager(treeManager, buildTreeSitterTranslator());

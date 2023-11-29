@@ -1,8 +1,10 @@
 # Define the test sources for gameClass
 set(GAME_STATE_TEST_SOURCES
-    gameStateTest.cpp
     dataValueTest.cpp
     dataValueStressTest.cpp
+    dataValueEqualityTest.cpp
+    dataValueMethodsTest.cpp
+    gameStateTest.cpp
     # Add more test source files as needed
 )
 

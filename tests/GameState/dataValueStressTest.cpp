@@ -12,12 +12,12 @@ std::string getPlaceholder(int index) {
 }
 
 // Helper function to create a map for stress testing
-std::map<std::string, GS::DataValue> createMapForStressTest(int numEntries) {
-    std::map<std::string, GS::DataValue> valueMap;
+std::map<std::string, DV::DataValue> createMapForStressTest(int numEntries) {
+    std::map<std::string, DV::DataValue> valueMap;
 
     for (int i = 0; i < numEntries; i++) {
         valueMap.insert(std::make_pair(getPlaceholder(i),
-                                        GS::DataValue{ i + 1 }));
+                                        DV::DataValue{ i + 1 }));
     }
 
     return valueMap;
@@ -25,11 +25,11 @@ std::map<std::string, GS::DataValue> createMapForStressTest(int numEntries) {
 
 
 // Helper function to create a vector for stress testing
-std::vector<GS::DataValue> createVectorForStressTest(int numEntries){
-    std::vector<GS::DataValue> valueVector;
+std::vector<DV::DataValue> createVectorForStressTest(int numEntries){
+    std::vector<DV::DataValue> valueVector;
 
     for (int i = 0; i < numEntries; i++){
-        valueVector.emplace_back(GS::DataValue{ i });
+        valueVector.emplace_back(DV::DataValue{ i });
     }
 
     return valueVector;
@@ -37,12 +37,12 @@ std::vector<GS::DataValue> createVectorForStressTest(int numEntries){
 
 // Stress testing ability to hold a large number of values in a vector of DataValue
 TEST(DataValueStressTest, VectorValueStressTest) {
-    GS::DataValue dataValue;
-    std::vector<DataValue> valueVector = createVectorForStressTest(10000);
-    std::vector<DataValue> retrievedVector;
+    DV::DataValue dataValue;
+    std::vector<DV::DataValue> valueVector = createVectorForStressTest(10000);
+    std::vector<DV::DataValue> retrievedVector;
 
     dataValue.setValue(valueVector);
-    retrievedVector = std::get<std::vector<GS::DataValue>>(dataValue.getValueVariant());
+    retrievedVector = std::get<std::vector<DV::DataValue>>(dataValue.getValueVariant());
 
     for (int i = 0; i < 10000; i++) {
         EXPECT_EQ(std::get<int>(retrievedVector.at(i).getValueVariant()), std::get<int>(valueVector.at(i).getValueVariant()));
@@ -53,12 +53,12 @@ TEST(DataValueStressTest, VectorValueStressTest) {
 
 // Stress testing ability to hold a large number of values in a map of DataValue
 TEST(DataValueStressTest, MapValueStressTest) {
-    GS::DataValue dataValue;
-    std::map<std::string, GS::DataValue> valueMap = createMapForStressTest(10000);
-    std::map<std::string, GS::DataValue> retrievedMap;
+    DV::DataValue dataValue;
+    std::map<std::string, DV::DataValue> valueMap = createMapForStressTest(10000);
+    std::map<std::string, DV::DataValue> retrievedMap;
 
     dataValue.setValue(valueMap);
-    retrievedMap = std::get<std::map<std::string, GS::DataValue>>(dataValue.getValueVariant());
+    retrievedMap = std::get<std::map<std::string, DV::DataValue>>(dataValue.getValueVariant());
 
     EXPECT_EQ(retrievedMap.size(), 10000);
 }

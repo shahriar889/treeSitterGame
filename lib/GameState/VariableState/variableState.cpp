@@ -1,6 +1,7 @@
 #include "variableState.h"
 
 using namespace GS;
+using namespace DV;
 
 
 void VariableState::configure(TM::TreeManager& treeManager) {

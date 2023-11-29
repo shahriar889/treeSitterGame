@@ -2,7 +2,8 @@
 
 
 using namespace GS;
-using GS::DataValueVariant;
+using namespace DV;
+using DV::DataValueVariant;
 using FunctionType = std::function<void(const ts::Symbol&, TM::TreeManager&, ConfigurationState&)>;
 
 // Helper function to set a string value
@@ -55,7 +56,7 @@ void hasAudience(const ts::Symbol& symb, TM::TreeManager& treeManager, Configura
     setDataValueBool(conf, "hasAudience", (hasAudience == "true"));
 }
 
-std::map<std::string, GS::DataValue> parseIntegerKind(TM::TreeManager& treeManager, const ts::Symbol& symb) {
+std::map<std::string, DataValue> parseIntegerKind(TM::TreeManager& treeManager, const ts::Symbol& symb) {
     ts::Node root = treeManager.getRoot();
     ts::Node promptNode = std::get<1>(treeManager.findNodeBySymbol(root, symb));
     ts::Node temp = promptNode.getNextSibling();
@@ -64,7 +65,7 @@ std::map<std::string, GS::DataValue> parseIntegerKind(TM::TreeManager& treeManag
     DataValue dataString;
     dataString.setValue(prompt);
 
-    std::map<std::string, GS::DataValue> tempMap;
+    std::map<std::string, DataValue> tempMap;
     tempMap["prompt"] = dataString;
 
     ts::Node rangeNode = temp.getNextSibling();
@@ -104,7 +105,7 @@ void setUpRule(const ts::Symbol& symb, TM::TreeManager& treeManager, Configurati
         std::string kindName = treeManager.getSourceRange(kind[i]);
 
         if (kindName == "integer") {
-            std::map<std::string, GS::DataValue> tempMap = parseIntegerKind(treeManager, kind[i].getNextSibling().getSymbol());
+            std::map<std::string, DataValue> tempMap = parseIntegerKind(treeManager, kind[i].getNextSibling().getSymbol());
             DataValue data;
             data.setValue(tempMap);
             conf.setValue(idenName, data);

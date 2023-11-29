@@ -1,6 +1,7 @@
 #include "constantState.h"
 
 using namespace GS;
+using namespace DV;
 
 
 void ConstantState::configure(TM::TreeManager& treeManager) {
